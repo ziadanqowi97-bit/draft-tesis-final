@@ -9,6 +9,7 @@
 \usepackage{setspace}
 \usepackage{geometry}
 \usepackage[parfill]{parskip}
+\usepackage{etoolbox}
 
 % Graphics and tables
 \usepackage{graphicx}
@@ -87,11 +88,13 @@
 
 % Hilangkan bulan/tanggal akses
 \AtEveryBibitem{%
-  \clearfield{month}
-  \clearfield{day}
-  \clearfield{urldate}
-  \clearfield{langid}
-  \clearlist{language}
+  \clearfield{month}%
+  \clearfield{day}%
+  \ifentrytype{report}
+    {}
+    {\clearfield{urldate}}%
+  \clearfield{langid}%
+  \clearlist{language}%
 }
 
 % Nama penulis
@@ -99,7 +102,7 @@
 
 % Pemisah penulis
 \DeclareDelimFormat{nameyeardelim}{\addcomma\space}
-\DeclareDelimFormat{finalnamedelim}{\addspace dan\space}
+\DeclareDelimFormat[bib]{finalnamedelim}{\addcomma\space dan\space}
 
 % Antar banyak sitasi:
 % 2 sitasi  -> A dan B
@@ -215,4 +218,94 @@
 \captionsetup{
     justification=raggedright,
     singlelinecheck=false
+}
+
+\DeclareFieldFormat[incollection]{title}{#1}
+\DeclareFieldFormat[incollection]{booktitle}{\mkbibemph{#1}}
+\DeclareFieldFormat[incollection]{series}{#1}
+
+\DeclareFieldFormat{doilink}{%
+  \href{https://doi.org/#1}{\nolinkurl{https://doi.org/#1}}%
+}
+
+\DeclareBibliographyDriver{incollection}{%
+  \printnames{author}%
+  \setunit{\addspace}%
+  \printtext[parens]{%
+    \printfield{year}%
+    \printfield{extradate}%
+  }%
+  \setunit{\addcolon\space}%
+  \printfield{title}%
+  \iffieldundef{series}%
+    {}%
+    {%
+      \setunit{\addspace}%
+      \printtext[parens]{\printfield{series}}%
+    }%
+  \setunit{\addcomma\space}%
+  \printfield{pages}%
+  \setunit{\addspace}%
+  \printtext{\mkbibemph{dalam}}%
+  \setunit{\addspace}%
+  \printnames[given-family]{editor}%
+  \setunit{\addcomma\space}%
+  \printtext{ed\adddot}%
+  \setunit{\addcomma\space}%
+  \printfield{booktitle}%
+  \setunit{\addcomma\space}%
+  \printlist{publisher}%
+  \setunit{\addcomma\space}%
+  \printlist{location}%
+  \iffieldundef{doi}%
+    {}%
+    {%
+      \setunit{\addperiod\space}%
+      \printfield[doilink]{doi}%
+    }%
+  \finentry%
+}
+
+\DeclareFieldFormat[report]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[report]{type}{#1}
+
+\DeclareBibliographyDriver{report}{%
+  \printnames{author}%
+  \setunit{\addspace}%
+  \printtext[parens]{%
+    \printfield{year}%
+    \printfield{extradate}%
+  }%
+  \setunit{\addcolon\space}%
+  \printfield{title}%
+  \iffieldundef{number}%
+    {}%
+    {%
+      \setunit{\addspace}%
+      \printtext[parens]{%
+        \iffieldundef{type}%
+          {}%
+          {\printfield{type}\space}%
+        \printfield{number}%
+      }%
+    }%
+  \setunit{\addcomma\space}%
+  \printlist{institution}%
+  \setunit{\addcomma\space}%
+  \printlist{location}%
+  \iffieldundef{urlyear}%
+    {}%
+    {%
+      \setunit{\addcomma\space}%
+      \printtext{diperoleh\space}%
+      \printurldate%
+    }%
+  \iffieldundef{url}%
+    {}%
+    {%
+      \setunit{\addspace}%
+      \printtext{melalui situs internet:\space}%
+      \printfield[rawurl]{url}%
+    }%
+  \finentry%
 }
