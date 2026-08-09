@@ -1,16 +1,21 @@
 % ==================================================
 % Heading Styles and Numbering
 % ==================================================
+
 \renewcommand{\thechapter}{\Roman{chapter}}
 \renewcommand{\thesection}{\thechapter.\arabic{section}}
 
 % Nomor persamaan
 \renewcommand{\theequation}{\Roman{chapter}.\arabic{equation}}
-
 \numberwithin{equation}{chapter}
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
+
+
+% ==================================================
+% Chapter Heading
+% ==================================================
 
 \titleformat{\chapter}[block]
   {\normalfont\bfseries\fontsize{14pt}{21pt}\selectfont\centering}
@@ -19,9 +24,14 @@
   {}
 
 \titlespacing*{\chapter}
-  {0pt}          % left
-  {0pt}          % before
-  {\baselineskip} % 1 spasi setelah judul
+  {0pt}
+  {0pt}
+  {18pt}
+
+
+% ==================================================
+% Section Heading
+% ==================================================
 
 \titleformat{\section}[block]
   {\thesisheadingfont}
@@ -29,16 +39,10 @@
   {0pt}
   {\raggedright\aftergroup\justifying}
 
-% ==================================================
-% Front Matter:
-% DAFTAR ISI, DAFTAR GAMBAR DAN ILUSTRASI,
-% DAFTAR TABEL
-% ==================================================
 
-% --------------------------------------------------
-% Nama judul
-% Dipasang melalui babel agar tidak ditimpa
-% --------------------------------------------------
+% ==================================================
+% Front Matter Labels
+% ==================================================
 
 \addto\captionsindonesian{%
   \renewcommand{\contentsname}{DAFTAR ISI}%
@@ -46,30 +50,9 @@
   \renewcommand{\listtablename}{DAFTAR TABEL}%
 }
 
-% ==================================================
-% DAFTAR ISI
-% ==================================================
-
-% Nama halaman
-\addto\captionsindonesian{%
-  \renewcommand{\contentsname}{DAFTAR ISI}%
-}
-
 
 % ==================================================
-% CUSTOM TABLE OF CONTENTS
-% ==================================================
-%
-% Judul:
-% - Times New Roman 14 pt
-% - Bold
-% - Center
-% - Kapital
-%
-% Isi:
-% - Times New Roman 12 pt
-% - Regular
-% - Line spacing 1.5
+% CUSTOM DAFTAR ISI / DAFTAR GAMBAR / DAFTAR TABEL
 % ==================================================
 
 \makeatletter
@@ -78,30 +61,62 @@
   \clearpage
   \thispagestyle{plain}%
 
-  % -----------------------------------------------
-  % Judul DAFTAR ISI
-  % -----------------------------------------------
   \noindent
-  \makebox[\textwidth][c]{%
-    \normalfont
-    \bfseries
-    \fontsize{14pt}{21pt}\selectfont
-    \contentsname
-  }%
+  \centerline{%
+    {\normalfont
+     \bfseries
+     \fontsize{14pt}{21pt}\selectfont
+     DAFTAR ISI TEST}%
+  }
   \par
 
-  % Jarak judul -> isi = 2 spasi
   \vspace{36pt}%
 
-  % -----------------------------------------------
-  % Isi Daftar Isi
-  % -----------------------------------------------
   \begingroup
     \normalfont
-    \fontsize{12pt}{14.4pt}\selectfont
-    \onehalfspacing
+    \fontsize{12pt}{18pt}\selectfont
     \setlength{\parskip}{0pt}%
     \@starttoc{toc}%
+  \endgroup
+}
+
+\renewcommand{\listoffigures}{%
+  \clearpage
+  \thispagestyle{plain}%
+  \vspace*{0pt}%
+  \noindent
+  \hbox to \textwidth{%
+    \hfil
+    {\normalfont\bfseries\fontsize{14pt}{21pt}\selectfont\listfigurename}%
+    \hfil
+  }%
+  \par
+  \vspace{36pt}%
+  \begingroup
+    \normalfont
+    \fontsize{12pt}{18pt}\selectfont
+    \setlength{\parskip}{0pt}%
+    \@starttoc{lof}%
+  \endgroup
+}
+
+\renewcommand{\listoftables}{%
+  \clearpage
+  \thispagestyle{plain}%
+  \vspace*{0pt}%
+  \noindent
+  \hbox to \textwidth{%
+    \hfil
+    {\normalfont\bfseries\fontsize{14pt}{21pt}\selectfont\listtablename}%
+    \hfil
+  }%
+  \par
+  \vspace{36pt}%
+  \begingroup
+    \normalfont
+    \fontsize{12pt}{18pt}\selectfont
+    \setlength{\parskip}{0pt}%
+    \@starttoc{lot}%
   \endgroup
 }
 
@@ -109,118 +124,102 @@
 
 
 % ==================================================
-% FORMAT CHAPTER PADA DAFTAR ISI
+% FORMAT ISI DAFTAR ISI
 % ==================================================
 
-% Semua teks chapter regular, bukan bold
 \renewcommand{\cftchapfont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
 \renewcommand{\cftchappagefont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
-% Menambahkan "Bab" sebelum nomor Romawi
 \renewcommand{\cftchappresnum}{Bab~}
 
-% Bab dimulai dari margin kiri.
-% Lebar kolom nomor dibuat cukup untuk "Bab VIII".
 \cftsetindents{chapter}{0em}{4em}
 
-% Leader titik pada chapter
 \renewcommand{\cftchapleader}{%
-  \cftdotfill{\cftdotsep}
+  \cftdotfill{\cftdotsep}%
 }
 
 
 % ==================================================
-% FORMAT SECTION
+% FORMAT SECTION PADA DAFTAR ISI
 % ==================================================
 
 \renewcommand{\cftsecfont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
 \renewcommand{\cftsecpagefont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
-% Section dimulai sejajar dengan JUDUL chapter.
-%
-% Contoh:
-%
-% Bab I   Pendahuluan
-%         I.1 Latar Belakang
-%         I.2 Rumusan Masalah
-%
 \cftsetindents{section}{4em}{3em}
 
 \renewcommand{\cftsecleader}{%
-  \cftdotfill{\cftdotsep}
+  \cftdotfill{\cftdotsep}%
 }
 
 
 % ==================================================
-% FORMAT SUBSECTION
+% FORMAT SUBSECTION PADA DAFTAR ISI
 % ==================================================
 
 \renewcommand{\cftsubsecfont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
 \renewcommand{\cftsubsecpagefont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
 \cftsetindents{subsection}{7em}{4em}
 
 \renewcommand{\cftsubsecleader}{%
-  \cftdotfill{\cftdotsep}
+  \cftdotfill{\cftdotsep}%
 }
 
 
 % ==================================================
-% FORMAT SUBSUBSECTION
+% FORMAT SUBSUBSECTION PADA DAFTAR ISI
 % ==================================================
 
 \renewcommand{\cftsubsubsecfont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
 \renewcommand{\cftsubsubsecpagefont}{%
   \normalfont
+  \fontsize{12pt}{18pt}\selectfont
 }
 
 \cftsetindents{subsubsection}{11em}{5em}
 
 \renewcommand{\cftsubsubsecleader}{%
-  \cftdotfill{\cftdotsep}
+  \cftdotfill{\cftdotsep}%
 }
 
 
 % ==================================================
-% JARAK ANTAR ENTRY
+% JARAK ANTAR ENTRY DAFTAR ISI
 % ==================================================
 
-% Jangan memberikan jarak otomatis pada semua entry
-% chapter karena front matter juga masuk sebagai chapter.
 \setlength{\cftbeforechapskip}{0pt}
-
 \setlength{\cftbeforesecskip}{0pt}
-
 \setlength{\cftbeforesubsecskip}{0pt}
 
 
 % ==================================================
-% 1 SPASI SEBELUM BAB BARU
-% ==================================================
-%
-% Hanya chapter bernomor yang mendapatkan jarak.
-% Front matter seperti ABSTRAK, ABSTRACT, DAFTAR TABEL,
-% dll. tidak mendapatkan blank line.
-%
-% 1 spasi = sekitar 18 pt untuk body 12 pt / 1.5 spacing.
+% 1 SPASI SEBELUM BAB BARU DI DAFTAR ISI
 % ==================================================
 
 \makeatletter
@@ -238,95 +237,7 @@
 % DOTTED LEADER
 % ==================================================
 
-% Kerapatan titik
 \renewcommand{\cftdotsep}{1}
-
-
-% ==================================================
-% JUDUL DAFTAR GAMBAR DAN ILUSTRASI
-% ==================================================
-
-\renewcommand{\cftloftitlefont}{%
-  \hspace*{\fill}%
-  \normalfont
-  \bfseries
-  \fontsize{14pt}{21pt}\selectfont
-}
-
-\renewcommand{\cftafterloftitle}{%
-  \hspace*{\fill}%
-}
-
-\setlength{\cftbeforeloftitleskip}{0pt}
-\setlength{\cftafterloftitleskip}{36pt}
-
-
-% ==================================================
-% JUDUL DAFTAR TABEL
-% ==================================================
-
-\renewcommand{\cftlottitlefont}{%
-  \hspace*{\fill}%
-  \normalfont
-  \bfseries
-  \fontsize{14pt}{21pt}\selectfont
-}
-
-\renewcommand{\cftafterlottitle}{%
-  \hspace*{\fill}%
-}
-
-\setlength{\cftbeforelottitleskip}{0pt}
-\setlength{\cftafterlottitleskip}{36pt}
-
-
-% ==================================================
-% FORMAT ISI DAFTAR ISI
-% ==================================================
-
-% Chapter
-\renewcommand{\cftchapfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftchappagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-% Section
-\renewcommand{\cftsecfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftsecpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-% Subsection
-\renewcommand{\cftsubsecfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftsubsecpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-% Subsubsection
-\renewcommand{\cftsubsubsecfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftsubsubsecpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
 
 
 % ==================================================
@@ -343,6 +254,9 @@
   \fontsize{12pt}{18pt}\selectfont
 }
 
+\setlength{\cftbeforefigskip}{0pt}
+\cftsetindents{figure}{0em}{4em}
+
 
 % ==================================================
 % FORMAT ISI DAFTAR TABEL
@@ -358,38 +272,14 @@
   \fontsize{12pt}{18pt}\selectfont
 }
 
-
-% ==================================================
-% JARAK ANTAR ITEM
-% ==================================================
-
-\setlength{\cftbeforechapskip}{0pt}
-\setlength{\cftbeforesecskip}{0pt}
-\setlength{\cftbeforesubsecskip}{0pt}
-\setlength{\cftbeforefigskip}{0pt}
 \setlength{\cftbeforetabskip}{0pt}
-
-
-% ==================================================
-% INDENTASI DAFTAR ISI
-% ==================================================
-
-\cftsetindents{chapter}{0em}{3em}
-\cftsetindents{section}{0em}{3em}
-\cftsetindents{subsection}{3em}{4em}
-\cftsetindents{subsubsection}{6em}{5em}
-
-
-% ==================================================
-% INDENTASI DAFTAR GAMBAR DAN TABEL
-% ==================================================
-
-\cftsetindents{figure}{0em}{4em}
 \cftsetindents{table}{0em}{4em}
+
 
 % ==================================================
 % Caption Styles
 % ==================================================
+
 \renewcommand{\tablename}{Tabel}
 \renewcommand{\figurename}{Gambar}
 
@@ -407,9 +297,11 @@
   singlelinecheck=true
 }
 
+
 % ==================================================
 % Bibliography Heading
 % ==================================================
+
 \defbibheading{dapusstyle}{%
   \newpage
   \vspace*{0pt}
