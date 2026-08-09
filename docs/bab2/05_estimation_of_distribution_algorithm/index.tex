@@ -1,7 +1,7 @@
 \section{\textit{Estimation of Distribution Algorithm}}
 
 \textit{Estimation of Distribution Algorithm} (EDA) merupakan kelas algoritma evolusioner yang berbeda secara mendasar dari algoritma genetika maupun algoritma kecerdasan kawanan seperti ACO dan UBK.
-Alih-alih menggunakan operator pindah silang (\textit{crossover}) dan mutasi untuk menghasilkan generasi baru, EDA, atau juga dikenal sebagai \textit{probabilistic model-building genetic algorithm} (PMBGA), membangun model probabilistik eksplisit dari individu-individu terbaik pada setiap generasi, kemudian men-\textit{sampling} model tersebut untuk menghasilkan populasi generasi berikutnya \parencite{larranaga_estimation_2024,lemtenneche_estimation_2023}.
+Alih-alih menggunakan operator pindah silang (\textit{crossover}) dan mutasi untuk menghasilkan generasi baru, EDA, atau juga dikenal sebagai \textit{probabilistic model-building genetic algorithm} (PMBGA)\label{first:pmbga}, membangun model probabilistik eksplisit dari individu-individu terbaik pada setiap generasi, kemudian men-\textit{sampling} model tersebut untuk menghasilkan populasi generasi berikutnya \parencite{larranaga_estimation_2024,lemtenneche_estimation_2023}.
 Dengan demikian, proses eksplorasi ruang solusi dipandu langsung oleh distribusi probabilitas yang dipelajari dari data, bukan oleh operator variasi yang bersifat implisit.
 
 Secara umum, EDA bekerja melalui tiga langkah yang diulang pada setiap generasi \parencite{larranaga_estimation_2024}.

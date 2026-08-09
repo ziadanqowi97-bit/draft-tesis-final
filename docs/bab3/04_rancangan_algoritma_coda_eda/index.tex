@@ -20,8 +20,8 @@ Semantik pencocokan mengikuti bahasa kebijakan ABAC Lab \parencite{bui_abac_2025
 Dengan demikian \textit{D} mencakup pasangan atribut-nilai subjek dan objek beserta himpunan aksi, dan WSC sebuah aturan sama dengan banyaknya pasangan atribut-nilai yang aktif pada vektor tersebut.
 
 Kualitas satu aturan kandidat dinilai melalui fungsi \textit{fitness} yang menyeimbangkan cakupan dan presisi.
-Misalkan \textit{TP} menyatakan banyaknya \textit{permit} yang belum tercakup dan berhasil dicocokkan aturan, \textit{FP} banyaknya permintaan berstatus \textit{deny} yang keliru diizinkan, serta \textit{WSC(x)} kompleksitas struktural aturan, maka $f(x) = \frac{\mathrm{TP}^2}{\mathrm{TP} + w_{fp} \cdot \mathrm{FP}} - w_{wsc} \cdot \mathrm{WSC}(x)$.
-Suku pertama setara dengan hasil kali \textit{TP} dengan presisi aturan, sehingga menghargai cakupan dan presisi secara simultan dan selaras dengan metrik F1 yang menjadi ukuran evaluasi akhir.
+Misalkan \textit{TP}\label{first:tp} menyatakan banyaknya \textit{permit} yang belum tercakup dan berhasil dicocokkan aturan, \textit{FP}\label{first:fp} banyaknya permintaan berstatus \textit{deny} yang keliru diizinkan, serta \textit{WSC(x)} kompleksitas struktural aturan, maka $f(x) = \frac{\mathrm{TP}^2}{\mathrm{TP} + w_{fp} \cdot \mathrm{FP}} - w_{wsc} \cdot \mathrm{WSC}(x)$.
+Suku pertama setara dengan hasil kali \textit{TP} dengan presisi aturan, sehingga menghargai cakupan dan presisi secara simultan dan selaras dengan metrik F1\label{first:f1} yang menjadi ukuran evaluasi akhir.
 Aturan yang tidak mencakup satu pun \textit{permit} baru (TP = 0) didominasi secara mutlak agar tidak pernah terpilih.
 Perumusan ini merupakan koreksi atas bentuk penalti linier $f(x) = \mathrm{TP} - w_{fp}$.
 Ketika FP diuji lebih dulu, bentuk linier tersebut terbukti memiliki optimum pada aturan yang sangat spesifik dengan cakupan mendekati nol.

@@ -1,8 +1,8 @@
 \section{Pemodelan Dependensi}
 
 Kesenjangan yang teridentifikasi menuntut adanya mekanisme pemodelan dependensi yang tetap hemat memori.
-\textit{Bayesian Optimization Algorithm} (BOA) adalah EDA yang mampu mempelajari jaringan Bayes tanpa batasan derajat dependensi \parencite{pelikan_iboa_2008}.
-Struktur jaringan berupa graf asiklik berarah yang dipelajari secara \textit{greedy}, dimulai dari graf kosong, dengan menambahkan satu \textit{edge} pada setiap langkah yang paling meningkatkan skor \textit{Bayesian Information Criterion} (BIC) hingga tidak ada lagi penambahan yang meningkatkan skor.
+\textit{Bayesian Optimization Algorithm} (BOA)\label{first:boa} adalah EDA yang mampu mempelajari jaringan Bayes tanpa batasan derajat dependensi \parencite{pelikan_iboa_2008}.
+Struktur jaringan berupa graf asiklik berarah yang dipelajari secara \textit{greedy}, dimulai dari graf kosong, dengan menambahkan satu \textit{edge} pada setiap langkah yang paling meningkatkan skor \textit{Bayesian Information Criterion} (BIC)\label{first:bic} hingga tidak ada lagi penambahan yang meningkatkan skor.
 Parameter jaringan diestimasi melalui estimasi kemungkinan maksimum dari populasi solusi terpilih.
 \textcite{soloviev_edaspy_2024} mencatat bahwa BOA tetap menjadi salah satu modul EDA multivariat yang aktif diimplementasikan hingga saat ini, dengan varian jaringan Bayes diskret, Gaussian, semiparametrik, maupun berbasis \textins{kernel density}.
 

@@ -1,7 +1,7 @@
 \section{EDA Ringan/\textit{Compact}}
 
 Sebagaimana yang sudah diuraikan, skema EDA kanonik tetap mensyaratkan penyimpanan populasi penuh pada setiap generasi dan celah inilah yang dijawab oleh kelas algoritma \textit{compact}.
-\textcite{khalfi_metaheuristics_2023} mendefinisikan algoritma \textit{compact} sebagai salah satu ekspresi paling sederhana dari algoritma EDA, yang menggantikan penyimpanan populasi eksplisit dengan sebuah \textit{Probability Vector} (PV) tunggal yang merepresentasikan model probabilistik dari sebuah populasi virtual berukuran \textit{NP}, tanpa pernah benar-benar menyimpan NP individu tersebut di memori.
+\textcite{khalfi_metaheuristics_2023} mendefinisikan algoritma \textit{compact} sebagai salah satu ekspresi paling sederhana dari algoritma EDA, yang menggantikan penyimpanan populasi eksplisit dengan sebuah \textit{Probability Vector} (PV)\label{first:pv} tunggal yang merepresentasikan model probabilistik dari sebuah populasi virtual berukuran \textit{NP}, tanpa pernah benar-benar menyimpan NP individu tersebut di memori.
 Signifikasi persoalan ini dikonkretkan \textcite{khalfi_metaheuristics_2023} melalui contoh nyata.
 Pada mikrokontroler ATmega328P dengan RAM 2 KB, sebuah algoritma genetika standar dengan populasi 128 individu ber-\textit{encoding} 32-bit menghabiskan sekitar 80\% dari seluruh memori yang tersedia dan tidak menyisakan ruang bagi proses lain yang berjalan pada perangkat yang sama.
 Ilustrasi ini secara langsung menggambarkan tantangan memori pada perangkat \textit{edge} IoT.

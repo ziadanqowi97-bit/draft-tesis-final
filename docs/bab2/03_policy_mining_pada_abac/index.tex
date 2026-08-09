@@ -17,7 +17,7 @@ Sebagai alternatif, mereka mengusulkan pemodelan \textit{log} akses sebagai jari
 
 Kualitas kebijakan hasil \textit{policy mining} lazim diukur melalui dua dimensi utama, yakni akurasi dan kompleksitas struktural.
 Akurasi biasanya diukur menggunakan \textit{F-score}, yaitu rata-rata harmonik antara presisi dan \textit{recall} aturan yang diekstraksi terhadap \textit{log} akses asli \parencite{diaz-rodriguez_abac_2025}.
-Kompleksitas struktural diukur melalui \textit{Weighted Structural Complexity} (WSC), sebuah metrik yang awalnya dirumuskan oleh \textcite{molloy_critical_1995} untuk \textit{role mining} pada RBAC dan kemudian diadaptasi oleh \textcite{xu_mining_2015} untuk konteks ABAC \parencite{perez-haro_abac_2024}.
+Kompleksitas struktural diukur melalui \textit{Weighted Structural Complexity} (WSC)\label{first:wsc}, sebuah metrik yang awalnya dirumuskan oleh \textcite{molloy_critical_1995} untuk \textit{role mining} pada RBAC dan kemudian diadaptasi oleh \textcite{xu_mining_2015} untuk konteks ABAC \parencite{perez-haro_abac_2024}.
 WSC pada dasarnya menjumlahkan banyaknya pasangan atribut-nilai yang digunakan untuk mendeskripsikan seluruh aturan dalam suatu kebijakan, sehingga kebijakan dengan WSC rendah lebih ringkas dan lebih mudah dikelola oleh administrator.
 
 Kedua metrik ini, akurasi dan WSC, konsisten dengan metrik kualitas kebijakan yang telah ditetapkan pada Hipotesis 1 untuk mengevaluasi CoDA-EDA terhadap \textit{baseline compact-GA/compact-PSO}.

@@ -12,7 +12,7 @@ Hal ini konsisten dengan ekosistem perangkat lunak EDA yang telah mapan, \textci
 
 Jejak memori diukur melalui pemantauan \textit{peak resident set size} proses masing-masing algoritma secara langsung pada perangkat target melalui dua instrumen yang saling melengkapi.
 Instrumen pertama adalah pelacak alokasi memori tingkat bahasa yang mengukur puncak alokasi struktur data algoritma secara bersih dari \textit{overhead interpreter} dan dapat direset pada setiap pengukuran.
-Instrumen kedua adalah VmHWM pada /proc/[pid]/status, yang mengukur puncak RSS pada tataran sistem operasi sesuai definisi baku.
+Instrumen kedua adalah VmHWM\label{first:vmhwm} pada /proc/[pid]/status, yang mengukur puncak RSS\label{first:rss} pada tataran sistem operasi sesuai definisi baku.
 Penggunaan kedua instrumen bersifat wajib karena masing-masing memiliki keterbatasan yang saling menutup.
 VmHWM pada perangkat target terukur sekitar 31 MB hanya untuk memuat interpreter beserta pustaka numeriknya, sementara jejak struktur data algoritma berskala \textit{kilobyte} hingga beberapa \textit{megabyte}.
 Perbedaan antar-algoritma karenanya nyaris tidak terdeteksi bila hanya mengandalkan VmHWM.

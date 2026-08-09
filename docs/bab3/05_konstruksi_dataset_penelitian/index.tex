@@ -6,7 +6,7 @@ Subbab ini menguraikan rancangan konstruksi dataset yang dibutuhkan untuk menguj
 
 Konstruksi dataset dimulai dari dataset \textit{ground-truth} ABAC Lab beserta generator log sintetis \textit{open-source}-nya \parencite{bui_abac_2025} yang saat ini mendukung parameter ukuran log, rasio \textit{permit/deny}, dan ijeksi \textit{noise}.
 Generator tersebut diperluas dengan menambahkan mekanisme injeksi korelasi atribut terkontrol.
-Jadi, alih-alih men-\textit{sampling} nilai setiap atribut subjek dan objek secara independen, pasangan atribut yang relevan pada tiap domain (mis. departemen dan peran pengguna pada dataset \textit{workforce}) disampling dari distribusi bersama yang dikalibrasi untuk mencapai target \textit{Normalized Mutual Information} (NMI) tertentu, sehingga tingkat korelasi yang di-\textit{inject} dapat dibandingkan langsung dengan struktur yang berhasil dipelajari algoritma.
+Jadi, alih-alih men-\textit{sampling} nilai setiap atribut subjek dan objek secara independen, pasangan atribut yang relevan pada tiap domain (mis. departemen dan peran pengguna pada dataset \textit{workforce}) disampling dari distribusi bersama yang dikalibrasi untuk mencapai target \textit{Normalized Mutual Information} (NMI)\label{first:nmi} tertentu, sehingga tingkat korelasi yang di-\textit{inject} dapat dibandingkan langsung dengan struktur yang berhasil dipelajari algoritma.
 Tiga tingkat korelasi ditetapkan sebagai variabel bebas (rendah, sedang, dan tinggi) dengan target NMI berturut-turut 0,05, 0,35, dan 0,65.
 Batas bawah sengaja ditetapkan 0,05 dan bukan 0,00 karena entri berstatus \textit{permit} secara inheren berkorelasi sehingga memaksa proporsi tertentu pada log akan selalu menyuntikkan korelasi dasar yang tidak dapat dihilangkan.
 

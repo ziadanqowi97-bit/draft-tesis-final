@@ -6,8 +6,8 @@
 \renewcommand{\thesection}{\thechapter.\arabic{section}}
 
 % Nomor persamaan
-\renewcommand{\theequation}{\Roman{chapter}.\arabic{equation}}
 \numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
@@ -24,9 +24,9 @@
   {}
 
 \titlespacing*{\chapter}
-  {0pt}
-  {0pt}
-  {18pt}
+  {0pt}             % kiri
+  {0pt}             % sebelum judul
+  {\baselineskip}   % sesudah judul
 
 
 % ==================================================
@@ -41,7 +41,38 @@
 
 
 % ==================================================
-% Front Matter Labels
+% FRONT MATTER
+%
+% DAFTAR ISI
+% DAFTAR GAMBAR DAN ILUSTRASI
+% DAFTAR TABEL
+%
+% Aturan:
+%
+% Judul:
+% - Center
+% - Times
+% - 14 pt
+% - Bold
+% - Line spacing 1.5
+% - Before 0 pt
+% - After 0 pt
+%
+% Isi:
+% - 12 pt
+% - Regular
+% - Justify
+% - Single spacing
+% - Before 0 pt
+% - After 0 pt
+%
+% Jarak judul ke isi:
+% - 2 spasi
+% ==================================================
+
+
+% ==================================================
+% Nama Halaman
 % ==================================================
 
 \addto\captionsindonesian{%
@@ -52,228 +83,387 @@
 
 
 % ==================================================
-% CUSTOM DAFTAR ISI / DAFTAR GAMBAR / DAFTAR TABEL
+% Helper:
+% Judul Daftar
+% ==================================================
+%
+% 14 pt
+% Bold
+% Center
+% Leading 21 pt = 1.5 spacing
+%
+% Tidak ada vertical spacing sebelum judul karena
+% margin atas halaman sudah diatur 3 cm oleh geometry.
+% ==================================================
+
+\newcommand{\thesisfrontlisttitle}[1]{%
+  \begingroup
+
+    % Hilangkan pengaruh konfigurasi paragraf global
+    \setlength{\parindent}{0pt}%
+    \setlength{\parskip}{0pt}%
+
+    % Reset global one-half spacing
+    \setstretch{1}%
+
+    \noindent
+    {%
+      \centering
+      \normalfont
+      \bfseries
+      \fontsize{14pt}{21pt}\selectfont
+      #1\par
+    }%
+
+  \endgroup
+}
+
+
+% ==================================================
+% Helper:
+% Isi Daftar
+% ==================================================
+%
+% 12 pt
+% Regular
+% Single spacing
+% Justify
+% Before / after = 0 pt
+% ==================================================
+
+\newcommand{\thesisfrontlistbodysetup}{%
+
+  % Single spacing
+  \setstretch{1}%
+
+  % Font isi
+  \normalfont
+  \fontsize{12pt}{14.4pt}\selectfont
+
+  % Paragraph spacing
+  \setlength{\parindent}{0pt}%
+  \setlength{\parskip}{0pt}%
+
+  % Justify
+  \justifying
+}
+
+
+% ==================================================
+% Jarak Judul -> Isi
+% ==================================================
+%
+% Isi menggunakan:
+%
+% 12 pt / 14.4 pt single spacing
+%
+% sehingga:
+%
+% 2 spasi = 2 x 14.4 pt = 28.8 pt
+% ==================================================
+
+\newlength{\thesisfrontlistgap}
+\setlength{\thesisfrontlistgap}{28.8pt}
+
+
+% ==================================================
+% Custom TOC / LOF / LOT
+% ==================================================
+%
+% PENTING:
+%
+% Package tocloft mendefinisikan ulang:
+%
+% \tableofcontents
+% \listoffigures
+% \listoftables
+%
+% ketika \begin{document}.
+%
+% Karena itu override kita dipasang melalui
+% \AtBeginDocument agar tidak ditimpa lagi.
 % ==================================================
 
 \makeatletter
 
-\renewcommand{\tableofcontents}{%
-  \clearpage
-  \thispagestyle{plain}%
+\AtBeginDocument{%
 
-  \noindent
-  \centerline{%
-    {\normalfont
-     \bfseries
-     \fontsize{14pt}{21pt}\selectfont
-     DAFTAR ISI TEST}%
-  }
-  \par
+  % ==================================================
+  % DAFTAR ISI
+  % ==================================================
 
-  \vspace{36pt}%
+  \renewcommand{\tableofcontents}{%
 
-  \begingroup
-    \normalfont
-    \fontsize{12pt}{18pt}\selectfont
-    \setlength{\parskip}{0pt}%
-    \@starttoc{toc}%
-  \endgroup
-}
+    \thispagestyle{plain}%
 
-\renewcommand{\listoffigures}{%
-  \clearpage
-  \thispagestyle{plain}%
-  \vspace*{0pt}%
-  \noindent
-  \hbox to \textwidth{%
-    \hfil
-    {\normalfont\bfseries\fontsize{14pt}{21pt}\selectfont\listfigurename}%
-    \hfil
+    % Judul
+    \thesisfrontlisttitle{\contentsname}%
+
+    % Jarak 2 spasi
+    \vspace{\thesisfrontlistgap}%
+
+    % Isi
+    \begingroup
+      \thesisfrontlistbodysetup
+      \@starttoc{toc}%
+    \endgroup
   }%
-  \par
-  \vspace{36pt}%
-  \begingroup
-    \normalfont
-    \fontsize{12pt}{18pt}\selectfont
-    \setlength{\parskip}{0pt}%
-    \@starttoc{lof}%
-  \endgroup
-}
 
-\renewcommand{\listoftables}{%
-  \clearpage
-  \thispagestyle{plain}%
-  \vspace*{0pt}%
-  \noindent
-  \hbox to \textwidth{%
-    \hfil
-    {\normalfont\bfseries\fontsize{14pt}{21pt}\selectfont\listtablename}%
-    \hfil
+
+  % ==================================================
+  % DAFTAR GAMBAR DAN ILUSTRASI
+  % ==================================================
+
+  \renewcommand{\listoffigures}{%
+
+    \thispagestyle{plain}%
+
+    % Judul
+    \thesisfrontlisttitle{\listfigurename}%
+
+    % Jarak 2 spasi
+    \vspace{\thesisfrontlistgap}%
+
+    % Isi
+    \begingroup
+      \thesisfrontlistbodysetup
+      \@starttoc{lof}%
+    \endgroup
   }%
-  \par
-  \vspace{36pt}%
-  \begingroup
-    \normalfont
-    \fontsize{12pt}{18pt}\selectfont
-    \setlength{\parskip}{0pt}%
-    \@starttoc{lot}%
-  \endgroup
+
+
+  % ==================================================
+  % DAFTAR TABEL
+  % ==================================================
+
+  \renewcommand{\listoftables}{%
+
+    \thispagestyle{plain}%
+
+    % Judul
+    \thesisfrontlisttitle{\listtablename}%
+
+    % Jarak 2 spasi
+    \vspace{\thesisfrontlistgap}%
+
+    % Isi
+    \begingroup
+      \thesisfrontlistbodysetup
+      \@starttoc{lot}%
+    \endgroup
+  }%
+
 }
 
 \makeatother
 
 
 % ==================================================
-% FORMAT ISI DAFTAR ISI
+% Font Entri TOC / LOF / LOT
+% ==================================================
+%
+% Semua:
+%
+% 12 pt
+% Regular
+% Single spacing
 % ==================================================
 
-\renewcommand{\cftchapfont}{%
+\newcommand{\thesisfrontentryfont}{%
   \normalfont
-  \fontsize{12pt}{18pt}\selectfont
+  \fontsize{12pt}{14.4pt}\selectfont
+}
+
+
+% ==================================================
+% Daftar Isi
+% ==================================================
+
+% Chapter
+\renewcommand{\cftchapfont}{%
+  \thesisfrontentryfont
 }
 
 \renewcommand{\cftchappagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
+  \thesisfrontentryfont
 }
 
+
+% Section
+\renewcommand{\cftsecfont}{%
+  \thesisfrontentryfont
+}
+
+\renewcommand{\cftsecpagefont}{%
+  \thesisfrontentryfont
+}
+
+
+% Subsection
+\renewcommand{\cftsubsecfont}{%
+  \thesisfrontentryfont
+}
+
+\renewcommand{\cftsubsecpagefont}{%
+  \thesisfrontentryfont
+}
+
+
+% Subsubsection
+\renewcommand{\cftsubsubsecfont}{%
+  \thesisfrontentryfont
+}
+
+\renewcommand{\cftsubsubsecpagefont}{%
+  \thesisfrontentryfont
+}
+
+
+% ==================================================
+% Daftar Gambar
+% ==================================================
+
+\renewcommand{\cftfigfont}{%
+  \thesisfrontentryfont
+}
+
+\renewcommand{\cftfigpagefont}{%
+  \thesisfrontentryfont
+}
+
+
+% ==================================================
+% Daftar Tabel
+% ==================================================
+
+\renewcommand{\cfttabfont}{%
+  \thesisfrontentryfont
+}
+
+\renewcommand{\cfttabpagefont}{%
+  \thesisfrontentryfont
+}
+
+
+% ==================================================
+% Nomor Chapter pada Daftar Isi
+% ==================================================
+
+% Menampilkan:
+%
+% Bab I
+% Bab II
+% Bab III
+%
 \renewcommand{\cftchappresnum}{Bab~}
 
+
+% ==================================================
+% Indentasi Daftar Isi
+% ==================================================
+%
+% Contoh:
+%
+% Bab I   PENDAHULUAN
+%         I.1 Latar Belakang
+%         I.2 Rumusan Masalah
+%             I.2.1 ...
+% ==================================================
+
+% Chapter mulai dari margin kiri
+% 4em cukup untuk "Bab VIII"
 \cftsetindents{chapter}{0em}{4em}
 
+% Section sejajar dengan teks judul chapter
+\cftsetindents{section}{4em}{3em}
+
+% Subsection
+\cftsetindents{subsection}{7em}{4em}
+
+% Subsubsection
+\cftsetindents{subsubsection}{11em}{5em}
+
+
+% ==================================================
+% Indentasi Daftar Gambar
+% ==================================================
+
+\cftsetindents{figure}{0em}{4em}
+
+
+% ==================================================
+% Indentasi Daftar Tabel
+% ==================================================
+
+\cftsetindents{table}{0em}{4em}
+
+
+% ==================================================
+% Dotted Leader
+% ==================================================
+%
+% Contoh:
+%
+% ABSTRAK..............................i
+% Bab I PENDAHULUAN...................1
+% I.1 Latar Belakang..................1
+% ==================================================
+
+% Kerapatan titik
+\renewcommand{\cftdotsep}{1}
+
+
+% Chapter
 \renewcommand{\cftchapleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
 
-% ==================================================
-% FORMAT SECTION PADA DAFTAR ISI
-% ==================================================
-
-\renewcommand{\cftsecfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftsecpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\cftsetindents{section}{4em}{3em}
-
+% Section
 \renewcommand{\cftsecleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
 
-% ==================================================
-% FORMAT SUBSECTION PADA DAFTAR ISI
-% ==================================================
-
-\renewcommand{\cftsubsecfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftsubsecpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\cftsetindents{subsection}{7em}{4em}
-
+% Subsection
 \renewcommand{\cftsubsecleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
 
-% ==================================================
-% FORMAT SUBSUBSECTION PADA DAFTAR ISI
-% ==================================================
-
-\renewcommand{\cftsubsubsecfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftsubsubsecpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\cftsetindents{subsubsection}{11em}{5em}
-
+% Subsubsection
 \renewcommand{\cftsubsubsecleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
 
+% Figure
+\renewcommand{\cftfigleader}{%
+  \cftdotfill{\cftdotsep}%
+}
+
+
+% Table
+\renewcommand{\cfttableader}{%
+  \cftdotfill{\cftdotsep}%
+}
+
+
 % ==================================================
-% JARAK ANTAR ENTRY DAFTAR ISI
+% Before / After Entry = 0 pt
+% ==================================================
+%
+% Tidak ada tambahan vertical space otomatis
+% antar-entri.
 % ==================================================
 
 \setlength{\cftbeforechapskip}{0pt}
 \setlength{\cftbeforesecskip}{0pt}
 \setlength{\cftbeforesubsecskip}{0pt}
-
-
-% ==================================================
-% 1 SPASI SEBELUM BAB BARU DI DAFTAR ISI
-% ==================================================
-
-\makeatletter
-
-\pretocmd{\@chapter}{%
-  \addtocontents{toc}{%
-    \protect\addvspace{18pt}%
-  }%
-}{}{}
-
-\makeatother
-
-
-% ==================================================
-% DOTTED LEADER
-% ==================================================
-
-\renewcommand{\cftdotsep}{1}
-
-
-% ==================================================
-% FORMAT ISI DAFTAR GAMBAR
-% ==================================================
-
-\renewcommand{\cftfigfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cftfigpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
+\setlength{\cftbeforesubsubsecskip}{0pt}
 
 \setlength{\cftbeforefigskip}{0pt}
-\cftsetindents{figure}{0em}{4em}
-
-
-% ==================================================
-% FORMAT ISI DAFTAR TABEL
-% ==================================================
-
-\renewcommand{\cfttabfont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
-\renewcommand{\cfttabpagefont}{%
-  \normalfont
-  \fontsize{12pt}{18pt}\selectfont
-}
-
 \setlength{\cftbeforetabskip}{0pt}
-\cftsetindents{table}{0em}{4em}
 
 
 % ==================================================
@@ -283,12 +473,136 @@
 \renewcommand{\tablename}{Tabel}
 \renewcommand{\figurename}{Gambar}
 
+
+% ==================================================
+% Jarak standar gambar
+% ==================================================
+%
+% Pedoman:
+%
+% teks
+%   ↓ 1 spasi
+% gambar
+%   ↓ 1 spasi
+% caption
+%   ↓ 1 spasi
+% teks berikutnya
+%
+% Caption = 12 pt, single spacing.
+% 1 baseline single spacing ≈ 14.4 pt.
+% ==================================================
+
+\newlength{\thesisfigurespace}
+\setlength{\thesisfigurespace}{14.4pt}
+
+
+% ==================================================
+% Font Caption
+% ==================================================
+%
+% - 12 pt
+% - Regular
+% - Single spacing
+% ==================================================
+
+\DeclareCaptionFont{thesiscaptionfont}{%
+  \normalfont
+  \fontsize{12pt}{14.4pt}\selectfont
+  \setstretch{1}%
+}
+
+
+% ==================================================
+% Caption Gambar
+% ==================================================
+%
+% Caption berada di bawah gambar.
+%
+% skip:
+%   gambar -> caption = 1 spasi
+%
+% belowskip:
+%   dibuat 0 karena caption -> paragraf berikutnya
+%   akan dikendalikan oleh \intextsep.
+% ==================================================
+
+\captionsetup[figure]{
+  name=Gambar,
+  font=thesiscaptionfont,
+  labelfont=normalfont,
+  textfont=normalfont,
+  format=hang,
+  justification=justified,
+  singlelinecheck=false,
+  labelsep=space,
+  position=bottom,
+  skip=\thesisfigurespace,
+  belowskip=0pt,
+  parskip=0pt
+}
+
+
+% ==================================================
+% Jarak gambar terhadap teks
+% ==================================================
+%
+% Karena sebagian besar gambar memakai [H],
+% package float menggunakan \intextsep untuk
+% jarak sebelum dan sesudah gambar.
+%
+% Jadi:
+%
+% paragraf -> gambar = 14.4 pt
+% caption -> paragraf = 14.4 pt
+% ==================================================
+
+\setlength{\intextsep}{\thesisfigurespace}
+
+
+% Untuk gambar yang menggunakan [htbp]
+% dan ditempatkan di atas/bawah halaman.
+\setlength{\textfloatsep}{\thesisfigurespace}
+
+
+% Jika dua float berdekatan.
+\setlength{\floatsep}{\thesisfigurespace}
+
+
+% ==================================================
+% Caption Tabel
+% ==================================================
+%
+% Untuk sementara tetap dipisahkan agar pengaturan
+% gambar tidak mengacaukan aturan tabel.
+% ==================================================
+
+\captionsetup[table]{
+  name=Tabel,
+  font=thesiscaptionfont,
+  labelfont=normalfont,
+  textfont=normalfont,
+  format=hang,
+  justification=justified,
+  singlelinecheck=false,
+  labelsep=space
+}
+
+
+% ==================================================
+% Caption Tabel
+% ==================================================
+
 \captionsetup[table]{
   name=Tabel,
   labelsep=space,
   justification=centering,
   singlelinecheck=true
 }
+
+
+% ==================================================
+% Caption Gambar
+% ==================================================
 
 \captionsetup[figure]{
   name=Gambar,

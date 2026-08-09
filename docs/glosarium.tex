@@ -1,171 +1,167 @@
-% Pastikan Anda menambahkan baris berikut di bagian preamble (sebelum \begin{document}):
-% \usepackage{longtable}
+% ==================================================
+% DAFTAR SINGKATAN DAN LAMBANG
+% ==================================================
 
-% ========================
-% DAFTAR SINGKATAN DAN ISTILAH
-% ========================
-\chapter*{DAFTAR SINGKATAN DAN ISTILAH}
-\addcontentsline{toc}{chapter}{DAFTAR SINGKATAN DAN ISTILAH}
+\phantomsection
+\addcontentsline{toc}{chapter}{DAFTAR SINGKATAN DAN LAMBANG}
 
-\vspace{0.5cm}
+\thesisfrontlisttitle{DAFTAR SINGKATAN DAN LAMBANG}
 
-% Menggunakan 3 kolom: Istilah/Singkatan, Kepanjangan (Asing), dan Penjelasan
-\setlength{\tabcolsep}{4pt}
-\begin{longtable}{@{} L{2.4cm} L{3.0cm} L{7.4cm} @{}}
-\textbf{Istilah / Singkatan} & \textbf{Kepanjangan / Asing} & \textbf{Penjelasan} \\[2ex]
-\endhead % Memastikan header diulang ke halaman berikutnya
+\begingroup
 
-ABAC & Attribute-Based Access Control & Model kontrol akses yang memberi atau menolak izin berdasarkan evaluasi atribut subjek, objek, aksi, dan lingkungan. \\
-\hline
-ABAC Lab & --- & Platform dan repositori dataset ground-truth ABAC \parencite{bui_abac_2025} yang generator lognya diperluas pada penelitian ini. \\
-\hline
-ACL & Access Control List & Daftar kontrol akses; representasi izin per pasangan subjek-objek. \\
-\hline
-ACO & Ant Colony Optimization & Algoritma metaheuristik berbasis koloni semut; salah satu baseline berpopulasi \parencite{shang_abac_2024}. \\
-\hline
-Ancestral sampling & sampling ansestral & Pembangkitan solusi mengikuti urutan induk-anak pada struktur pohon dependensi. \\
-\hline
-Attribute-value pair & pasangan atribut-nilai & Unit penyusun aturan ABAC; banyaknya seluruh pasangan yang mungkin membentuk dimensi ruang solusi $D$. \\
-\hline
-Baseline & algoritma pembanding & Algoritma acuan yang dibandingkan terhadap algoritma usulan. \\
-\hline
-BIC & Bayesian Information Criterion & Kriteria pemilihan model yang dipakai BOA/iBOA saat mempelajari struktur dependensi. \\
-\hline
-BOA & Bayesian Optimization Algorithm & EDA multivariat yang membangun jaringan Bayes tanpa batasan orde dependensi. \\
-\hline
-CoDA-EDA & Compact Dependency-Aware Estimation of Distribution Algorithm & Algoritma yang dirancang dan diuji pada penelitian ini. \\
-\hline
-Chow-Liu tree & pohon Chow-Liu / pohon dependensi & Pohon rentang maksimum yang menghubungkan pasangan variabel ber-mutual information tertinggi (dibatasi orde satu). \\
-\hline
-compact-GA & compact Genetic Algorithm & Varian algoritma genetika hemat memori tanpa penyimpanan populasi eksplisit. \\
-\hline
-compact-PSO & compact Particle Swarm Optimization & Varian PSO hemat memori berbasis Probability Vector, diadaptasi ke ruang diskret. \\
-\hline
-Coverage & cakupan & Proporsi permintaan akses yang tercakup oleh sekurang-kurangnya satu aturan kebijakan. \\
-\hline
-$D$ & dimensi ruang solusi & Banyaknya pasangan atribut-nilai (beserta aksi) yang membentuk vektor keputusan biner. \\
-\hline
-DAC & Discretionary Access Control & Model kontrol akses diskresioner (dibahas pada tinjauan pustaka). \\
-\hline
-Drift & pergeseran distribusi data & Perubahan distribusi log akses antar-waktu yang memicu pembaruan struktur dependensi. \\
-\hline
-DSR & Design Science Research & Paradigma penelitian yang berorientasi pada perancangan dan evaluasi artefak. \\
-\hline
-DSRM & Design Science Research Methodology & Metodologi enam aktivitas Design Science Research \parencite{peffers_design_2007}. \\
-\hline
-Edge / edge computing & komputasi tepi & Pemrosesan data di dekat sumbernya, pada perangkat di tepi jaringan. \\
-\hline
-Edge-IoT & --- & Perangkat/gerbang tepi pada jaringan Internet of Things yang menjadi konteks target penelitian. \\
-\hline
-EDA & Estimation of Distribution Algorithm & Kelas algoritma evolusioner yang membangun dan men-sampling model probabilistik eksplisit dari solusi terbaik. \\
-\hline
-F1 / F-score & F-measure & Rata-rata harmonik presisi dan recall; metrik kualitas kebijakan utama. \\
-\hline
-Finite-sample bias & bias sampel-hingga & Bias estimator informasi (NMI/JSD) yang membesar seiring rasio jumlah sel kontingensi terhadap jumlah sampel. \\
-\hline
-FN & False Negative & Permintaan yang sebenarnya diizinkan namun diklasifikasikan sebagai tolak. \\
-\hline
-FP & False Positive & Permintaan yang sebenarnya ditolak namun diklasifikasikan sebagai izin (over-permission). \\
-\hline
-Friedman test & uji Friedman & Uji omnibus non-parametrik untuk mendeteksi perbedaan di antara banyak algoritma sekaligus. \\
-\hline
-GA & Genetic Algorithm & Algoritma genetika. \\
-\hline
-Gateway & gerbang & Perangkat penghubung di tepi jaringan IoT yang menjadi contoh lingkungan penerapan. \\
-\hline
-Ground-truth & kebijakan/keputusan acuan & Kebijakan atau label keputusan sebenarnya yang menjadi pembanding evaluasi. \\
-\hline
-H1--H4 & Hipotesis 1--4 & Empat hipotesis penelitian: kualitas kebijakan, jejak memori, efisiensi waktu pembaruan, dan warm-start. \\
-\hline
-Holm-Bonferroni & koreksi Holm-Bonferroni & Koreksi perbandingan berganda untuk mengendalikan inflasi galat Tipe I pada uji post-hoc. \\
-\hline
-iBOA & incremental Bayesian Optimization Algorithm & Varian BOA inkremental berbasis pohon dependensi (Chow-Liu). \\
-\hline
-IoT & Internet of Things & Jaringan perangkat fisik yang saling terhubung dan bertukar data. \\
-\hline
-JSD & Jensen-Shannon Divergence & Ukuran perbedaan dua distribusi probabilitas; dipakai untuk mengukur dan mendeteksi drift. \\
-\hline
-LLM & Large Language Model & Model bahasa besar; disebut sebagai arah riset di luar cakupan penelitian ini. \\
-\hline
-MAC & Mandatory Access Control & Model kontrol akses wajib (dibahas pada tinjauan pustaka). \\
-\hline
-MI & Mutual Information & Informasi bersama antar-variabel; dasar penyusunan pohon Chow-Liu. \\
-\hline
-Min-support & dukungan minimum & Ambang untuk menyatukan nilai atribut bersupport rendah (mis. pengenal) pada dataset besar. \\
-\hline
-NMI & Normalized Mutual Information & Mutual information ternormalisasi; ukuran korelasi atribut yang disuntikkan terkontrol ke dataset. \\
-\hline
-Noise floor & lantai derau & Nilai divergensi antar-jendela pada kondisi stasioner; menentukan kelayakan pemicu drift (H3). \\
-\hline
-Non-parametrik & non-parametric & Uji statistik yang tidak mengandaikan distribusi data normal. \\
-\hline
-NP & ukuran populasi virtual & Parameter ukuran populasi virtual pada algoritma compact/EDA. \\
-\hline
-OA & Open Access & Akses terbuka; status lisensi rujukan pustaka. \\
-\hline
-Permit / deny & izin / tolak & Dua kemungkinan keputusan akses pada log dan kebijakan ABAC. \\
-\hline
-PMBGA & Probabilistic Model-Building Genetic Algorithm & Nama lain untuk kelas Estimation of Distribution Algorithm. \\
-\hline
-Policy mining & penambangan kebijakan & Menyimpulkan aturan kebijakan ABAC secara otomatis dari log akses. \\
-\hline
-Precision & presisi & Proporsi permintaan yang diprediksi izin dan memang benar diizinkan. \\
-\hline
-Prim (algoritma) & Prim's algorithm & Algoritma pembentukan pohon rentang maksimum yang hemat memori ($O(D)$). \\
-\hline
-Probability Vector (PV) & vektor probabilitas & Vektor probabilitas marginal per-bit; komponen parameter model CoDA-EDA. \\
-\hline
-PSO & Particle Swarm Optimization & Optimasi kawanan partikel. \\
-\hline
-RAG & Retrieval-Augmented Generation & Pembangkitan berbantuan pencarian; disebut pada rujukan pendekatan berbasis LLM. \\
-\hline
-Rank-biserial & rank-biserial correlation & Ukuran efek (effect size) untuk uji Wilcoxon signed-rank. \\
-\hline
-RBAC & Role-Based Access Control & Model kontrol akses berbasis peran. \\
-\hline
-Recall & recall & Proporsi permintaan yang sebenarnya diizinkan dan berhasil tertangkap kebijakan. \\
-\hline
-Re-mining (cold) & penambangan ulang penuh & Menambang kebijakan dari inisialisasi kosong setelah drift, sebagai pembanding warm-start. \\
-\hline
-Reservoir sampling & sampling reservoir & Pengambilan subsampel acak seragam hemat memori dengan sekali baca berkas. \\
-\hline
-RM1--RM4 & Rumusan Masalah 1--4 & Empat rumusan masalah penelitian. \\
-\hline
-RSS & Resident Set Size & Ukuran memori residen proses; dasar metrik jejak memori. \\
-\hline
-Separate-and-conquer & sequential covering / pisah-dan-taklukkan & Strategi menambang satu aturan pada satu waktu lalu mengeluarkan permit yang telah tercakup. \\
-\hline
-SJR & SCImago Journal Rank & Peringkat jurnal (dasar penentuan kuartil Q1--Q4). \\
-\hline
-Smart Building IoT & --- & Dataset berdomain IoT yang dibangkitkan pihak lain \parencite{diaz-rodriguez_abac_2025}; dipakai untuk validasi eksternal. \\
-\hline
-SoC & System on Chip & Sistem satu keping (Broadcom BCM2712 pada Raspberry Pi 5). \\
-\hline
-SP & Special Publication & Publikasi khusus (mis. NIST SP 800-162 tentang ABAC). \\
-\hline
-Stratified subsample & subsampel terstratifikasi & Subsampel yang mempertahankan rasio permit/deny distribusi aslinya. \\
-\hline
-T1--T4 & Tujuan 1--4 & Empat tujuan khusus penelitian, selaras satu-satu dengan RM1--RM4. \\
-\hline
-$\tau$ (tau) & ambang pemicu drift & Ambang divergensi Jensen-Shannon yang memicu pembelajaran ulang struktur dependensi. \\
-\hline
-TN & True Negative & Permintaan yang benar diklasifikasikan sebagai tolak. \\
-\hline
-TP & True Positive & Permintaan yang benar diklasifikasikan sebagai izin. \\
-\hline
-tracemalloc & --- & Pustaka Python pelacak alokasi memori; instrumen metrik memori utama (MemPeak\_alloc). \\
-\hline
-UBK & Upgraded Black-winged Kite & Algoritma metaheuristik swarm; baseline berpopulasi \parencite{li_attribute_2026}. \\
-\hline
-UMDA & Univariate Marginal Distribution Algorithm & EDA kanonik berpopulasi-univariat; dipakai sebagai rujukan konseptual EDA (Bab II). \\
-\hline
-VmHWM & Virtual Memory High Water Mark & Puncak memori tingkat sistem operasi; metrik memori konteks (MemPeak\_sys). \\
-\hline
-Warm-start & mulai-hangat & Melanjutkan re-optimasi kebijakan dari model sebelumnya alih-alih dari nol setelah drift. \\
-\hline
-$w_{fp}$, $w_{wsc}$ & bobot fungsi fitness & Bobot penalti false positive ($w_{fp}$) dan kompleksitas struktural ($w_{wsc}$) pada fungsi fitness. \\
-\hline
-WSC & Weighted Structural Complexity & Kompleksitas struktural kebijakan, yakni jumlah pasangan atribut-nilai pada seluruh aturan. \\
-\hline
+% ==================================================
+% FORMAT DASAR
+% ==================================================
+
+% Single spacing
+\setstretch{1}
+
+% Times, 12 pt, regular
+\normalfont
+\fontsize{12pt}{14.4pt}\selectfont
+
+% Paragraph spacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% Hilangkan padding horizontal default tabel
+\setlength{\tabcolsep}{0pt}
+
+% Hilangkan jarak otomatis sebelum/sesudah longtable
+\setlength{\LTpre}{0pt}
+\setlength{\LTpost}{0pt}
+
+
+% ==================================================
+% JARAK JUDUL KE TABEL = 2 SPASI
+% ==================================================
+
+\vspace{28.8pt}
+
+
+% ==================================================
+% TABEL SINGKATAN DAN LAMBANG
+% ==================================================
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{2.5cm}
+    >{\raggedright\arraybackslash}p{8.0cm}
+    >{\centering\arraybackslash}p{3.0cm}
+    @{}
+}
+
+% ==================================================
+% HEADER HALAMAN PERTAMA
+% ==================================================
+
+SINGKATAN
+&
+\multicolumn{1}{c}{Nama}
+&
+\multicolumn{1}{c}{
+    \shortstack[c]{
+        Pemakaian\\
+        pertama kali\\
+        pada halaman
+    }
+}
+\\
+
+
+% Header untuk halaman pertama selesai
+\endfirsthead
+
+
+% ==================================================
+% HEADER JIKA TABEL BERLANJUT KE HALAMAN BERIKUTNYA
+% ==================================================
+
+SINGKATAN
+&
+\multicolumn{1}{c}{Nama}
+&
+\multicolumn{1}{c}{
+    \shortstack[c]{
+        Pemakaian\\
+        pertama kali\\
+        pada halaman
+    }
+}
+\\
+
+\endhead
+
+
+% ==================================================
+% DAFTAR SINGKATAN
+% ==================================================
+
+ABAC & \textit{Attribute-Based Access Control} & \pageref{first:abac} \\
+ACL & \textit{Access Control List} & \pageref{first:acl} \\
+ACO & \textit{Ant Colony Optimization} & \pageref{first:aco} \\
+BIC & \textit{Bayesian Information Criterion} & \pageref{first:bic} \\
+BOA & \textit{Bayesian Optimization Algorithm} & \pageref{first:boa} \\
+CoDA-EDA & \textit{Compact Dependency-Aware Estimation of Distribution Algorithm} & \pageref{first:coda-eda} \\
+compact-GA & \textit{Compact Genetic Algorithm} & \pageref{first:compact-ga} \\
+compact-PSO & \textit{Compact Particle Swarm Optimization} & \pageref{first:compact-pso} \\
+DAC & \textit{Discretionary Access Control} & \pageref{first:dac} \\
+DSR & \textit{Design Science Research} & \pageref{first:dsr} \\
+DSRM & \textit{Design Science Research Methodology} & \pageref{first:dsrm} \\
+EDA & \textit{Estimation of Distribution Algorithm} & \pageref{first:eda} \\
+F1 & \textit{F-measure (F-score)} & \pageref{first:f1} \\
+FN & \textit{False Negative} & \pageref{first:fn} \\
+FP & \textit{False Positive} & \pageref{first:fp} \\
+H1 & Hipotesis Penelitian 1 & \pageref{first:h1} \\
+H2 & Hipotesis Penelitian 2 & \pageref{first:h2} \\
+H3 & Hipotesis Penelitian 3 & \pageref{first:h3} \\
+H4 & Hipotesis Penelitian 4 & \pageref{first:h4} \\
+iBOA & \textit{Incremental Bayesian Optimization Algorithm} & \pageref{first:iboa} \\
+IoT & \textit{Internet of Things} & \pageref{first:iot} \\
+JSD & \textit{Jensen-Shannon Divergence} & \pageref{first:jsd} \\
+LLM & \textit{Large Language Model} & \pageref{first:llm} \\
+MAC & \textit{Mandatory Access Control} & \pageref{first:mac} \\
+NMI & \textit{Normalized Mutual Information} & \pageref{first:nmi} \\
+PMBGA & \textit{Probabilistic Model-Building Genetic Algorithm} & \pageref{first:pmbga} \\
+PV & \textit{Probability Vector} & \pageref{first:pv} \\
+RBAC & \textit{Role-Based Access Control} & \pageref{first:rbac} \\
+RSS & \textit{Resident Set Size} & \pageref{first:rss} \\
+SoC & \textit{System on Chip} & \pageref{first:soc} \\
+TP & \textit{True Positive} & \pageref{first:tp} \\
+UBK & \textit{Upgraded Black-Winged Kite} & \pageref{first:ubk} \\
+VmHWM & \textit{Virtual Memory High Water Mark} & \pageref{first:vmhwm} \\
+WSC & \textit{Weighted Structural Complexity} & \pageref{first:wsc} \\
+
+
+% ==================================================
+% JARAK SINGKATAN TERAKHIR KE "LAMBANG" = 1 SPASI
+% ==================================================
+
+\noalign{\vskip 14.4pt}
+
+
+% ==================================================
+% LAMBANG
+% ==================================================
+
+\multicolumn{3}{@{}l@{}}{LAMBANG}
+\\
+
+% Jarak "LAMBANG" ke entri pertama = 1 spasi
+\noalign{\vskip 14.4pt}
+
+
+% ==================================================
+% DAFTAR LAMBANG
+% ==================================================
+
+%$D$
+%&
+%Dimensi ruang solusi
+%&
+%\pageref{first:symbol-D}
+%\\
 
 \end{longtable}
+
+\endgroup

@@ -1,8 +1,8 @@
 \section{Kontrol Akses dan \textit{Attribute-Based Access Control} (ABAC)}
 
 Kontrol akses adalah mekanisme keamanan yang menentukan entitas mana yang berhak melakukan operasi tertentu terhadap suatu sumber daya dan dalam kondisi apa.
-Model kontrol akses klasik yang paling banyak diterapkan mencakup \textit{Discretionary Access Control} (DAC), \textit{Mandatory Access Control} (MAC), dan \textit{Role-Based Access Control} (RBAC). 
-Pada DAC, pemilik sumber daya atau \textit{data owner} memiliki kendali penuh untuk memberikan atau mencabut hak akses kepada pengguna lain, biasanya melalui \textit{Access Control List} (ACL) yang harus diperbarui secara manual oleh administrator setiap kali terjadi perubahan \parencite{ragothaman_access_2023}.
+Model kontrol akses klasik yang paling banyak diterapkan mencakup \textit{Discretionary Access Control} (DAC), \textit{Mandatory Access Control} (MAC)\label{first:mac}, dan \textit{Role-Based Access Control} (RBAC). 
+Pada DAC, pemilik sumber daya atau \textit{data owner} memiliki kendali penuh untuk memberikan atau mencabut hak akses kepada pengguna lain, biasanya melalui \textit{Access Control List} (ACL)\label{first:acl} yang harus diperbarui secara manual oleh administrator setiap kali terjadi perubahan \parencite{ragothaman_access_2023}.
 Karena sifatnya yang statis ini, DAC dinilai tidak sesuai untuk lingkungan yang dinamis seperti IoT \parencite{ragothaman_access_2023,ahsan_comprehensive_2025}.
 
 Berbeda dari DAC, \textit{Mandatory Access Control} (MAC) menempatkan keputusan akses pada kebijakan terpusat yang ditetapkan oleh sistem melalui label keamanan, misalnya tingkat klasifikasi pada objek dan tingkat kewenangan \textit{clearance} pada subjek, alih-alih pada kebijaksanaan pemilik sumber daya.
