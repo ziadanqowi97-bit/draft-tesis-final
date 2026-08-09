@@ -1,0 +1,57 @@
+\section{Variabel Penelitian}
+
+Penetapan variabel penelitian secara eksplisit diperlukan agar aktivitas \textit{Demonstration} dan \textit{Evaluation} dapat dioperasionalkan secara tidak ambigu, serta agar pengujian hipotesis dapat dilakukan secara terkontrol.
+Penelitian ini melibatkan tiga kelompok variabel, antara lain variabel bebas, variabel terikat, dan variable kontrol.
+
+Variabel bebas pada penelitian ini terdiri atas tiga hal.
+Pertama, jenis algoritma yang dibandingkan, mecakup tujuh kondisi antara lain CoDA EDA, \textit{compact-GA} dan \textit{compact-PSO}, BOA dan iBOA, serta \textit{Ant Colony Optimization} dan \textit{Upgraded Black-winged Kite} sebagai \textit{baseline population-based}.
+Kedua, tingkat korealsi antar-atribut pada dataset pengujian, yang dikendalikan secara eksplisit pada tingkat (rendah, sedang, dan tinggi) melalui perluasan generator ABAC Lab.
+Ketiga, skenario \textit{drift} data akses, yaitu besaran perubahan (delta) pada log akses antar-siklus pembaruan kebijakan, yang menentukan kapan pembaruan struktur dependensi dipicu pada CoDA-EDA.
+
+Variabel terikat pada penelitian ini mencakup empat kelompok ukuran kinerja, antara lain (1) kualitas kebijakan hasil \textit{policy mining}, terdiri atas akurasi/\textit{f-score, Weighted Structural Complexity} (WSC), dan cakupan (\textit{coverage}) aturan terhadap log akses, (2) jejak memori, yaitu konsumsi memori puncak selama algoritma berjalan pada perangkat target, (3) waktu komputasi, mencakup waktu pembelajaran awal dan waktu satu siklus pembaruan inkremental, dan (4) efisiensi serta kualitas re-optimasi pada skenario \textit{drift}, yaitu perbandingan waktu dan kualitas kebijakan antara strategi \textit{warm-start} dan \textit{re-mining} penuh dari awal.
+
+Agar perbandingan antar-algoritma pada aktivitas \textit{Evaluation} tetap adil, sejumlah variable dikendalikan.
+Variabel kontrolnya antara lain adalah seluruh algoritma dijalankan pada perangkat keras yang sama (Raspberry Pi 5), Seluruh algoritma diiuji pada dataset yang identik dalam satu skenario pengujian, kriteria pemberhentian disetarakan antar-algoritma, dan setiap kombinasi algoritma-skenario dijalankan dengan replikasi berulang menggunakan \textit{random seed} yang berbeda.
+
+Ringkasan definisi operasional atas seluruh variabel di atas, beserta keterkaitannya dengan hipotesis disajikan pada Tabel \ref{tab:definisi-operasional}.
+
+\begin{longtable}{|c|>{\raggedright\arraybackslash}p{3cm}|c|>{\raggedright\arraybackslash}p{5cm}|>{\centering\arraybackslash}p{3cm}|}
+\caption{Definisi Operasional Variabel Penelitian}
+\label{tab:definisi-operasional} \\
+\hline
+\textbf{No} & \textbf{Variabel} & \textbf{Jenis} & \textbf{Definisi Operasional} & \textbf{Terkait Hipotesis} \\
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{No} & \textbf{Variabel} & \textbf{Jenis} & \textbf{Definisi Operasional} & \textbf{Terkait Hipotesis} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+1 & Algoritma yang dibandingkan & Bebas & Enam kondisi: CoDA-EDA (diusulkan), \textit{compact-GA}, \textit{compact-PSO}, BOA, iBOA, ACO, dan UBK sebagai \textit{baseline population-based}. & H1 (vs \textit{compact-GA/PSO}); H2 (vs BOA, iBOA, ACO, UBK); H3 (vs iBOA) \\
+\hline
+2 & Tingkat korelasi atribut & Bebas & Tiga tingkat terkontrol (rendah, sedang, tinggi) yang disuntikkan pada generator ABAC Lab yang diperluas. & H1 \\
+\hline
+2b & Dimensi ruang solusi (D) & Bebas & Banyaknya pasangan atribut-nilai yang membentuk vektor keputusan: D = 436 pada \textit{workforce} dan D = 1.907 pada \textit{e-document}. Ditetapkan sebagai variabel bebas berdasarkan studi pendahuluan yang menunjukkan dimensi soal sebagai faktor penentu keunggulan pemodelan dependensi. & H1 \\
+\hline
+3 & Skenario \textit{drift} data akses & Bebas & Besaran perubahan (delta) pada log akses antar-siklus pembaruan yang memicu pembaruan struktur dependensi (tidak ada/rendah/sedang). & H3, H4 \\
+\hline
+4 & Kualitas kebijakan & Terikat & Akurasi/\textit{F-score}, \textit{Weighted Structural Complexity} (WSC), dan cakupan (\textit{coverage}) aturan terhadap log akses; formula rinci pada bagian metode evaluasi. & H1, H3, H4 \\
+\hline
+5 & Jejak memori & Terikat & Konsumsi memori puncak (\textit{peak resident set size}) selama algoritma berjalan pada perangkat target; prosedur pengukuran pada bagian metode evaluasi. & H2 \\
+\hline
+6 & Waktu komputasi & Terikat & Waktu pembelajaran awal (\textit{initial training}) dan waktu satu siklus pembaruan inkremental; prosedur pengukuran pada bagian metode evaluasi. & H3 \\
+\hline
+7 & Efisiensi re-optimasi pada \textit{drift} & Terikat & Perbandingan waktu dan kualitas kebijakan antara strategi \textit{warm-start} dan \textit{re-mining} penuh dari awal pasca-\textit{drift}. & H4 \\
+\hline
+
+\end{longtable}

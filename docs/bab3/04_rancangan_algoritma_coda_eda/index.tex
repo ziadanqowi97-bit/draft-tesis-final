@@ -1,0 +1,111 @@
+\section{Rancangan Algoritma CoDA-EDA}
+
+Berdasarkan tiga prinsip rancangan yang telah diuraikan sebelumnya, subbab ini menjabarkan rancangan algoritmik CoDA-EDA secara konkret yang mencakup representasi solusi dan model probabilistik, mekanisme inisialisasi dan \textit{sampling}, mekanisme pembaruan parameter, mekanisme pembaruan struktur dependensi, algoritma keseluruhan, serta analisis kompleksitas memori dan waktu.
+Rancangan ini merupakan hasil awal aktivitas \textit{Design and Development} yang dapat disempurnakan lebih lanjut apabila hasil \textit{Demonstration} dan \textit{Evaluation} menunjukkan kebutuhan penyesuaian yang sejalan dengan sifat iteratif DSRM.
+
+Agar letak setiap unsur kebaruan terhadap EDA yang sudah ada dapat ditelusuri pada level rancangan, pemetaannya ditegaskan di muka.
+Unsur \textit{compact} (pembaruan PV tanpa populasi eksplisit) diwujudkan pada mekanisme pembaruan parameter.
+Inilah yang membedakan CoDA-EDA dari BOA yang menyimpan populasi eksplisit.
+Unsur \textit{dependency-aware} berorde terbatas diwujudkan pada komponen model probabilistik kedua, yakni pohon Chow-Liu order-1 yang disusun dengan algoritma Prim agar jejaknya tetap O(D).
+Inilah yang membedakannya daria sumsi independensi penuh \textit{compact-GA/PSO} yang tidak punya komponen ini, sekaligus dari jaringan Bayes tanpa batas orde BOA.
+Unsur pemisahan frekuensi pembaruan diwujudkan pada pembedaan eksplisit antara pembaruan parameter tiap siklus dan pembaruan struktur berbasis pemicu \textit{drift} (delta terhadap ambang tau ($\tau$)).
+Inilah pembeda paling tajam terhadap iBOA yang memadukan keduanya pada satu skema inkremental.
+
+Sejalan dengan definisi \textit{policy mining ABAC} sebagai penambangan pola atribut-nilai dari log akses, setiap kandidat aturan ABAC direpresentasikan sebagai vektor biner $x = (x_1, x_2, \ldots, x_D)$ berdimensi \textit{D}, dengan \textit{D} adalah banyaknya kombinasi pasangan atribut-nilai subjek, objek, dan lingkungan yang mungkin pada domain data.
+Bit $x_i = 1$ menandakan pasangan atribut-nilai ke-\textit{i} disertakan sebagai syarat pada aturan, sedangkan $x_i = 0$ menandakan sebaliknya.
+Sebuah kebijakan ABAC yang lengkap terdiri atas satu atau lebih aturan.
+Berdasarkan hasil implementasi, representasi-multi-aturan ditetapkan mengikuti strategi \textit{separate-and-conquer}.
+Metaheuristik mencari satu aturan pada satu waktu, \textit{permit} yang telah tercakup aturan tersebut dikeluarkan dari himpunan sasaran, lalu proses diulang hingga anggaran evaluasi habis atau tidak ada lagi aturan yang memberi tambahan cakupan.
+Semantik pencocokan mengikuti bahasa kebijakan ABAC Lab \parencite{bui_abac_2025}, dimana nilai-nilai terpilih dalam satu atribut bersifat disjungtif, sedangkan antar-atribut bersifat konjungtif, dan atribut tanpa nilai terpilih berarti tidak dibatasi.
+Dengan demikian \textit{D} mencakup pasangan atribut-nilai subjek dan objek beserta himpunan aksi, dan WSC sebuah aturan sama dengan banyaknya pasangan atribut-nilai yang aktif pada vektor tersebut.
+
+Kualitas satu aturan kandidat dinilai melalui fungsi \textit{fitness} yang menyeimbangkan cakupan dan presisi.
+Misalkan \textit{TP} menyatakan banyaknya \textit{permit} yang belum tercakup dan berhasil dicocokkan aturan, \textit{FP} banyaknya permintaan berstatus \textit{deny} yang keliru diizinkan, serta \textit{WSC(x)} kompleksitas struktural aturan, maka $f(x) = \frac{\mathrm{TP}^2}{\mathrm{TP} + w_{fp} \cdot \mathrm{FP}} - w_{wsc} \cdot \mathrm{WSC}(x)$.
+Suku pertama setara dengan hasil kali \textit{TP} dengan presisi aturan, sehingga menghargai cakupan dan presisi secara simultan dan selaras dengan metrik F1 yang menjadi ukuran evaluasi akhir.
+Aturan yang tidak mencakup satu pun \textit{permit} baru (TP = 0) didominasi secara mutlak agar tidak pernah terpilih.
+Perumusan ini merupakan koreksi atas bentuk penalti linier $f(x) = \mathrm{TP} - w_{fp}$.
+Ketika FP diuji lebih dulu, bentuk linier tersebut terbukti memiliki optimum pada aturan yang sangat spesifik dengan cakupan mendekati nol.
+Pencarian yang lebih intensif justru menurunkan F1 kebijakan yang merupakan gejala ketidakselarasan antara fungsi objektif dan metrik evaluasi.
+Ketergantungan hasil pendekatan \textit{separate-and-conquer} pada pemilihan ukuran kualitas aturan yang mengarahkan induksi merupakan temuan mapan pada literatur pembelajaran aturan \parencite{gudys_separate_2024}, sehingga penyelarasan fungsi \textit{fitness} terhadap metrik evaluasi akhir menjadi keputusan rancangan yang berdasar dan bukan sekadar penyetelan teknis.
+
+Dua ketetapan implementasi lain turut memengaruhi kesahihan rancangan.
+Pertama, inisialisasi \textit{Probability Vector} harus sadar-dimensi.
+Aturan ABAC secara struktural bersifat jarang atau umumnya hanya memuat dua hingga lima pasangan atribut-nilai.
+Kesederhanaan struktural yang justru menjadi salah satu indikator kualitas kebijakan hasil \textit{mining} pada literatur ABAC \parencite{perez-haro_abac_2024,quan_attribute-based_2023}, sehingga inisialisasi seragam $p_i = 0{,}5$ sebagaimana lazim pada \textit{compact-GA} kanonik menghasilkan aturan yang terlalu spesifik dan tidak mencocokkan satu entri pun.
+Karena itu, PV diinisialisasi pada $p_0 = \frac{k}{D}$ dengan $k \approx 3$, sehingga jumlah pasangan atribut-nilai aktif di awal pencarian tetap konstan meskipun D berbeda antar-dataset.
+Kedua, pencarian dibenihkan dari satu contoh \textit{permit} yang belum tercakup, mengikuti prinsip pembelajaran aturan berbasis contoh positif pada kerangka \textit{sequential covering/separate-and-conquer} \parencite{gudys_separate_2024}.
+Karena aturan acak nyaris tidak pernah mencocokkan entri mana pun (terukur hanya 2\% dari aturan acak), sehingga tanpa benih tersebut fungsi \textit{fitness} membentuk dataran datar yang justru mengarahkan pencarian menuju aturan kosong.
+
+Model probabilistik CoDA-EDA terdiri atas dua komponen.
+Komponen pertama adalah \textit{Probability Vector} (PV), vektor probabilitas marginal per-bit yang merepresentasikan populasi virtual berukuran \textit{NP}, mengikuti definisi algoritma \textit{compact} \parencite{khalfi_metaheuristics_2023}: $PV = (p_1, p_2, \ldots, p_D)$ dengan $p_i$ menyatakan probabilitas bit ke-$i$ bernilai 1.
+Komponen kedua adalah struktur dependensi \textit{T}, sebuah pohon yang menghubungkan pasangan variabel dengan \textit{mutual information} tertinggi dan dipelajari melalui metode Chow-Liu \parencite{chow_approximating_1968} dan dibatasi pada orde-1 (setiap variabel bergantung pada paling banyak satu variabel induk), alih-alih jaringan Bayes tak terbatas ala BOA/iBOA \parencite{pelikan_iboa_2008}.
+Kombinasi \textit{PV} (parameter) dan \textit{T} (struktur) inilah yang membedakan CoDA-EDAA dari \textit{compact} standar yang murni univariat sekaligus dari BOA/iBOA yang tidak dibatasi ordenya.
+
+Pada inisialisasi, PV ditetapkan \textit{uniform} $(p_i = 0{,}5$ untuk seluruh $i)$ dan struktur \textit{T} diinisialisasi kosong, mencerminkan tidak adanya asumsi dependensi awal.
+Sebuah solusi elit awal $x_\text{elite}$ kemudian disampling dari PV.
+Pada setiap iterasi berikutnya, sebuah solusi kandidat baru $x_\text{baru}$ disampling mengikuti urutan ansestral struktur \textit{T} \parencite{pelikan_iboa_2008}.
+Variabel tanpa induk disampling langsung dari PV, sedangkan variabel dengan induk disampling dari probabilitas bersyarat terhadap nilai induknya yang telah dibangkitkan lebih dulu.
+
+Pembaruan parameter dilakukan pada setiap siklus tanpa terkecuali, mengikuti skema kompetisi pemenang/pecundang yang sama dengan \textit{compact-GA} \parencite{khalfi_metaheuristics_2023} dan iBOA \parencite{pelikan_iboa_2008}.
+$x_\text{baru}$ dan $x_\text{elite}$ dievaluasi \textit{fitness}-nya, ditentukan mana yang menang dan yang kalah, kemudian setiap elemen PV diperbarui sebesar $\pm 1/\mathrm{NP}$ bergantung pada nilai pemenang dan pecundang pada variabel bersangkutan.
+Elit digantikan oleh $x_\text{baru}$ apabila kondisi elitisme terpenuhi (\textit{fitness} $x_\text{baru}$ lebih baik).
+Skema ini menjaga jejak memori tetap O(D) tanpa menyimpan populasi eksplisit.
+
+Berbeda dari pembaruan parameter, pembaruan struktur dependensi \textit{T} tidak dilakukan pada setiap siklus, melainkan hanya dipicu ketika terdeteksi pergeseran \textit{drift} signifikan pada distribusi data akses.
+Deteksi \textit{drift} dilakukan dengan memantau ukuran pergeseran (delta) antara distribusi frekuensi pasangan antribut-nilai pada jendela data akses berjalan terhadap jendela referensi sebelumnya.
+Ketika $\Delta$ melampaui ambang $\tau$ yang ditetapkan, struktur $T$ dipelajari ulang melalui perhitungan \textit{mutual information} berpasangan dan pohon rentang maksimum. \parencite{chow_approximating_1968}, sedangkan \textit{PV} tetap diperbarui seperti biasa.
+Pembelajaran struktur ini wajib diimplementasikan secara hemat memori agar klaim \textit{compact} tidak gugur.
+Penyusunan pohon rentang maksimum dilakukan dengan algoritma Prim \parencite{cormen_introduction_2022} yang hanya menyimpan larik jarak sepanjang \textit{D} dan menghitung \textit{mutual information} baris demi baris, sehingga kebutuhan memorinya tetap O(D).
+Implementasi naif yang lebih dulu diuji, yakni dengan membentuk matriks \textit{mutual information} berukuran $D \times D$, membutuhkan sekitar 29 MB pada D = 1.907 dan justru meniadakan keunggulan memori yang menjadi inti rancangan.
+Perhitungan \textit{mutual information} juga harus dilakukan dalam presisi ganda, karena pada presisi tunggal suku $ (1 - p_i) $ membulat menjadi nol ketika $p_i$ mendekati satu sehingga pohon gagal terbentuk sama sekali.
+Pemisahan frekuensi pembaruan ini merupakan mekanisme inti yang membedakan CoDA-EDA dari iBOA konvensional dan menjadi dasar pengujian hipotesis H3 dan H4.
+
+Arsitektur keseluruhan CoDA-EDA, mencakup model probabilistik dua komponen, jalur pembaruan parameter yang dijalankan setiap siklus, serta jalur pembaruan struktur yang hanya dipicu oleh \textit{drift}, diilustrasikan pada Gambar \ref{fig:arsitektur-codaeda}, sedangkan rincian langkah per-baris diberikan pada Algoritma \ref{alg:coda-eda}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{gambar_arsitektur.png}
+    \caption{Arsitektur CoDA-EDA dan Pemisahan Jalur Pembaruan Parameter dan Struktur}
+    \label{fig:arsitektur-codaeda}
+\end{figure}
+
+\begin{algorithm}[htbp]
+\caption{CoDA-EDA (Compact Dependency-Aware EDA)}
+\label{alg:coda-eda}
+\begin{algorithmic}[1]
+\Statex \textbf{Input}: NP (ukuran populasi virtual), $\tau$ (ambang delta pemicu pembaruan struktur), kriteria pemberhentian
+\Statex \textbf{Output}: kebijakan ABAC elite ($\mathbf{x}_{\text{elite}}$)
+
+\State Inisialisasi $\mathbf{PV} \leftarrow (0{,}5, 0{,}5, \ldots, 0{,}5)$; $T \leftarrow \emptyset$ (struktur kosong)
+\State $\mathbf{x}_{\text{elite}} \leftarrow \text{SAMPLE}(\mathbf{PV})$
+\While{kriteria pemberhentian belum terpenuhi}
+    \State $\mathbf{x}_{\text{baru}} \leftarrow \text{SAMPLE}(\mathbf{PV}, T)$ \Comment{urutan ancestral mengikuti $T$}
+    \State evaluasi $f(\mathbf{x}_{\text{baru}})$ dan $f(\mathbf{x}_{\text{elite}})$
+    \State $(\text{winner}, \text{loser}) \leftarrow \text{TURNAMEN}(\mathbf{x}_{\text{baru}}, \mathbf{x}_{\text{elite}})$
+    \For{$i \gets 1$ \textbf{to} $D$}
+        \State $\mathbf{PV}[i] \leftarrow \mathbf{PV}[i] \pm \dfrac{1}{NP}$ berdasarkan $\text{winner}[i]$, $\text{loser}[i]$
+    \EndFor
+    \If{$f(\mathbf{x}_{\text{baru}})$ lebih baik dari $f(\mathbf{x}_{\text{elite}})$}
+        \State $\mathbf{x}_{\text{elite}} \leftarrow \mathbf{x}_{\text{baru}}$
+    \EndIf
+    \State $\Delta \leftarrow \text{UKUR\_DRIFT}(\text{jendela akses berjalan}, \text{jendela referensi})$
+    \If{$\Delta > \tau$}
+        \State $T \leftarrow \text{CHOW-LIU}(\text{mutual information berpasangan}, \text{pohon rentang maksimum})$
+        \State perbarui jendela referensi
+    \EndIf
+\EndWhile
+\State \Return{$\mathbf{x}_{\text{elite}}$}
+\end{algorithmic}
+\end{algorithm}
+
+Algoritma \ref{alg:coda-eda} merangkum keseluruhan rancangan di atas.
+Baris 1-2 merupakan inisialisasi.
+Baris 4-12 merupakan siklus sampling dan pembaruan parameter yang dilakukan pada setiap iterasi.
+Baris 13-17 merupakan mekanisme deteksi \textit{drift} dan pembaruan struktur bersyarat yang menjadi kebaruan utama CoDA-EDA.
+
+Analisis kompleksitas berikut bersifat \textit{by-construction} serta akan mendapatkan validasi empiris melalui eksperimen, sejalan dengan lingkup penelitian yang tidak mencakup pembuktian konvergensi formal secara matematis mendalam.
+Kompleksitas memori CoDA-EDA tetap \textit{O(D)}, terdiri atas \textit{O(D)} untuk PV dan \textit{O(D)} untuk struktur \textit{T} berorde-1 dengan setiap variabel menyimpan satu referensi induk dan tabel probabilitas bersyarat berukuran tetap.
+Angka ini setara dengan varian \textit{compact} standar, tetapi jauh lebih rendah daripada $O(n^k)$  yang berpotensi dikonsumsi oleh iBOA tanpa pembatasan orde \parencite{pelikan_iboa_2008}.
+Untuk waktu komputasi, pembaruan parameter memerlukan O(D) per siklus, sedangkan pembaruan struktur yang diaktifkan hanya saat terjadi \textit{drift} membutuhkan $O(D^2)$ untuk perhitungan \textit{mutual information} antar seluruh pasangan variabel, ditambah $O(D^2 log D)$ untuk konstruksi pohon rentang maksimum \parencite{chow_approximating_1968}.
+Biaya ini secara signifikan lebih ringan dibandingkan biaya struktur pada BOA yang tidak dibatasi ordenya.
+Karena pembaruan struktur tidak dilakukan pada setiap siklus, biaya rata-rata per siklus menjadi lebih rendah daripada iBOA konvensional yang justru berpotensi memperbarui struktur pada tiap iterasi.

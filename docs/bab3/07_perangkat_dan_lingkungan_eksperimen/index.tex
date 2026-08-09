@@ -1,0 +1,68 @@
+\section{Perangkat dan Lingkungan Eksperimen}
+
+Sejalan dengan Batasan Masalah yang membatasi pengujian pada satu \textit{platform edge-IoT} spesifik, seluruh algoritma dijalankan pada perangkat dan lingkungan eksperimen yang identik, sebagaimana disyaratkan oleh variabel kontrol.
+Subbab ini menguraikan spesifikasi perangkat keras, perangkat lunak, serta prosedur pengukuran jejak memori dan waktu komputasi yang akan digunakan pada aktivitas \textit{Demonstration} dan \textit{Evaluation}.
+
+Perangkat target penelitian ini adalah Raspberry Pi 5 dengan \textit{System-on-Chip} Broadcom BCM2717 (quad-core ARM Cortex-A76 @2,4GHz dengan Cryptographic Extension, cache L2 512KB per-core, dan cache L3 bersama 2MB) serta varian RAM 8GB LPDDR4X-4267 \parencite{raspberry_pi_ltd_raspberry_2026}, mewakili kelas perangkat \textit{edge-IoT} bertenaga menengah.
+Penyimpanan utama menggunakan microSD card slot berkecepatan tinggi bawaan perangkat.
+Sistem operasi menggunakan Raspberry Pi OS 64-bit berbasis Debian sebagai distribusi resmi yang direkomendasikan untuk \textit{platform} ini.
+
+Implementasi CoDA-EDA dan keenam algoritma pembanding menggunakan bahasa Python.
+Hal ini konsisten dengan ekosistem perangkat lunak EDA yang telah mapan, \textcite{soloviev_edaspy_2024} mencatat bahwa BOA dan varian EDA multivariat lainnya aktif diimplementasikan dalam paket Python seperti EDAspy, sehingga \textit{baseline} BOA/iBOA dapat memanfaatkan atau merujuk pada implementasi referensi yang telah tersedia.
+
+Jejak memori diukur melalui pemantauan \textit{peak resident set size} proses masing-masing algoritma secara langsung pada perangkat target melalui dua instrumen yang saling melengkapi.
+Instrumen pertama adalah pelacak alokasi memori tingkat bahasa yang mengukur puncak alokasi struktur data algoritma secara bersih dari \textit{overhead interpreter} dan dapat direset pada setiap pengukuran.
+Instrumen kedua adalah VmHWM pada /proc/[pid]/status, yang mengukur puncak RSS pada tataran sistem operasi sesuai definisi baku.
+Penggunaan kedua instrumen bersifat wajib karena masing-masing memiliki keterbatasan yang saling menutup.
+VmHWM pada perangkat target terukur sekitar 31 MB hanya untuk memuat interpreter beserta pustaka numeriknya, sementara jejak struktur data algoritma berskala \textit{kilobyte} hingga beberapa \textit{megabyte}.
+Perbedaan antar-algoritma karenanya nyaris tidak terdeteksi bila hanya mengandalkan VmHWM.
+Selain itu, VmHWM bersifat \textit{high-water mark} yang tidak pernah menurun sepanjang umur proses, sehingga beberapa pengukuran berurutan di dalam satu proses akan saling mencemari.
+Pada pelaksanaan awal, lima belas konfigurasi berbeda melaporkan nilai VmHWM yang praktis identik.
+Karena itu setiap konfigurasi pengukuran VmHWM dijalankan pada proses sistem operasi yang terpisah.
+Pengukuran dilakukan pada proses yang terisolasi (satu kombinasi algoritma-dataset dieksekusi pada satu waktu, tanpa proses lain yang bersaing memperebutkan sumber daya) agar hasil pengukuran mencerminkan konsumsi memori algoritma itu sendiri, bukan artefak dari beban sistem lain.
+
+Waktu komputasi diukur menggunakan \textit{wall-clock time} yang dicatat langsung pada perangkat target, dipisahkan antara waktu pembelajaran awal (\textit{initial training}) dan waktu satu siklus pembaruan inkremental.
+Untuk mengurangi variabilitas pengukuran akibat \textit{thermal throttling} dan \textit{dynamic frequency scaling} yang umum terjadi pada perangkat \textit{edge} seperti Raspberry Pi 5, \textit{CPU governor} ditetapkan pada mode \textit{performance} yang konsisten sepanjang seluruh sesi pengujian, dan suhu perangkat dipantau agar tetap berada pada rentang suhu operasi resmi $0^\circ\mathrm{C}$--$70^\circ\mathrm{C}$ yang ditetapkan produsen \parencite{raspberry_pi_ltd_raspberry_2026}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{9cm}|}
+\caption{Spesifikasi Perangkat dan Lingkungan Eksperimen}
+\label{tab:spesifikasi-perangkat} \\
+\hline
+\textbf{Komponen} & \textbf{Spesifikasi/Prosedur} \\
+\hline
+\endfirsthead
+
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Komponen} & \textbf{Spesifikasi/Prosedur} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{2}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+Perangkat & Raspberry Pi 5 (Raspberry Pi Ltd., 2026) \\
+\hline
+SoC & Broadcom BCM2712, quad-core ARM Cortex-A76 @ 2{,}4GHz, cache L2 512KB/core, cache L3 bersama 2MB \\
+\hline
+RAM & 8GB LPDDR4X-4267 SDRAM \\
+\hline
+Penyimpanan & microSD (mode SDR104); PCIe 2.0 x1 tersedia untuk SSD via M.2 HAT terpisah (tidak dipakai sebagai konfigurasi baku) \\
+\hline
+Suhu Operasi & $0^\circ$C--$70^\circ$C (spesifikasi produsen) \\
+\hline
+Sistem Operasi & Raspberry Pi OS 64-bit (berbasis Debian) \\
+\hline
+Bahasa Pemrograman & Python \\
+\hline
+Pengukuran Memori & Dual: puncak alokasi \texttt{tracemalloc} (metrik utama) + VmHWM pada /proc/[pid]/status (konteks sistem); satu proses terpisah per konfigurasi \\
+\hline
+Pengukuran Waktu & Wall-clock time langsung pada perangkat target; CPU governor mode \texttt{performance}; suhu dipantau terhadap rentang operasi resmi \\
+\hline
+
+\end{longtable}

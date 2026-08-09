@@ -1,0 +1,28 @@
+\section{Kesimpulan}
+
+Penelitian ini merancang dan menguji CoDA-EDA, sebuah \textit{Estimation of Distribution Algorithm compact} yang sadar dependensi untuk penambangan kebijakan ABAC pada perangkat \textit{edge-IoT} bersumber daya terbatas.
+Berdasarkan hasil pengujian yang telah dilakukan, ditarik kesimpulan berikut sesuai tujuan penelitian dan rumusan masalah yang ada.
+
+Pertama, algoritma CoDA-EDA berhasil dirancang dengan menggabungkan \textit{Probability Vector} univariat dan struktur dependensi pohon Chow-Liu berorde satu, diserta pemisahan frekuensi pembaruan struktur dari pembaruan parameter.
+Rancangan ini menjawab rumusan masalah pertama dengan hasil dependensi antar atribut dapat dimodelkan tanpa membengkakkan memori, karena jejaknya bersifat O(D) dan tidak menyimpan populasi solusi.
+
+Kedua, dari sisi kualitas kebijakan, CoDA-EDA menghasilkan kebijakan yang kompetitif namun dengan keunggulan terbatas.
+Ia secara signifikan mengungguli keluarga \textit{compact} univariat dengan keunggulan yang menguat seiring dimensi, setara dengan iBOA dan dengan BOA pada anggaran aturan yang memadai, tetapi tertinggal secara moderat dari ACO dan UBK pada penambangan statis berdimensi besar.
+Sebagian besar defisit pada dimensi besar terbukti meupakan artefak anggaran jumlah aturan yang tidak proporsional bagi algoritma beraturan sempit, bukan kelemahan struktural mutlak.
+
+Ketiga dari sisi jejak memori, CoDA-EDA terkonfirmasi mempertahankan memori yang datar terhadap ukuran populasi (rasio 1,00) sementara ketiga algoritma berpopulasi eksplisit (BOA, ACO, dan UBK) tumbuh 6,2 hingga 9,2 kali lipat ketika ukuran populasi virtual dinaikkan enam belas kali lipat.
+Hasil ini konsisten pada kelima dataset yang digunakan.
+Kedataran serupa juga dimiliki iBOA dan keluarga \textit{compact}, sehingga keunggulan memori CoDA-EDA berlaku terhadap ketiga algoritma berpopulasi tersebut.
+
+Keempat, dari sisi efisensi pembaruan, pemisahan frekuensi pembaruan menghemat waktu ketika data relatif stabil dan strategi \textit{warm-start} menyelesaikan re-optimasi 2,0 hingga 2,6 kali lebih cepat dibanding \textit{re-mining} penuh pada dua dataset utama dengan kualitas sekurang-kurangnya setara, bahkan lebih tinggi pada dua dataset utama.
+Inilah posisi operasional dari CoDA-EDA, yakni pada pembaruan kebijakan berkala pada lingkungan dinamis, dan bukan pada penambangan yang sekali jalan.
+
+Kelima, validasi eksternal pada dataset \textit{Smart Building IoT} yang dibangkitkan pihak lain berhasil untuk keempat hipotesis.
+CoDA-EDA dan lima algoritma lain mampu melampaui garis dasar kebijakan sepele pada seluruh \textit{seed}, jejak memorinya berperilaku sesuai H2, dan mekanisme H3-H4 terlihat.
+Bahkan H3 yang tidak dapat ditunjukkan pada \textit{e-document} justru dapat diperlihatkan pada IoT berkat lantai derau divergensi yang lebih rendah.
+Hal tersebut membuktikan keterbatasan H3 bersifat spesifik dataset, bukan cacat mekanisme.
+Temuan dengan demikian bertahan di luar generator yang dikembangkan sendiri.
+
+Dengan demikian, kontribusi utama penelitian ini bukan terletak pada dominasi kualitas penambangan statis, melainkan pada pertukaran rancangan yang koheren dan menguntungkan bagi konteks target.
+CoDA-EDA menukar sebagian \textit{recall} penambangan statis demi jejak memori yang tidak tumbuh dengan ukuran populasi dan pembaruan berkala yang jauh lebih efisien.
+Untuk \textit{gateway edge} bersumber daya terbatas yang menuntut pembaruan kebijakan berulang, pertukaran ini menjadikan CoDA-EDA pilihan yang sesuai.

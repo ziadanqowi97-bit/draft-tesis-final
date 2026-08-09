@@ -1,0 +1,60 @@
+\section{Teknik Analisis Data}
+
+Data hasil pengukuran sembilan metrik pada Tabel \ref{tab:definisi-operasional-metrik} yang dikumpulkan dari 30 replikasi ber-\textit{seed} berbeda per kombinasi algoritma-dataset-skenario dianalisis secara statistik untuk menguji Hipotesis H1-H4 secara objektif.
+Subbab ini merancang teknik analisis data yang akan digunakan pada aktivitas \textit{Evaluation}.
+
+Kinerja algoritma metaheuristik pada replikasi berulang lazimnya tidak berdistribusi normal, mengingat sifat stokastik proses pencarian dan potensi hasil yang terpolarisasi (mis. sebagian replikasi konvergen cepat, sebagian lambat).
+Uji normalitas (Shapiro-Wilk) akan tetap dilakukan pada setiap kumpulan data sebagai langkah pemeriksaan awal, namun penelitian ini menetapkan uji statistik non-parametrik sebagai pendekatan baku, konsisten dengan konvensi umum pada literatur \textit{benchmark} metaheuristik \parencite{omran_permutation_2022} agar tidak bergantung pada asumsi normalitas yang berisiko dilanggar.
+
+Untuk Eksperimen 1 dan 2 yang melibatkan perbandingan ketujuh kondisi algoritma sekaligus, digunakan uji Friedman sebagai uji omnibus non-parametrik untuk mendeteksi ada-tidaknya perbedaan signifikan di antara algoritma pada tiap kombinasi dataset-skenario.
+Apabila uji Friedman menunjukkan perbedaan signifikan (p < alpha), dilanjutkan dengan uji post-hoc berpasangan, yakni uji Wilcoxon signed-rank antara CoDA-EDA dan tiap \textit{baseline} yang relevan, dengan koreksi Holm-Bonferroni untuk mengendalikan inflasi galat Tipe I akibat perbandingan ganda.
+
+Perlu dicatat bahwa banyaknya replikasi bukan sekadar soal ketelitian, melainkan menentukan apakah pengujian dapat dilakukan sama sekali.
+Pada uji Wilcoxon signed-rank dua sisi, nilai p terkecil yang mungkin diperoleh dengan n pasangan adalah $\frac{2}{2^n}$, sehingga dengan lima replikasi nilai p tidak akan pernah turun di bawah 0,0625 dan taraf signifikansi 0,05 mustahil tercapai berapa pun besar perbedaannya.
+Diperlukan sekurang-kurangnya enam pasangan agar taraf tersebut dapat dicapai secara prinsip, dan ketetapan 30 replikasi memberi ruang daya uji yang memadai.
+Replikasi juga harus memisahkan dua sumber keacakan, yakni \textit{seed} pembangkitan dataset dan \textit{seed} algoritma.
+Bila keduanya digerakkan bersama, ragam yang terukur mencampur variabilitas data dengan variabilitas algoritma, padahal yang hendak diuji adalah yang kedua.
+Karena itu replikasi disusun sebagai sejumlah pengulangan algoritma di atas setiap dataset yang tetap.
+
+Untuk Eksperimen 3 dan 4 yang masing-masing membandingkan tepat dua kondisi, yakni CoDA-EDA terhadap iBOA dan strategi \textit{warm-start} terhadap \textit{re-mining} penuh pada CoDA-EDA sendiri, digunakan uji Wilcoxon signed-rank berpasangan secara langsung, tanpa memerlukan uji omnibus terlebih dahulu, mengingat hanya dua kondisi yang dibandingkan.
+
+Tingkat signifikansi ditetapkan pada alpha = 0,05 untuk seluruh uji.
+Mengingat nilai-p semata tidak merepresentasikan besaran praktis suatu perbedaan, hasil uji dilengkapi dengan ukuran efek yang sesuai untuk data non-parametrik, seperti \textit{rank-biserial correlation} untuk uji Wilcoxon \parencite{peres_effect_2026}.
+Seluruh analisis statistik dilaksanakan menggunakan pustaka SciPy pada bahasa Python.
+
+Rancangan uji statistik untuk keempat hipotesis dirngkum pada Tabel \ref{tab:uji-statistik} yang memetakan tiap hipotesis terhadap eksperimen sumber datanya, kondisi yang dibandingkan, prosedur uji, dan ukuran efek pelengkapnya.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}p{2.1cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{1.8cm}|}
+\caption{Rancangan Uji Statistik per Hipotesis}
+\label{tab:uji-statistik} \\
+\hline
+\textbf{Hipotesis} & \textbf{Eksperimen} & \textbf{Kondisi yang dibandingkan} & \textbf{Prosedur uji} & \textbf{Ukuran efek} \\
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Hipotesis} & \textbf{Eksperimen} & \textbf{Kondisi yang dibandingkan} & \textbf{Prosedur uji} & \textbf{Ukuran efek} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+H1 --- Kualitas kebijakan & Eksperimen 1 & Tujuh kondisi algoritma sekaligus, per dataset $\times$ tingkat korelasi & Friedman (omnibus) $\rightarrow$ post-hoc Wilcoxon signed-rank CoDA-EDA vs tiap baseline, koreksi Holm-Bonferroni & Rank-biserial \\
+\hline
+H2 --- Jejak memori & Eksperimen 2 & Tujuh kondisi algoritma sekaligus, per dataset & Friedman (omnibus) $\rightarrow$ post-hoc Wilcoxon signed-rank berkoreksi Holm-Bonferroni & Rank-biserial \\
+\hline
+H3 --- Waktu pembaruan & Eksperimen 3 & Dua kondisi (CoDA-EDA warm vs iBOA; serta warm vs always) & Wilcoxon signed-rank berpasangan langsung (tanpa omnibus) & Rank-biserial \\
+\hline
+H4 --- Warm-start & Eksperimen 4 & Dua kondisi (warm-start vs re-mining penuh) & Wilcoxon signed-rank berpasangan langsung (tanpa omnibus) & Rank-biserial \\
+\hline
+
+\end{longtable}
+Tabel \ref{tab:uji-statistik} menjadi acuan pelaksanaan uji statistik atas hasil \textit{Demonstration}.
+Dengan tersusunnya rancangan analisis ini, seluruh instrumen metodologi telah lengkap.

@@ -1,0 +1,18 @@
+\section{\textit{Internet of Things} dan Keterbatasan Sumber Daya Perangkat \textit{Edge}}
+
+\textit{Internet of Things} (IoT) merujuk pada jaringan objek fisik, mulai dari sensor, aktuator, hingga perangkat pintar yang saling terhubung dan mampu bertukar data melalui internet tanpa memerlukan interaksi manusia secara langsung.
+\textcite{ahsan_comprehensive_2025} mencatat bahwa jumlah perangkat IoT yang saling terhubung diproyeksikan melampaui 60 miliar unit pada tahun 2030 dan mencakup perangkat dengan karakteristik yang sangat heterogen, baik dari sisi kapabilitas komputasi, sumber daya energi, maupun konteks penggunaannya.
+
+Guna mengelola kompleksitas jaringan IoT yang heterogen tersebut, berbagai arsitektur aplikasi telah dikembangkan. \textcite{dauda_survey_2024} mengklasifikasikan arsitektur aplikasi IoT berdasarkan model \textit{deployment}-nya menjadi tiga kategori utama, yakni \textit{cloud, edge}, dan \textit{fog computing}.
+Arsitektur \textit{cloud} memanfaatkan pemrosesan dan penyimpanan data terpusat untuk mendukung aplikasi IoT berskala besar, tetapi kerap menghadapi latensi tinggi dan keterbatasan \textit{bandwidth} akibat jarak komunikasi antara perangkat dan pusat data.
+Arsitektur \textit{edge computing} mengatasi persoalan ini dengan memindahkan komputasi lebih dekat ke sumber data, sehingga meningkatkan pemrosesan \textit{real-time} dan mengurangi kepadatan jaringan, sementara arsitektur \textit{fog} menggabungkan kekuatan kedua pendekatan tersebut untuk lingkungan IoT yang lebih kompleks.
+
+Namun demikian, pemindahan komputasi ke \textit{edge} tidak serta-merta menghilangkan tantangan sumber daya. 
+Ia justru memindahkan tantangan tersebut ke perangkat itu sendiri. 
+\textcite{canavese_security_2024} menegaskan bahwa mayoritas perangkat IoT yang beroperasi di \textit{edge} memiliki keterbatasan memori, daya komputasi, dan energi yang signifikan, sehingga mekanisme apa pun yang dijalankan di atasnya harus dirancang secara ringan agar dapat berjalan langsung pada perangkat tersebut tanpa bergantung sepenuhnya pada komputasi awan.
+
+Kebutuhan akan pendekatan yang ringan dan adaptif ini sudah mulai direspons dalam ranah optimasi metaheuristik untuk \textit{edge computing} secara umum.
+\textcite{khosrowshahi_refined_2025} misalnya, mengusulkan algoritma \textit{Modified Greylag Goose Optimization} (MGGO) yang dirancang khusus untuk alokasi layanan IoT pada \textit{edge computing} dengan mekanisme adaptif tanpa memerlukan pelatihan atau pemodelan eksplisit yang berat.
+Hal tersebut menunjukkan bahwa keterbatasan sumber daya \textit{edge} dapat diatasi melalui desain algoritma yang tepat, bukan hanya melalui penambahan kapasitas perangkat keras.
+
+Ketiga dimensi keterbatasan sumber daya perangkat \textit{edge} tersebut menjadi premis dasar penelitian ini dan melandasi kebutuhan akan algoritma metaheuristik yang secara khusus ringan untuk tugas \textit{policy mining} ABAC.

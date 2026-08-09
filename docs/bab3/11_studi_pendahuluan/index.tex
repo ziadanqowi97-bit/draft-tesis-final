@@ -1,0 +1,129 @@
+\section{Studi Pendahuluan}
+
+Studi pendahuluan diawali dengan analisis karakteristik dataset yang dilakukan sebelum eksperimen apa pun dijalankan.
+Analisis ini memeriksa properti tiap dataset yang menentukan kecocokannya dengan tiap hipotesis, seperti skala dan dimensi ruang solusi D, jumlah \textit{permit} unik sebagai indikator risiko duplikasi, rasio \textit{permit}, serta lantai derau divergensi Jensen-Shannon antar-jendela pada kondisi stasioner sebagai penentu kelayakan mekanisme pemicu-\textit{drift}, sehingga keputusan penggunaan tiap dataset didasarkan pada bukti karakteristik dan bukan asumsi.
+Kelima dataset ABAC Lab beserta dataset validasi eksternal \textit{Smart Building IoT} diprofilkan dengan prosedur yang sama yang hasilnya dirangkum pada Tabel \ref{tab:karakteristik-dataset}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{3cm}|}
+\caption{Karakteristik Dataset dan Kecocokannya dengan Hipotesis (Analisis Pra-Eksperimen)}
+\label{tab:karakteristik-dataset} \\
+\hline
+\textbf{Dataset} & \textbf{Dimensi $D$} & \textbf{Permit unik (risiko duplikasi)} & \textbf{Rasio permit} & \textbf{Lantai derau JSD (H3)} & \textbf{Kecocokan hipotesis} \\
+\hline
+\endfirsthead
+
+\multicolumn{6}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Dataset} & \textbf{Dimensi $D$} & \textbf{Permit unik (risiko duplikasi)} & \textbf{Rasio permit} & \textbf{Lantai derau JSD (H3)} & \textbf{Kecocokan hipotesis} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+workforce & 436 & 14.513 (rendah) & 0{,}30 & 0{,}0066 (layak) & H1 baik; H2/H4 baik \\
+\hline
+e-document & 1.907 & 32.961 (rendah) & 0{,}30 & 0{,}0325 (tak layak) & H1 baik; H3 terbatas (lantai derau $>$ $\tau$); H2/H4 baik \\
+\hline
+healthcare & 46 & 14 (TINGGI) & 0{,}30 & 0{,}0022 (layak) & H1 tumpul (duplikasi); H2/H3/H4 baik \\
+\hline
+project-management & 51 & 17 (TINGGI) & 0{,}30 & 0{,}0010 (layak) & H1 tumpul (duplikasi); H2/H3/H4 baik \\
+\hline
+university & 54 & 90 (TINGGI) & 0{,}30 & 0{,}0026 (layak) & H1 tumpul (duplikasi); H2/H3/H4 baik \\
+\hline
+Smart Building IoT* & 428* & 5.729 (rendah) & 0{,}75 & 0{,}0065 (layak) & berat-permit (sepele F1=0{,}857); H1 vs garis sepele; H2/H3/H4 baik \\
+\hline
+
+\end{longtable}
+
+Tanda (*) menunjukkan dimensi efektif \textit{Smart Building IoT} setelah subsampel terstratifikasi 8.000 baris dan penyatuan nilai ber-\textit{support} rendah (berkas asalh 5,7 juta permintaan, \textit{permit} 4.273.814 dan \textit{deny} 1.429.088).
+Rasio \textit{permit} seragam 0,30 pada dataset ABAC Lab merupakan parameter konstruksi log, sedangkan 0,75 pada \textit{Smart Building IoT} adalah rasio bawaan datanya.
+
+Pembacaan Tabel \ref{tab:karakteristik-dataset} menghasilkan tiga implikasi rancangan yang memandu penggunaan dataset pada eksperimen.
+Pertama, untuk H1, hanya \textit{workforce} dan \textit{e-document} yang memiliki \textit{permit} unik memadai sehingga pembeda antar-algoritma tidak tumpul.
+Kedua, untuk H2, keenam dataset sama-sama layak karena kedataran memori terhadap ukuran populasi merupakan properti algoritma yang tidak bergantung pada karakteristik dataset.
+Ketiga, untuk H3, kelayakan justru terbalik dengan H1 karena \textit{e-document} tidak layak karena lantai derau JSD-nya (0,0325) melampaui ambang $\tau$ = 0,01 sehingga pemicu \textit{drift} menyala di setiap jendela, sedangkan ketiga dataset kecil maupun \textit{Smart Building IoT} berlantai derau rendah (0,0010-0,0065 < $\tau$) sehingga pemicu dapat diam saat data stabil.
+Perlu dicatat bahwa nilai absolut lantai derau ini bukan konstanta melainkan bergantung pada ukuran jendela pengukuran, karena bias sampel-hingga estimator informasi berbanding lurus dengan rasio jumlah sel kontingensi terhadap jumlah sampel per jendela.
+Pada jendela analisis ini (800 entri), lantai derau \textit{e-document} terukur 0,0325, sedangkan pada jendela eksperimen \textit{drift} yang lebih besar (2.000 entri) ia turun ke kisaran 0,013-0,016.
+Keduanya tetap di atas $\tau$ = 0,01, sehingga vonis ketidaklayakan H3 pada \textit{e-document} kokoh terhadap pilihan ukuran jendela.
+Implikasi pentingnya adalah dataset \textit{Smart Building IoT} menjadi sarana untuk menunjukkan mekanisme H3 yang tidak dapat diperlihatkan pada \textit{e-document}, sehingga penggunaan seluruh dataset untuk seluruh hipotesis (bukan hanya dua dataset utama) memperoleh justifikasi empiris jadi setiap dataset menyumbang pada hipotesis yang paling sesuai dengan karakteristiknya.
+
+Analisis ini dijalankan dengan instrumen tersendiri di luar rantai algoritma yang diuji, sehingga tidak memengaruhi anggaran evaluasi maupun kesetaraan algoritma.
+Instrumen ini berfungsi murni sebagai penyaring kecocokan pra-eksperimen.
+Setelah karakteristik dataset dipahami, rantai metodologi diuji melalui studi pendahuluan algoritmik yang dilaporkan pada paragraf-paragraf berikut.
+
+Sebelum eksperimen penuh dilaksanakan, seluruh rantai metodologi telah diuji melalui studi pendahuluan pada perangkat target.
+Studi ini semula dimaksudkan untuk memverifikasi kebenaran implementasi dan mengalibrasi parameter eksekusi, tetapi menghasilkan temuan yang berimplikasi langsung pada temuan hipotesis.
+Subbab ini melaporkan palksanaan dan hasilnya secara lengkap, termasuk hasil yang tidak mendukung rumusan awal, agar dasar revisi hipotesisis dapat ditelusuri dan dinilai secara terbuka.
+
+Studi pendahuluan membandingkan CoDA-EDA terhadap dua \textit{baseline} keluarga \textit{compact} (\textit{compact-GA} dan \textit{compact-PSO}) pada kedua dataset utama, mengikuti seluruh kontrol kesetaran, yakni representasi biner, fungsi \textit{fitness}, operator perbaikan, prosedur pembenihan, dan anggaran evaluasi total yang identik.
+Empat dataset ber-\textit{seed} berbeda dijalankan dengan sepuluh replikasi algoritma pada masing-masingnya dan menghasilkan 40 replikasi per kondisi.
+Anggaran evaluasi diskalakan menurut dimensi soal yakni 12.001 evaluasi untuk \textit{workforce} dan 52.001 untuk \textit{e-document}.
+Pengujian mengikuti protokol yang ada, yaitu uji Friedman sebagai uji omnibus, dilanjutkan uji Wilcoxon signed-rank berpasangan dengan koreksi Holm-Bonferroni bila uji omnibus signifikan, diserta pelaporan \textit{effect size rank biserial}.
+
+\begin{longtable}{|p{2cm}|c|p{1.5cm}|p{1.5cm}|p{1.5cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{3cm}|}
+\caption{Hasil Studi Pendahuluan: Kualitas Kebijakan (F-score) pada Dua Dataset Utama}
+\label{tab:studi-pendahuluan-fscore} \\
+\hline
+\textbf{Dataset} & \textbf{Korelasi} & \textbf{CoDA-EDA} & \textbf{compact-GA} & \textbf{compact-PSO} & \textbf{Friedman} & \textbf{Post-hoc CoDA-EDA vs compact-GA} \\
+\hline
+\endfirsthead
+
+\multicolumn{7}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Dataset} & \textbf{Korelasi} & \textbf{CoDA-EDA} & \textbf{compact-GA} & \textbf{compact-PSO} & \textbf{Friedman} & \textbf{Post-hoc CoDA-EDA vs compact-GA} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{7}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+Workforce ($D=436$) & Rendah & 0{,}8354 & 0{,}8409 & 0{,}8123 & $p = 0{,}025$ & tidak signifikan ($p = 0{,}545$) \\
+\hline
+Workforce ($D=436$) & Sedang & 0{,}8644 & 0{,}8486 & 0{,}8471 & $p = 0{,}592$ & tidak dilanjutkan (omnibus tidak signifikan) \\
+\hline
+Workforce ($D=436$) & Tinggi & 0{,}9017 & 0{,}8852 & 0{,}8769 & $p = 0{,}161$ & tidak dilanjutkan (omnibus tidak signifikan) \\
+\hline
+E-document ($D=1.907$) & Rendah & 0{,}3754 & 0{,}2071 & 0{,}2395 & $p = 8{,}5 \times 10^{-7}$ & signifikan; $p_{\text{adj}} = 1{,}1 \times 10^{-4}$; $r = +0{,}751$ \\
+\hline
+E-document ($D=1.907$) & Sedang & 0{,}3534 & 0{,}2308 & 0{,}2685 & $p = 1{,}9 \times 10^{-4}$ & signifikan; $p_{\text{adj}} = 4{,}9 \times 10^{-4}$; $r = +0{,}685$ \\
+\hline
+E-document ($D=1.907$) & Tinggi & 0{,}4160 & 0{,}2944 & 0{,}3067 & $p = 1{,}8 \times 10^{-3}$ & signifikan; $p_{\text{adj}} = 7{,}9 \times 10^{-4}$; $r = +0{,}663$ \\
+\hline
+
+\end{longtable}
+
+Hasil pada Tabel \ref{tab:studi-pendahuluan-fscore} memperlihatkan dua pola yang bertentangan dengan rumusan awal.
+Pertama, pada \textit{workforce} keunggulan CoDA-EDA atas \textit{compact-GA} hanya sebesar +0,016 pada korelasi sedang maupun tinggi dan tidak mencapai taraf signifikansi (p = 0,197 dan p = 0,111 pada uji langsung).
+Uji tren pertumbuhan keunggulan seiring naiknya korelasi juga tidak signifikan (p = 0,073).
+Kedua, pada \textit{e-document} keunggulan CoDA-EDA justru sangat besar dan signifikan di seluruh tingkat korelasi dengan selisih \textit{F-score} +0,12 hingga +0,17 dan \textit{effect size} besar (r = 0,66-0,75), namun keunggulan tersebut tidak tumbuh seiring korelasi dan selisih terbesar justru teramati pada korelasi rendah (p = 0,506 untuk uji tren).
+Dengan demikian rumusan awal H1 yang memprediksi keunggulan muncul khusus pada korelasi tinggi dan mendekati \textit{baseline} pada korelasi rendah tidak didukung data pada kedua dataset.
+
+Faktor yang secara konsisten membedakan kedua dataset adalah dimensi ruang solusi.
+Pada \textit{workforce} (D = 436), \textit{compact-GA} yang murni univariat sudah mencapai \textit{F-score} 0,885 pada korelasi tinggi sehingga ruang perbaikan yang tersisa sangat tipis.
+Pada \textit{e-document} (D = 1.907), kualitas \textit{compact-GA} turun ke 0,294 sementara CoDA-EDA bertahan pada 0,416.
+Penjelasan mekanistiknya sejalan dengan teori EDA, yakni ketika ruang pencarian membesar, \textit{sampling} yang diarahkan struktur dependensi menjadi jauh lebih efektif dibanding \textit{sampling} univariat yang harus menjelajahi ruang berdimensi tinggi tanpa panduan keterkaitan antar-variabel.
+Atas dasar inilah H1 dirumuskan ulang dengan dimensi ruang solusi sebagai faktor penentu dan dimensi D ditambahkan sebagai variabel bebas.
+
+Studi pendahuluan juga mengonfirmasi dua hal yang memperkuat rancangan.
+Pertama, kemampuan memanen korelasi memang berbeda antar algoritma.
+Kenaikan \textit{F-score} dari korelasi rendah ke tinggi pada \textit{workforce} mencapai $+0{,}066$ bagi CoDA-EDA ($p = 1{,}6 \times 10^{-6}$; $r = +0{,}873$) dibanding $+0{,}044$ bagi \textit{compact-GA} ($p = 1{,}0 \times 10^{-3}$; $r = +0{,}598$), sehingga premis mekanistik mengenai manfaat pemodelan dependensi tetap terdukung meskipun bentuk H1 semula tidak.
+Kedua, CoDA-EDA secara konsisten menghasilkan kebijakan yang lebih ringkas.
+WSC rata-rata 23,8 berbanding 28,9 (\textit{compact-GA}) dan 38,2 (\textit{compact-PSO}) pada \textit{workforce}.
+Keringkasan ini merupakan dimensi kualitas kebijakan yang sah dan relevan bagi administrator, namun belum tercakup pada rumusan hipotesis awal.
+
+Rangkaian tahap studi pendahuluan berikutnya (perluasan ke tujuh algoritma, pengukuran jejak memori, simulasi siklus pembaruan lintas jendela, pengujian pada \textit{e-document}, eksplorasi perbaikan cakupan, dan validasi eksternal) berimplikasi langsung pada perumusan hipotesis.
+Ringkasnya H1 mengalami tiga kali revisi (dari bergantung tingkat korelasi, ke bergantung dimensi ruang solusi, hingga klaim terbatas terhadap keluarga \textit{compact} univariat pada anggaran aturan memadai); H3 diberi syarat tingkat \textit{drift}; dan H4 diperlonggar menjadi sekurang-kurangnya setara.
+
+Tahap-tahap tersebut sekaligus menghasilkan kalibrasi rancangan dan pengukuran yang menjadi ketetapan bagi eksperimen.
+Penetapan ambang deteksi \textit{drift} $\tau$ = 0,01 dari pemisahan sinyal divergensi Jensen-Shannon terhadap lantai derau yang membesar seiring jumlah sel kontingensi; kalibrasi bobot fungsi \textit{fitness} w\_fp melalui uji monotonitas; serta optimasi implementasi perhitungan \textit{mutual information} ke representasi terkemas-bit yang menurunkan puncak alokasi CoDA-EDA dari 2.195 KB menjadi 450 KB tanpa mengubah pohon dependensi yang dihasilkan maupun waktu komputasinya.

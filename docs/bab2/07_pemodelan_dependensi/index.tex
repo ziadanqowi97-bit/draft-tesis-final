@@ -1,0 +1,35 @@
+\section{Pemodelan Dependensi}
+
+Kesenjangan yang teridentifikasi menuntut adanya mekanisme pemodelan dependensi yang tetap hemat memori.
+\textit{Bayesian Optimization Algorithm} (BOA) adalah EDA yang mampu mempelajari jaringan Bayes tanpa batasan derajat dependensi \parencite{pelikan_iboa_2008}.
+Struktur jaringan berupa graf asiklik berarah yang dipelajari secara \textit{greedy}, dimulai dari graf kosong, dengan menambahkan satu \textit{edge} pada setiap langkah yang paling meningkatkan skor \textit{Bayesian Information Criterion} (BIC) hingga tidak ada lagi penambahan yang meningkatkan skor.
+Parameter jaringan diestimasi melalui estimasi kemungkinan maksimum dari populasi solusi terpilih.
+\textcite{soloviev_edaspy_2024} mencatat bahwa BOA tetap menjadi salah satu modul EDA multivariat yang aktif diimplementasikan hingga saat ini, dengan varian jaringan Bayes diskret, Gaussian, semiparametrik, maupun berbasis \textins{kernel density}.
+
+Solusi baru pada BOA disampling dari jaringan Bayes yang telah dipelajari melalui \textit{logic sampling} dua tahap \parencite{pelikan_iboa_2008}.
+Pertama, menentukan urutan ansestral sedemikian rupa sehingga setiap variabel didahului oleh seluruh variabel induknya.
+Kedua, membangkitkan nilai tiap variabel secara berurutan mengikuti urutan tersebut, berdasarkan probabilitas bersyarat terhadap nilai induknya yang telah dibangkitkan lebih dulu.
+Dengan mekanisme ini, BOA mampu merepresentasikan dependensi multivariat kompleks antar-variabel keputusan, namun dengan konsekuensi biaya komputasi dan memori yang meningkat seiring kompleksitas struktur jaringan yang dipelajari.
+
+Di antara kutub independensi penuh (univariat) dan dependensi tak terbatas (BOA), terdapat pendekatan dependensi berpasangan (bivariat) yang berlandaskan metode \textcite{chow_approximating_1968}.
+Metode ini adalah metode \textit{dependency tree} yang mengaproksimasi distribusi probabilitas gabungan n-dimensi secara optimal melalui produk distribusi berpasangan yang membentuk struktur pohon.
+\textcite{chow_approximating_1968} membuktikan bahwa dengan menghitung \textit{mutual information} antar setiap pasangan variabel, lalu mencari pohon rentang maksimum atas nilai \textit{mutual information} tersebut, diperoleh aproksimasi pohon dengan divergensi Kullback-Leibler minimum terhadap distribusi sebenarnya.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{gambar_dependensi.png}
+    \caption{Spektrum Pemodelan Dependensi pada EDA dan Posisi CoDA-EDA}
+    \label{fig:spektrum-dependensi}
+\end{figure}
+
+Gambar \ref{fig:spektrum-dependensi} memperlihatkan bahwa kemampuan menangkap dependensi antar-variabel dan biaya memori/komputasi meningkat secara bersamaan dari kiri ke kanan.
+CoDA-EDA sengaja ditempatkan pada titik tengah spektrum yang menangkap korelasi antar-atribut terpenting namun dengan biaya yang mendekati pendekatan univariat.
+
+Sebagaimana EDA kanonik dan algoritma \textit{population-based} lain, BOA standar tetap menyimpan populasi penuh pada setiap generasi untuk mempelajari struktur maupun parameter jaringan Bayes-nya.
+\textcite{pelikan_iboa_2008} mengusulkan \textit{incremental BOA} (iBOA) untuk menjawab keterbatasan ini.
+Alih-alih menyimpan populasi eksplisit, iBOA memperbarui struktur dan parameter jaringan Bayes secara inkremental menggunakan skema turnamen pemenang/pecundang yang sama dengan \textit{compact-GA}.
+iBOA menunjukkan bahwa pemodelan dependensi multivariat dan pembaruan model tanpa populasi eksplisit bukanlah dua tujuan yang saling eksklusif.
+
+Namun demikian, \textcite{pelikan_iboa_2008} sendiri mengakui tantangan skalabilitas iBOA yaitu mempertahankan seluruh kemungkinan tabel probabilitas marginal untuk struktur dependensi yang belum diketahui sebelumnya berpotensi membutuhkan hingga $O(n^k)$ tabel untuk \textit{k} orde dependensi tertinggi yang diizinkan.
+Sehingga tanpa pembatasan tambahan, iBOA berisiko kehilangan sebagian keunggulan memori yang menjadi ciri khas pendekatan \textit{compact}.
+Celah inilah yang menjadi ruang rancangan CoDA-EDA dengan menggabungkan mekanisme pembaruan inkremental tanpa populasi eksplisit ala \textit{compact-GA/iBOA} dengan struktur dependensi yang dibatasi secara eksplisit dan murah secara komputasi.

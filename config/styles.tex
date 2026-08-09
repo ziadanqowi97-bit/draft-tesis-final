@@ -1,0 +1,78 @@
+% ==================================================
+% Heading Styles and Numbering
+% ==================================================
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+
+% Nomor persamaan
+\renewcommand{\theequation}{\Roman{chapter}.\arabic{equation}}
+
+\numberwithin{equation}{chapter}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\titleformat{\chapter}[block]
+  {\thesisheadingfont}
+  {\filcenter BAB \thechapter\quad}
+  {0pt}
+  {\filcenter}
+
+\titleformat{\section}[block]
+  {\thesisheadingfont}
+  {\thesection\quad}
+  {0pt}
+  {\raggedright\aftergroup\justifying}
+
+% ==================================================
+% Front Matter Labels
+% ==================================================
+\renewcommand{\contentsname}{DAFTAR ISI}
+\renewcommand{\listtablename}{DAFTAR TABEL}
+\renewcommand{\listfigurename}{DAFTAR GAMBAR DAN ILUSTRASI}
+
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftsecfont}{}
+
+% Jarak nomor section dengan judul pada daftar isi
+\cftsetindents{section}{0em}{3em}
+\cftsetindents{subsection}{3em}{4em}
+
+% Jarak nomor tabel dengan judul pada Daftar Tabel
+\cftsetindents{table}{0em}{3em}
+
+% Jarak nomor gambar dengan judul pada Daftar Gambar
+\cftsetindents{figure}{0em}{3em}
+
+% ==================================================
+% Caption Styles
+% ==================================================
+\renewcommand{\tablename}{Tabel}
+\renewcommand{\figurename}{Gambar}
+
+\captionsetup[table]{
+  name=Tabel,
+  labelsep=space,
+  justification=centering,
+  singlelinecheck=true
+}
+
+\captionsetup[figure]{
+  name=Gambar,
+  labelsep=space,
+  justification=centering,
+  singlelinecheck=true
+}
+
+% ==================================================
+% Bibliography Heading
+% ==================================================
+\defbibheading{dapusstyle}{%
+  \newpage
+  \vspace*{0pt}
+  \begin{center}
+    \thesisheadingfont DAFTAR PUSTAKA
+  \end{center}
+  \addcontentsline{toc}{chapter}{DAFTAR PUSTAKA}
+  \vspace{10pt}
+}

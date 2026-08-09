@@ -1,0 +1,218 @@
+% ==================================================
+% Packages
+% ==================================================
+% Core text and page setup
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[parfill]{parskip}
+
+% Graphics and tables
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{rotating}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{ltablex}
+\keepXColumns
+\usepackage{xltabular}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Definisi custom column
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% =========================
+% Spacing gambar
+% =========================
+\setlength{\textfloatsep}{1em}
+\setlength{\abovecaptionskip}{0.5em}
+\setlength{\belowcaptionskip}{0.5em}
+
+% Math
+\usepackage{amsmath, amssymb}
+
+%algorithm
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Structure and formatting
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\usepackage{tocloft}
+
+% Links and bibliography
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+\Urlmuskip=0mu plus 2mu
+
+\usepackage[indonesian]{babel}
+\usepackage{csquotes}
+
+\usepackage[
+    backend=biber,
+    style=authoryear,
+    sorting=nyt,
+    language=indonesian,
+    maxcitenames=2,
+    maxbibnames=99,
+    giveninits=true,
+    uniquename=false,
+    doi=false,
+    url=false,
+    isbn=false,
+    eprint=false
+]{biblatex}
+
+\DeclareDelimFormat{nameyeardelim}{\addcomma\space}
+
+% Hilangkan bulan/tanggal akses
+\AtEveryBibitem{%
+  \clearfield{month}
+  \clearfield{day}
+  \clearfield{urldate}
+  \clearfield{langid}
+  \clearlist{language}
+}
+
+% Nama penulis
+\DeclareNameAlias{author}{family-given}
+
+% Pemisah penulis
+\DeclareDelimFormat{nameyeardelim}{\addcomma\space}
+\DeclareDelimFormat{finalnamedelim}{\addspace dan\space}
+
+% Antar banyak sitasi:
+% 2 sitasi  -> A dan B
+% 3+ sitasi -> A, B dan C
+\renewcommand*{\multicitedelim}{%
+  \ifnum\value{citecount}=\value{citetotal}
+    \addspace dan\space
+  \else
+    \addcomma\space
+  \fi
+}
+
+% Sitasi > 2 penulis menjadi dkk.
+\ExecuteBibliographyOptions{
+  maxcitenames=2,
+  mincitenames=1,
+  uniquelist=false,
+  uniquename=false
+}
+
+% Tahun pakai kurung
+\renewbibmacro*{date+extradate}{%
+  \printtext[parens]{%
+    \printfield{year}%
+    \printfield{extradate}}}
+
+% Judul artikel tanpa kutip
+\DeclareFieldFormat[article]{title}{#1}
+
+% Format artikel jurnal: Penulis (Tahun) : Judul, Jurnal, Volume, Halaman.
+\DeclareBibliographyDriver{article}{%
+  \printnames{author}%
+  \space
+  \printtext[parens]{\printfield{year}\printfield{extradate}}%
+  \space:\space
+  \printfield{title}%
+  \addcomma\space
+  \printfield{journaltitle}%
+  \addcomma\space
+  \printfield{volume}%
+  \addcomma\space
+  \printfield{pages}%
+  \addperiod
+  \finentry
+}
+
+% Nama jurnal italic
+\DeclareFieldFormat[article]{journaltitle}{\mkbibemph{#1}}
+
+% Volume bold
+\DeclareFieldFormat[article]{volume}{\textbf{#1}}
+
+% Nomor halaman
+\DeclareFieldFormat{pages}{#1}
+
+% Hilangkan "In:"
+\renewbibmacro{in:}{}
+
+% Style dari website
+\DeclareFieldFormat{rawurl}{\href{#1}{\nolinkurl{#1}}}
+
+\DeclareBibliographyDriver{online}{%
+  \printfield{title}%
+  \addcomma\space
+  diperoleh melalui situs internet:\space
+  \printfield[rawurl]{url}%
+  \addperiod\space
+  Diunduh pada tanggal\space
+  \printurldate
+  \finentry
+}
+
+\DeclareFieldFormat{urldate}{%
+  \thefield{urlday}~%
+  \ifcase\thefield{urlmonth}\or Januari\or Februari\or Maret\or April\or Mei\or Juni\or Juli\or Agustus\or September\or Oktober\or November\or Desember\fi
+  \space\thefield{urlyear}%
+}
+
+% Bahasa Indonesia
+\DefineBibliographyStrings{indonesian}{
+  andothers = {dkk\adddot},
+  and = {dan},
+  references = {Daftar Pustaka},
+  page = {hlm\adddot},
+  pages = {hlm\adddot}
+}
+
+\setlength{\bibhang}{1.5em}
+
+\addbibresource{references/reference.bib}
+
+% untuk conference prosiding
+
+\DeclareBibliographyDriver{inproceedings}{%
+  \printnames{author}%
+  \space
+  \printtext[parens]{\printfield{year}}%
+  \space:\space
+  \printfield{title}%
+  \addcomma\space
+  \printfield{booktitle}%
+  \addcomma\space
+  \printfield{pages}%
+  \addperiod
+  \finentry
+}
+
+\DeclareFieldFormat[inproceedings]{title}{#1}
+\DeclareFieldFormat[inproceedings]{booktitle}{\mkbibemph{#1}}
+\DeclareFieldFormat{pages}{#1}
+
+% Caption rata kiri
+\captionsetup{
+    justification=raggedright,
+    singlelinecheck=false
+}

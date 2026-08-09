@@ -1,0 +1,19 @@
+\section{Saran}
+
+Saran disusun dalam dua kelompok, yakni saran penerapan praktis dan saran pengembangan lanjutan.
+
+Untuk penerapan praktis, CoDA-EDA disarankan dipilih ketika prioritas utama adalah kehematan memori yang dapat diprediksi dan efisiensi pembaruan kebijakan berkala pada perangkat terbatas, misalnya \textit{gateway} kontrol akses di tepi jaringan yang menyegarkan kebijakan secara berkala tanpa mengirim log ke \textit{server}.
+Bila prioritasnya adalah kualitas penambangan sekali jalan pada dataset statis berdimensi besar, algoritma berpopulasi seperti ACO dan UBK lebih sesuai.
+Jumlah aturan pada \textit{separate-and-conquer} sebaiknya diperlakukan sebagai parameter yang disetel menurut kebutuhan.
+Anggaran aturan yang lebih besar menaikkan cakupan dengan biaya waktu dan kompleksitas kebijakan yang lebih tinggi.
+
+Untuk pengembangan lanjutan, pertama, ambang deteksi \textit{drift} $(\tau)$ perlu dibuat adaptif terhadap jumlah sel kontingensi agar mekanisme H3 dapat bekerja pada dataset berdimensi besar tempat lantai derau divergensi informasi meninggi.
+Ini akan mengatasi keterbatasan H3 pada \textit{e-document}.
+
+Kedua, kelemahan cakupan pada dimensi besar dapat ditangani lebih mendasar melalui perancangan fungsi \textit{fitness} atau mekanisme pencarian yang sadar cakupan, sehingga cakupan tidak bergantung pada anggaran jumlah aturan.
+Ini berpotensi menutup jarak terhadap algoritma berpopulasi tanpa mengorbankan kehematan memori dan dapat menjadi kontribusi lanjutan tersendiri.
+
+Ketiga, perluasan model dependensi ke orde lebih tinggi secara selektif dan hemat memori layak dieksplorasi untuk menguji apakah keuntungan struktur dapat ditingkatkan tanpa kembali ke biaya penuh BOA.
+
+Keempat, validasi eksternal perlu diperluan ke lebih banyak dataset dari pihak lain dan, bila memungkinkan, ke data operasional nyata dari perangkat IoT guna memperkuat klaim generalisasi di luar dataset sintetis.
+Pengujian pada ragam perangkat \textit{edge} yang lebih luas serta integrasi CoDA-EDA ke dalam \textit{pipeline} pengelolaan kebijakan yang berjalan juga disarankan untuk menilai kelayakan penerapannya secara menyeluruh.

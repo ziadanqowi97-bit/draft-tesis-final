@@ -1,0 +1,39 @@
+\section{Kontrol Akses dan \textit{Attribute-Based Access Control} (ABAC)}
+
+Kontrol akses adalah mekanisme keamanan yang menentukan entitas mana yang berhak melakukan operasi tertentu terhadap suatu sumber daya dan dalam kondisi apa.
+Model kontrol akses klasik yang paling banyak diterapkan mencakup \textit{Discretionary Access Control} (DAC), \textit{Mandatory Access Control} (MAC), dan \textit{Role-Based Access Control} (RBAC). 
+Pada DAC, pemilik sumber daya atau \textit{data owner} memiliki kendali penuh untuk memberikan atau mencabut hak akses kepada pengguna lain, biasanya melalui \textit{Access Control List} (ACL) yang harus diperbarui secara manual oleh administrator setiap kali terjadi perubahan \parencite{ragothaman_access_2023}.
+Karena sifatnya yang statis ini, DAC dinilai tidak sesuai untuk lingkungan yang dinamis seperti IoT \parencite{ragothaman_access_2023,ahsan_comprehensive_2025}.
+
+Berbeda dari DAC, \textit{Mandatory Access Control} (MAC) menempatkan keputusan akses pada kebijakan terpusat yang ditetapkan oleh sistem melalui label keamanan, misalnya tingkat klasifikasi pada objek dan tingkat kewenangan \textit{clearance} pada subjek, alih-alih pada kebijaksanaan pemilik sumber daya.
+Model ini memberikan kontrol yang ketat dan konsisten sehingga banyak dipakai pada lingkungan militer dan sistem \textit{multi-level security}.
+Namun, sifatnya yang kaku dan ketergantungannya pada pengelolaan label secara terpusat membuatnya sulit menyesuaikan diri dengan lingkungan yang heterogen, berskala besar, dan konteksnya terus berubah seperti IoT, karena setiap penambahan atau perubahan label harus dikelola oleh otoritas pusat \parencite{ragothaman_access_2023}.
+
+\textit{Role-Based Access Control} (RBAC) berupaya mengatasi keterbatasan kedua model tersebut dengan mengaitkan hak akses pada peran atau \textit{role} yang disandang pengguna, alih-alih pada identitas individu sebagaimana DAC maupun label keamanan yang kaku sebagaimana MAC.
+Namun, pendekatan berbasis peran ini kembali menemui hambatan pada lingkungan IoT yang sangat heterogen dan berskala besar, yakni jumlah kombinasi peran yang dibutuhkan untuk merepresentasikan seluruh konteks akses yang mungkin dapat membengkak tak terkendali atau disebut \textit{role explosion}.
+Sementara peran itu sendiri tidak cukup fleksibel untuk merepresentasikan kondisi kontekstual seperti waktu akses, lokasi, atau status perangkat \parencite{ahsan_comprehensive_2025}.
+
+Sebagai respons atas keterbatasan tersebut, \textit{Attribute-Based Access Control} (ABAC) dikembangkan sebagai model kontrol akses alternatif.
+Menurut definisi resmi \textit{National Institute of Standards and Technology} (NIST) dalam \textit{Special Publication} 800-162, ABAC adalah metodologi kontrol akses logis di mana otorisasi untuk melakukan sekumpulan operasi ditentukan dengan mengevaluasi atribut-atribut yang terkait dengan subjek, objek, operasi yang diminta, dan kondisi lingkungan, terhadap kebijakan, aturan, atau relasi yang menjelaskan operasi yang diizinkan untuk kombinasi atribut tertentu \parencite{hu_guide_2014}.
+NIST juga menegaskan bahwa ABAC pada dasarnya mampu mengakomodasi baik konsep DAC maupun MAC sekaligus, sembari menyediakan jumlah kombinasi input keputusan akses yang jauh lebih besar dibandingkan model berbasis peran.
+
+Secara operasional, \textcite{diaz-rodriguez_abac_2025} menjabarkan tiga komponen utama ABAC. 
+Yang pertama adalah atribut (\textit{attribute}), yaitu karakteristik yang melekat pada suatu entitas, baik subjek (pemohon akses), objek (sumber daya yang diakses), maupun lingkungan (\textit{environment}).
+Yang kedua adalah aturan (\textit{rule}) ABAC, yang menentukan apakah suatu objek dapat mengakses suatu sumber daya dalam kondisi lingkungan tertentu.
+Dan yang terakhir adalah kebijakan (\textit{policy}) ABAC, yaitu himpunan aturan otorisasi yang didefinisikan atas ketiga jenis atribut tersebut.
+Ketika permintaan akses diterima, mesin ABAC mengevaluasi atribut subjek, atribut objek, dan kondisi lingkungan terhadap kebijakan yang berlaku untuk memutuskan apakah akses diizinkan atau ditolak.
+Alur pengambilan keputusan akses berdasarkan ketiga komponen tersebut diilustrasikan pada Gambar \ref{fig:arsitektur-abac}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{gambar_abac.png}
+    \caption{Arsitektur Keputusan Akses ABAC}
+    \label{fig:arsitektur-abac}
+\end{figure}
+
+Gambar \ref{fig:arsitektur-abac} memperlihatkan bahwa keputusan akses pada ABAC tidak ditentukan oleh identitas subjek secara langsung, melainkan oleh hasil evaluasi kombinasi atribut subjek, objek, dan lingkungan terhadap himpunan aturan pada kebijakan ABAC.
+Struktur inilah yang memberi ABAC fleksibilitas untuk merepresentasikan konteks akses yang kompleks, sekaligus menegaskan bahwa kualitas keputusan akses sangat bergantung pada kualitas himpunan aturan yang menyusun kebijakan tersebut.
+
+Karakteristik ABAC ini menjadikannya sangat sesuai untuk ekosistem IoT yang heterogen dan dinamis.
+Keputusan akses dapat dapat mempertimbangkan atribut perangkat (mis. jenis, lokasi, status baterai), atribut pengguna, dan kondisi lingkungan (mis. waktu, tingkat ancaman) tanpa perlu mendefinisikan peran secara eksplisit untuk setiap kombinasi konteks yang mungkin \parencite{ahsan_comprehensive_2025,ragothaman_access_2023}.
+Meskipun fleksibel, penerapan ABAC menghadapi tantangan operasionalnya sendiri, yaitu proses spesifikasi kebijakan yang kompleks dan mahal apabila dilakukan secara manual \parencite{diaz-rodriguez_abac_2025}.

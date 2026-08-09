@@ -1,0 +1,14 @@
+\section{Rumusan Masalah}
+
+Berdasarkan uraian latar belakang tersebut, kesenjangan utama yang teridentifikasi adalah belum adanya algoritma metaheuristik untuk \textit{policy mining} ABAC yang sekaligus ringan, sadar terhadap korelasi antar-atribut, dan mampu diperbarui secara inkremental pada perangkat \textit{edge}-IoT.
+Algoritma \textit{compact} yang ada, seperti \textit{compact-GA} dan \textit{compact-PSO}, mengasumsikan independensi penuh antar-atribut, sedangkan algoritma yang mampu menangkap dependensi (BOA atau iBOA) memiliki kebutuhan memori tidak terbatas sehingga tidak sesuai untuk perangkat berdaya rendah.
+Berdasarkan kesenjangan tersebut, rumusan masalah dalam penelitian ini disusun sebagai berikut:
+\begin{enumerate}
+    \item Bagaimana merancang representasi model probabilistik dan mekanisme pembelajaran struktur dependensi atribut yang tetap ringan namun mampu menangkap korelasi antar-atribut ABAC?
+    \item Sejauh mana kualitas kebijakan ABAC, dari segi kompleksitas struktural, akurasi keputusan akses, dan cakupan aturan, yang dihasilkan oleh algoritma yang diusulkan dapat menyamai atau melampaui algoritma metaheuristik \textit{population-based} yang ada (ACO dan UBK) serta algoritma \textit{compact} murni, pada dataset ABAC dengan tingkat korelasi antar-atribut yang bervariasi, termasuk skenario bernuansa IoT?
+    \item Bagaimana strategi pembaruan struktur dependensi secara inkremental, yang hanya dipicu ketika terjadi perubahan signifikan pada log akses alih-alih dihitung ulang pada setiap iterasi, dapat mengurangi biaya komputasi dibandingkan pendekatan pembaruan struktur konvensional (BOA atau iBOA) tanpa mengorbankan kualitas kebijakan secara signifikan?
+    \item Berapa besar jejak memori dan waktu komputasi yang dibutuhkan algoritma yang diusulkan ketika dijalankan pada perangkat \textit{edge}-IoT berdaya rendah, dan bagaimana perbandingannya dengan algoritma metaheuristik ABAC \textit{population-based} yang ada saat ini?
+\end{enumerate}
+Perlu ditegaskan bahwa dataset ABAC dengan tingkat korelasi antar-atribut yang bervariasi dan berdomain IoT belum tersedia sebagai sumber daya siap pakai.
+Penelusuran terhadap ABAC Lab \parencite{bui_abac_2025} menunjukkan bahwa seluruh dataset yang tersedia berdomain organisasi/\textit{enterprise}, dan \textit{generator log} sintetisnya belum mendukung kontrol eksplisit terhadap tingkat korelasi atribut.
+Oleh karena itu, dataset yang dibutuhkan akan dikonstruksi sebagai bagian dari metodologi penelitian ini dengan memperluas \textit{generator log} sintetis \textit{open-source} milik ABAC Lab untuk menyuntikkan korelasi atribut terkontrol pada datset \textit{ground truth} yang berskala memadai dan bukan diasumsikan sebagai sumber daya yang sudah tersedia.

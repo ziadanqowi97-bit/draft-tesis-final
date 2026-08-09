@@ -1,0 +1,62 @@
+\section{Efisiensi Pembaruan Kebijakan}
+
+Dua hipotesis diuji bersama pada subbab ini karena menyangkut siklus pembaruan yang sama.
+H3 menyatakan pemisahan frekuensi pembaruan (struktur hanya dipelajari ulang saat \textit{drift} terdeteksi sedangkan parameter tiap siklus) mengurangi waktu tanpa penurunan kualitas signifikan dan bersyarat pada tingkat \textit{drift}.
+H4 menyatakan strategi \textit{warm-start} mencapai kualitas sekurang-kurangnya setara \textit{re-mining} penuh dalam waktu jauh lebih singkat.
+Pengujian menyimulasikan siklus pembaruan dengan membagi log menjadi lima jendela.
+Struktur Chow-Liu hanya dipelajari ulang bila divergensi Jensen-Shannon melampaui $\tau = 0,01$.
+Empat kondisi dibandingkan: \textit{warm} (struktur dipicu \textit{drift}), \textit{always} (struktur tiap jendela), \textit{cold} (\textins{re-mining} penuh), dan iBOA \textit{cold}.
+Hasil ringkas pada Tabel \ref{tab:hasil-h3h4}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
+\caption{Hasil Pengujian H3 dan H4 pada Lima Dataset (rerata; warm/always/cold)}
+\label{tab:hasil-h3h4} \\
+\hline
+\textbf{Dataset / skenario} & \textbf{Pemicu relearn} & \textbf{warm (s)} & \textbf{always (s)} & \textbf{cold (s)} & \textbf{Vonis} \\
+\hline
+\endfirsthead
+
+\multicolumn{6}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Dataset / skenario} & \textbf{Pemicu relearn} & \textbf{warm (s)} & \textbf{always (s)} & \textbf{cold (s)} & \textbf{Vonis} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+workforce / stasioner & 0 dari 4 & 3{,}46 & 4{,}58 & 9{,}05 & H3 TERDUKUNG ($p=6\times10^{-5}$); H4 $2{,}6\times$, F1 $+0{,}095$ \\
+\hline
+workforce / drift sedang & 4 dari 4 & 4{,}52 & 4{,}53 & 8{,}95 & H3 tak berlaku (struktur memang perlu); H4 $2{,}0\times$, F1 $+0{,}061$ \\
+\hline
+e-document / stasioner & 4 dari 4 & 22{,}3 & 22{,}3 & 28{,}2 & H3 tak dapat ditunjukkan (lantai derau $>$ $\tau$); H4 $1{,}27\times$, F1 $+0{,}102$ \\
+\hline
+project-management / stasioner & 0 dari 4 & 0{,}17 & 0{,}21 & 4{,}45 & H4 $25{,}9\times$, F1 $-0{,}020$ (kecil, jenuh) \\
+\hline
+university / stasioner & 0 dari 4 & 0{,}08 & 0{,}11 & 3{,}76 & H4 $49\times$, F1 $+0{,}007$ \\
+\hline
+
+\end{longtable}
+
+Vonis H3 terdukung secara bersyarat.
+Pada \textit{workforce} stasioner, pemicu \textit{drift} tidak menyala sama sekali sepanjang empat siklus sementara kondisi \textit{always} menyegarkan struktur tiap siklus.
+Akibatnya \textit{warm-start} lebih cepat (3,46 vs 4,58 detik) pada seluruh replikasi $(p = 6,1 \times 10^{-5})$ tanpa penurunan kualitas.
+Pada \textit{workforce drift} rendah/sedang, pemicu menyala tiap jendela sehingga \textit{warm} menjadi identik dengan \textit{always}, yang mana ini adalah perilaku yang memang dikehendaki dan bukan merupakan kegagalan.
+Pada \textit{e-document}, H3 tetap tidak dapat ditunjukkan karena lantai derau divergensi melampaui $\tau$ sehingga pemicu selalu menyala.
+Klaim H3 karenanya bersyarat pada tingkat \textit{drift} dan lantai derau dataset.
+
+Vonis H4 terdukung penuh dan pada banyak skenario melampaui rumusannya.
+\textit{Warm-start} menyelesaikan re-optimasi lebih cepat dari \textit{re-mining} penuh pada seluruh dataset: $2,0-2,6\times$ pada \textit{workforce}, $1,27\times$ pada \textit{e-document}, dan $21-52\times$ pada tiga dataset kecil, unggul pada seluruh replikasi.
+Rumusan awal hanya memprediksi kualitas setara, namun pada dua dataset utama kualitas \textit{warm-start} justru lebih tinggi (F1 +0,06 hingga +0,17), karena \textit{warm-start} hanya menambal \textit{permit} yang belum tercakup alih-alih membangun ulang seluruh kebijakan.
+Pada tiga dataset kecil, selisih kualitas \textit{warm-vs-cold} kecil dan bertanda campur (-0,057 hingga +0,031) akibat kejenuhan duplikasi sehingga vonis kualitas H4 bertumpu pada dua dataset utama.
+
+Kedua hipotesis menjawab kebutuhan operasional yang memotivasi penelitian, yakni \textit{gateway edge} yang menyegarkan kebijakan berkala.
+Selisih satu siklus dari 9 ke 3,5 detik (\textit{workforce}) atau dari 28 ke 22 detik (\textit{e-document}) menentukan anggaran daya dan lamanya jendela pemeliharaan.
+H4 juga menuntaskan posisi kontekstual CoDA-EDA terhadap iBOA.
+Pada penambangan statis iBOA setara/sedikit unggul, tetapi pada pembaruan berkala \textit{warm-start} CoDA-EDA lebih cepat sekaligus berkualitas lebih tinggi.
+Bersama H2, temuan ini menegaskan keunggulan pembeda CoDA-EDA terletak pada efisiensi sumber daya dan pembaruan, bukan pada kualitas penambangan sekali jalan.

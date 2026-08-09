@@ -1,0 +1,26 @@
+\section{\textit{Estimation of Distribution Algorithm}}
+
+\textit{Estimation of Distribution Algorithm} (EDA) merupakan kelas algoritma evolusioner yang berbeda secara mendasar dari algoritma genetika maupun algoritma kecerdasan kawanan seperti ACO dan UBK.
+Alih-alih menggunakan operator pindah silang (\textit{crossover}) dan mutasi untuk menghasilkan generasi baru, EDA, atau juga dikenal sebagai \textit{probabilistic model-building genetic algorithm} (PMBGA), membangun model probabilistik eksplisit dari individu-individu terbaik pada setiap generasi, kemudian men-\textit{sampling} model tersebut untuk menghasilkan populasi generasi berikutnya \parencite{larranaga_estimation_2024,lemtenneche_estimation_2023}.
+Dengan demikian, proses eksplorasi ruang solusi dipandu langsung oleh distribusi probabilitas yang dipelajari dari data, bukan oleh operator variasi yang bersifat implisit.
+
+Secara umum, EDA bekerja melalui tiga langkah yang diulang pada setiap generasi \parencite{larranaga_estimation_2024}.
+Pertama seleksi, yaitu memilih sejumlah \textit{N} individu terbaik dari populasi berukuran \textit{M} berdasarkan nilai \textit{fitness}.
+Kedua estimasi, yaitu membangun distribusi probabilitas yang merepresentasikan individu-individu terpilih tersebut.
+Pada persoalan kombinatorial/diskret, distribusi ini umumnya direpresentasikan melalui jaringan Bayes (\textit{Bayesian network}), yakni graf asiklik berarah yang merepresentasikan struktur (in)dependensi bersyarat antar-variabel secara ringkas dan dengan jumlah parameter yang jauh lebih sedikit dibanding tabel probabilitas gabungan penuh.
+Dan ketiga adalah \textit{sampling}, yaitu membangkitkan \textit{M} individu populasi baru dengan men-\textit{sampling} dari distribusi yang telah diestimasi.
+Ketiga langkah ini diulang hingga kriteria pemberhentian terpenuhi.
+
+Berdasarkan derajat dependensi antar-variabel yang diperbolehkan dalam pemodelan probabilistiknya, \textcite{larranaga_estimation_2024} mengkalsifikasikan EDA ke dalam tiga kategori.
+Yang pertama adalah EDA univariat yang mengasumsikan seluruh variabel saling independen.
+Yang kedua adalah EDA bivariat, yang hanya memperhitungkan dependensi berpasangan antar-variabel.
+Dan yang terakhir adalah EDA multivariat, yang tidak membatasi derajat dependensi antar-variabel dan umumnya mempelajari struktu jaringan Bayes secara penuh.
+
+EDA telah banyak diterapkan pada persoalan optimasi kombinatorial, termasuk persoalan berbasis permutasi yang menghadirkan tantangan tersendiri akibat besarnya ruang solusi dan batasan \textit{mutual exclusivity} antar-elemen \parencite{lemtenneche_estimation_2023}.
+Meskipun ruang kebijakan ABAC yang menjadi objek penelitian ini tidak berbasis permutasi, karakteristiknya tetap tergolong kombinatorial.
+Setiap kandidat kebijakan merupakan kombinasi diskret dari nilai-nilai atribut subjek, objek, aksi, dan lingkungan.
+Prinsip yang sama yakni dengan memodelkan distribusi probabilitas atas konfigurasi-konfigurasi yang menjanjikan, sebagaimana EDA memodelkan distribusi solusi permutasi yang menjanikan pada persoalan penjadwalan \textit{flow-shop} pada \textcite{lemtenneche_estimation_2023}, berpotensi diadaptasi untuk memandu pencarian aturan ABAC secara terarah.
+
+Namun demikian, skema umum EDA di atas tetap mensyaratkan penyimpanan populasi sebanyak \textit{M} individu secara eksplisit pada setiap generasi sehingga EDA dalam bentuk kanoniknya belum secara otomatis menjawab persoalan keterbatasan memori pada perangkat \textit{edge-IoT}.
+Perbedaan mendasarnya terletak pada apa yang direpresentasikan sebagai keadaan pencarian, yakni bukan pada operator variasi implisit, melainkan parameter model probabilistik itu sendiri.
+Karakteristik inilah yang membuka peluang bagi varian EDA ringan untuk menggantikan penyimpanan populasi eksplisit dengan sebuah vektor probabilitas tunggal yang diperbarui secara inkremental, sehingga jejak memori algoritma dapat ditekan di bawah kebutuhan populasi penuh.

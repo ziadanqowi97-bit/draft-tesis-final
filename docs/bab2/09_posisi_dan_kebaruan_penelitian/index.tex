@@ -1,0 +1,82 @@
+\section{Posisi dan Kebaruan Penelitian}
+
+Tabel \ref{tab:posisi-penelitian} memperlihatkan bahwa dua jalur penelitian telah berkembang secara paralel tanpa pernah saling bersinggungan.
+Jalur pertama adalah penelitian \textit{ABAC policy mining} berbasis pencarian evolusioner atau metaheuristik \parencite{gaspar-cunha_evolutionary_2015,shang_abac_2024,li_attribute_2026} maupun non-evolusioner \parencite{guo_--fly_2025}, yang secara konsisten dievaluasi pada lingkungan komputasi tanpa batasan sumber daya dan tidak menjadikan keterbatasan memori perangkat sebagai pertimbangan rancangan.
+Jalur kedua adalah penelitian algoritma EDA yang secara eksplisit dirancang untuk efisiensi memori, mulai dari EDA kanonik, algoritma \textit{compact} seperti \textit{compact-GA} dan \textit{compact-PSO} \parencite{khalfi_metaheuristics_2023}, hingga algoritma pemodelan dependensi seperti BOA, iBOA, dan pohon Chow-Liu \parencite{pelikan_iboa_2008,chow_approximating_1968}.
+Namun, berdasarkan penelusuran literatur yang dilakukan, belum ditemukan satu pun di antaranya yang diterapkan atau dievaluasi pada persoalan \textit{ABAC policy mining}.
+Penelitian ini, melalui algoritma yang diusulkan bernama \textit{Compact Dependency-Aware EDA} (CoDA-EDA), diposisikan pada titik temu kedua jalur penelitian tersebut.
+
+Nama CoDA-EDA sendiri merefleksikan tiga prinsip rancangan yang secara langsung merespons kebutuhan-kebutuhan dasar yang telah diidentifikasi dari sintesis literatur.
+Prinsip pertama, \textit{compact}, mengadopsi mekanisme pembaruan hemat memori ala \textit{compact-GA}, yaitu kompetisi pemenang dan pecundang yang memperbarui sebuah PV tanpa menyimpan populasi eksplisit \parencite{khalfi_metaheuristics_2023}.
+Hal ini merupakan jawaban langsung atas keterbatasan memori, daya komputasi, dan energi pada perangkat \textit{edge-IoT} \parencite{canavese_security_2024}.
+Prinsip kedua, \textit{dependency-aware}, mempertahankan pemodelan dependensi antar-atribut yang dibatasi pada orde tertentu, alih-alih mengasumsikan independensi penuh sebagaimana \textit{compact} standar atau mempelajari jaringan Bayes tak terbatas sebagaimana BOA maupun iBOA \parencite{pelikan_iboa_2008}.
+Dengan demikian, pemodelan dependensi tetap meningkatkan kualitas kebijakan namun tidak harus dilakukan tanpa batasan orde agar tetap hemat memori.
+Prinsip ketiga, EDA, menempatkan kedua mekanisme tersebut dalam kerangka \textit{Estimation of Distribution Algorithm} sehingga CoDA-EDA tetap dapat diperlakukan dan dibandingkan secara setara dengan EDA lain dalam hal skema seleksi, estimasi, dan pencuplikan.
+
+Lingkungan IoT yang dinamis \parencite{ragothaman_access_2023} menuntut pembaruan kebijakan secara berskala, sementara pembaruan struktur dependensi secara menyeluruh pada setiap perubahan data, sebagaimana dilakukan iBOA, mahal secara komputasi. 
+Kebutuhan ini dijawab melalui rancangan yang memisahkan frekuensi pembaruan struktur dari pembaruan parameter, sebagaimana telah ditetapkan dalam aktivitas rancang bangun metodologi penelitian ini.
+Pembaruan parameter dilakukan setiap siklus sebagaimana lazimnya EDA, sedangkan pembaruan struktur dependensi hanya dipicu ketika terdeteksi pergeseran \textit{drift} data yang signifikan.
+Pemisahan ini berbeda dari iBOA yang memperbarui struktur maupun parameter secara inkremental dalam skema yang sama \parencite{pelikan_iboa_2008}, dan menjadi dasar bagi pengujian efisiensi waktu komputasi serta kualitas \textit{warm-start} pada skenario pergeseran data.
+
+Diposisikan terhadap Tabel \ref{tab:posisi-penelitian} secara baris per baris, CoDA-EDA berbeda dari \textcite{gaspar-cunha_evolutionary_2015,shang_abac_2024,li_attribute_2026} karena meninggalkan paradigma berbasis populasi secara keseluruhan demi kerangka EDA yang kompak.
+Perbedaan ini mendasari perbandingan jejak memori terhadap BOA, iBOA, ACO, dan UBK.
+CoDA-EDA juga berbeda dari \textcite{guo_--fly_2025}.
+Meskipun sama-sama termotivasi oleh efisiensi, \textcite{guo_--fly_2025} mengandalkan pencarian deterministik atau \textit{greedy} berbasis optimasi submodular untuk meningkatkan kemudahan penggunaan kebijakan bagi manusia dan LLM, sedangkan CoDA-EDAA mengandalkan pencarian probabilistik berbasis model yang secara eksplisit dirancang untuk keterbatasan sumber daya perangkat, bukan untuk kemudahan penggunaan bagi manusia.
+Kedua pendekatan ini bersifat komplementer, bukan saling menggantikan.
+
+Pertanyaan yang lebih tajam adalah di bagian mana persisnya CoDA-EDA berbeda dari algoritma EDA yang sudah ada.
+Perbedaan itu tidak terletak pada satu komponen tunggal, melainkan pada kombinasi spesifik empat sumbu rancangan yang tidak ditempati oleh EDA mana pun sebelumnya.
+Tabel \ref{tab:perbedaan-coda-eda-long} memetakan CoDA-EDA terhadap empat keluarga EDA terdekat menurut empat sumbu tersebut: (1) model dependensi antar-atribut, (2) penyimpanan populasi dan perilaku memori terhadap ukuran populasi NP, (3) mekanisme pembaruan struktur model, dan (4) domain penerapan asal.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{2cm}|}
+\caption{Perbedaan CoDA-EDA terhadap Algoritma EDA yang Sudah Ada}
+\label{tab:perbedaan-coda-eda-long} \\
+\hline
+\textbf{Algoritma EDA} & \textbf{Model dependensi antar-atribut} & \textbf{Populasi \& memori terhadap NP} & \textbf{Mekanisme pembaruan struktur} & \textbf{Diterapkan pada ABAC?} \\
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Algoritma EDA} & \textbf{Model dependensi antar-atribut} & \textbf{Populasi \& memori terhadap NP} & \textbf{Mekanisme pembaruan struktur} & \textbf{Diterapkan pada ABAC?} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{{Lanjut ke halaman berikutnya}} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% Data
+\textit{compact-GA / compact-PSO} & Tidak ada --- univariat, independensi penuh & Tanpa populasi eksplisit; \textit{Probability Vector} O(D), memori datar terhadap NP & Tidak ada struktur untuk diperbarui & Belum \\
+\hline
+BOA & Jaringan Bayes tanpa batasan orde (multivariat penuh) & Populasi eksplisit; memori tumbuh terhadap NP & Membangun ulang jaringan Bayes tiap generasi (mahal secara komputasi) & Belum \\
+\hline
+iBOA & Pohon dependensi (Chow-Liu), inkremental & Statistik/populasi inkremental; tidak menanggung transien populasi penuh & Struktur dan parameter diperbarui pada skema inkremental yang sama, tiap langkah & Belum \\
+\hline
+CoDA-EDA (diusulkan) & Pohon dependensi Chow-Liu dibatasi order-1 (terbatas, bukan tanpa batas) & Tanpa populasi eksplisit; \textit{Probability Vector} + pohon O(D), memori datar terhadap NP & Struktur dipisah dari parameter: struktur jarang (dipicu \textit{drift}), parameter tiap siklus & Ya --- penelitian ini (Raspberry Pi 5) \\
+\hline
+
+\end{longtable}
+
+Membaca Tabel \ref{tab:perbedaan-coda-eda-long} secara kolom menjelaskan letak perbedaannya.
+Pada sumbu model dependensi, CoDA-EDA berada di antara dua ekstrem.
+Ia tidak mengasumsikan independensi penuh sebagaimana \textit{compact}, namun juga tidak memodelkan dependensi tanpa batasan orde sebagaimana BOA.
+Melainkan membatasi diri pada pohon Chow-Liu order 1, mengambil sebagian besar manfaat pemodelan dependensi dengan ongkos yang jauh lebih kecil.
+Pada sumbu memori, hanya CoDA-EDA dan keluarga \textit{compact} yang datar terhadap NP, tetapi keluarga \textit{compact} membayar kedataran itu dengan membuang pemodelan dependensi sepenuhnya, sedangkan CoDA-EDA mempertahankannya.
+Pada sumbu pembaruan struktur, inilah pembeda paling tajam terhadap kerabat terdekatnya, iBOA.
+iBOA memperbarui struktur dan parameter pada satu skema inkremental yang sama pada setiap langkah, sementara CoDA-EDAA sengaja memisahkan keduanya.
+Struktur hanya disegarkan ketika \textit{drift} terdeteksi, parameter diperbarui tiap siklus.
+Sel yang ditempati baris terakhir Tabel \ref{tab:perbedaan-coda-eda-long} tidak ditempati oleh satupun baris di atasnya, di sanalah kontribusi metodologis penelitian ini berada.
+
+Kontribusi tersebut karenanya bukan sekadar penerapan algoritma yang sudah ada pada domain baru, melainkan penggabungan tiga mekanisme yang selama ini terpisah pada literatur EDA menjadi satu rancangan yang koheren: pembaruan tanpa populasi ala \textit{compact} yang selama ini hanya univariat, pemodelan dependensi berorde terbatas ala \textit{dependency-tree} yang selama ini menyertai populasi eksplisit atau skema inkremental penuh, dan pemisahan frekuensi pembaruan struktur-parameter yang tidak ada pada EDA mana pun.
+Ketiga penggabungan inilah yang diterjemahkan ke dalam tiga pilar kebaruan penelitian ini.
+Kebaruan pertama terletak pada penerapan kelas algoritma EDA, termasuk varian ringannya dan varian yang peka terhadap dependensi pada permasalahan \textit{ABAC policy mining}.
+Berdasarkan penelusuran literatur yang dilakukan, kelas algoritma ini belum pernah diterapkan pada domain tersebut.
+Kebaruan kedua adalah kombinasi antara pemodelan dependensi terbatas orde pertama menggunakan pendekatan pohon Chow-Liu dengan mekanisme pembaruan tanpa populasi eksplisit ala \textit{compact}.
+Kombinasi ini belum ditemukan pada varian EDA maupun \textit{compact} yang ada saat ini.
+Kebaruan ketiga adalah pemisahan yang jelas antara frekuensi pembaruan struktur dependensi yang dilakukan secara jarang dan hanya saat terjadi pergeseran data dengan pembaruan parameter yang dilakukan setiap siklus.
+Pengujian dilakukan langsung pada perangkat \textit{edge-IoT} nyata, yaitu Raspberry Pi 5.
+Hal ini berbeda dari seluruh studi yang tercantum pada Tabel \ref{tab:posisi-penelitian} yang umumnya dievaluasi pada lingkungan komputasi tanpa pembatasan sumber daya yang dinyatakan secara eksplisit.

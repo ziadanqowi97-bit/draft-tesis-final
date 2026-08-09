@@ -1,0 +1,80 @@
+\section{Desain Eksperimen}
+
+Berdasarkan variabel penelitian, dataset yang dikonstruksi, algoritma pembanding, serta perangkat dan prosedur pengukuran, subbab ini merancang empat skenario eksperimen yang masing-masing dipetakan langsung terhadap satu hipotesis sebagai operasionalisasi rinci aktivitas \textit{Demonstration} dan \textit{Evaluation}.
+
+Eksperimen 1 menguji Hipotesis H1.
+Sesuai rumusan H1, eksperimen ini menguji dua faktor sekaligus, yakni tingkat korelasi atribut dan dimensi ruang solusi D.
+Ketujuh kondisi algoritma dijalankan pada kelima dataset ABAC Lab dalam kondisi stasioner (tanpa \textit{drift}) pada tiga tingkat korelasi (rendah, sedang, tinggi) dengan akurasi /\textit{F-score}, WSC, dan \textit{coverage} sebagai variabel yang diukur.
+\textit{Workforce} (D = 436) dan \textit{e-document} (D = 1.907) menjadi tumpuan vonis H1 karena keragaman poplanya memadai, sedangkan \textit{healthcare, project-management,} dan \textit{university} (D = 46-54) memberi taraf dimensi tambahan sebagai konteks pelengkap dengan interpretasi H1 yang dibatasi tingginya duplikasi.
+Dugaan awal penelitian memprediksi keunggulan CoDA-EDA menguat seiring meningkatnya tingkat korelasi.
+
+Eksperimen 2a menguji Hipotesis H2.
+Eksperimen ini memanfaatkan eksekusi yang sama dengan Eksperimen 1, namun berfokus pada variabel \textit{peak resident set size} yang dicatat sepanjang eksekusi.
+Dugaan awal adalah CoDa-EDA mempertahankan jejak memori O(D) yang secara konsisten lebih rendah dibanding keempat \textit{baseline} berpopulasi tersebut, khususnya pada dataset berdimensi lebih besar.
+
+Eksperimen 2b melengkapi Eksperimen 2a dengan menguji bentuk penskalaan, bukan sekadar selisih nilai.
+Ukuran populasi virtual NP divariasikan pada rentang 25 hingga 400 dan diterapkan pada kedua dataset utama yang berbeda dimensinya (D = 436 dan D = 1.907), lalu \text{MemPeak\_alloc} dipetakan sebagai fungsi NP dan D.
+Hipotesis H2 memprediksi kurva CoDA-EDA dan algoritma \textit{compact} mendatar terhadap NP serta linear terhadap D, sedangkan algoritma berpopulasi eksplisit (BOA, iBOA, ACO, UBK) tumbuh linear terhadap NP.
+Pengujian berbasis bentuk kurva ini lebih kuat daripada perbandingan pada satu titik, karena klaim O(D) versus O(NP $\times$ D) bersifat asimtotik dan tidak bergantung pada \textit{offset baseline} interpreter yang sama besarnya bagi semua algoritma.
+
+Eksperimen 3 menguji Hipotesis H3.
+CoDA-EDAA dan iBOA dijalankan pada kelima dataset ABAC Lab dalam skenario \textit{drift} rendah dan sedang dengan waktu komputasi per siklus pembaruan (dipisahkan antara siklus dengan pembaruan struktur dan siklus dengan pembaruan parameter saja) sebagai variabel yang diukur.
+Dugaan awal adalah rata-rata waktu per siklus CoDA-EDA lebih rendah karena pembaruan struktur hanya terjadi saat \textit{drift} terdeteksi, berbeda dari iBOA yang berpotensi memperbarui struktur pada setiap siklus.
+
+Eksperimen 4 menguji Hipotesis H4.
+Pada dataset dengan skenario \textit{drift} rendah-sedang, CoDA-EDA dijalankan dengan dua strategi, yakni \textit{warm-start} (melanjutkan dari model probabilistik sebelum \textit{drift}) dan \textit{re-mining} penuh (memulai ulang dari inisialisasi kosong setelah \textit{drift} terdeteksi, sebagai kontrol internal).
+Waktu re-optimasi dan kualitas kebijakan pasca-\textit{drift} dicatat untuk kedua strategi.
+Dugaan awal adalah strategi \textit{warm-start} mencapai kualitas kebijakan yang setara dengan \textit{re-mining} penuh dalam waktu yang jauh lebih singkat, khususnya pada skenario \textit{drift} rendah.
+
+Setiap kombinasi algoritma-dataset-skenario pada keempat eksperimen dijalankan dengan replikasi berulang sebanyak 30 kali dengan \textit{random seed} berbeda pada tiap replikasi, mengikuti konvensi umum pada literatur \textit{benchmark} metaheuristik, dan akan dikonfirmasi/disesuaikan pada tahap implementasi apabila keterbatasan waktu komputasi mensyaratkan penyesuaian.
+Hal tersebut dilakukan guna menghasilkan data yang memadai untuk uji signifikansi statistik dan memperhitungkan variabilitas stokastik masing-masing algoritma.
+
+\begin{longtable}{|c|>{\raggedright\arraybackslash}p{2.2cm}|p{1.6cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{2.8cm}|}
+\caption{Ringkasan Desain Eksperimen}
+\label{tab:desain-eksperimen} \\
+\hline
+\textbf{No} & \textbf{Eksperimen} & \textbf{Hipotesis} & \textbf{Algoritma Dilibatkan} & \textbf{Dataset} & \textbf{Variabel Diukur} \\
+\hline
+\endfirsthead
+
+\multicolumn{6}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{No} & \textbf{Eksperimen} & \textbf{Hipotesis} & \textbf{Algoritma Dilibatkan} & \textbf{Dataset} & \textbf{Variabel Diukur} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+1 & Kualitas kebijakan vs. korelasi dan dimensi & H1 & 7 kondisi (CoDA-EDA + 6 baseline) & Baris 1--5 (lima dataset; dua taraf D utama 436 dan 1.907 + tiga dataset kecil D=46--54 sebagai konteks), kondisi stasioner, 3 tingkat korelasi & Akurasi/F-score, WSC, coverage \\
+\hline
+2a & Jejak memori antar-algoritma & H2 & CoDA-EDA vs BOA, iBOA, ACO, UBK & Sama dengan Eksperimen 1 (reuse eksekusi) & MemPeak\_alloc (utama), MemPeak\_sys \\
+\hline
+2b & Kurva penskalaan memori & H2 & CoDA-EDA vs BOA, iBOA, ACO, UBK & Baris 1--2; $NP$ divariasikan (25--400) pada dua nilai D & MemPeak\_alloc sebagai fungsi $NP$ dan $D$ \\
+\hline
+3 & Efisiensi waktu pembaruan & H3 & CoDA-EDA vs iBOA & Baris 1--5, skenario drift rendah-sedang & Waktu komputasi per siklus pembaruan \\
+\hline
+4 & Kualitas \& efisiensi warm-start & H4 & CoDA-EDA (warm-start vs re-mining penuh) & Baris 1--5, skenario drift rendah-sedang & Waktu re-optimasi, kualitas kebijakan pasca-drift \\
+\hline
+5 & Validasi eksternal & H1-H4 & 7 kondisi (CoDA-EDA + 6 baseline) & Baris 6 (Smart Building IoT) & F-score relatif garis sepele, presisi, recall, coverage, memori, warm-start \\
+\hline
+
+\end{longtable}
+
+Keterkaitan antara keempat hipotesis, eksperimen yang mengujinya, perbandingan yang dilakukan, metrik yang diukur, dan uji statistik yang digunakan divisualisasikan sebagai peta pada Gambar \ref{fig:peta_eksperimen}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{gambar_eksperimen.png}
+    \caption{Peta Eksperimen: Pemetaan Hipotesis H1-H4 terhadap Perbandingan, Metrik, dan Uji Statistik}
+    \label{fig:peta_eksperimen}
+\end{figure}
+
+Gambar \ref{fig:peta_eksperimen} menegaskan bahwa setiap hipotesis diuji oleh tepat satu eksperimen dengan perbandingan, metrik, dan uji statistik yang spesifik.
+Eksperimen 1 dan 2 membandingkan tujuh kondisi algoritma sekaligus sehingga memakai uji omnibus Friedman dengan post-hoc Wilcoxon berkoreksi Holm-Bonferroni, sedangkan Eksperimen 3 dan 4 hanya membandingkan dua kondisi sehingga cukup memakai Wilcoxon signed-rank berpasangan langsung.
+Peta ini juga memperlihatkan efisiensi rancangan pada Eksperimen 2 yang memakai ulang Eksperimen 1.

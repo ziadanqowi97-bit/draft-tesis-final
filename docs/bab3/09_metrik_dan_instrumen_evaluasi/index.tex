@@ -1,0 +1,98 @@
+\section{Metrik dan Instrumen Evaluasi}
+
+Definisi konseptual variabel terikat penelitian ini telah ditetapkan pada bagian sebelumnya.
+Bagian ini memformalkan definisi operasional, formula, serta instrumen pengukuran setiap metrik tersebut, yang merupakan kelanjutan langsung dari rancangan eksperimen dan prosedur pengukuran umum yang telah diuraikan.
+
+Akurasi kebijakan diukur melalui \textit{F-score} (F1), rata-rata harmonik antara presisi dan \textit{recall} keputusan akses yang dihasilkan kebijakan hasil \textit{mining} terhadap log akses uji/\textit{holdout} \parencite{diaz-rodriguez_abac_2025}.
+Rumus \textit{F1-score} didefinisikan sebagai berikut:
+\[
+F_1 = 2 \times \frac{\mathrm{Precision} \times \mathrm{Recall}}{\mathrm{Precision} + \mathrm{Recall}},
+\]
+\[
+\quad
+\text{dengan }
+\mathrm{Precision} = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}}
+\quad
+\text{dan }
+\mathrm{Recall} = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.
+\]
+
+Dengan \textit{permit} sebagai kelas positif: TP (\textit{true positive}) adalah permintaan akses yang sebenarnya diizinkan dan diklasifikasikan tepat sebagai \textit{permit} oleh kebijakan hasil \textit{mining};
+FP (\textit{false positive}) adalah permintaan yang sebenarnya ditolak namun diklasifikasikan sebagai \textit{permit};
+dan FN (\textit{false negative}) adalah permintaan yang sebenarnya diizinkan namun diklasifikasikan sebagai \textit{deny}.
+
+Kompleksitas struktural kebijakan diukur melalui \textit{Weighted Structural Complexity} (WSC) yang menjumlahkan banyaknya pasangan atribut-nilai yang digunakan pada seluruh aturan kebijakan \parencite{perez-haro_abac_2024}.
+Definisi WSC dirumuskan sebagai berikut:
+\[
+\mathrm{WSC}(\pi) = \sum_{r \in \pi} \lvert \mathrm{attr}(r) \rvert,
+\]
+dengan $\pi$ adalah kebijakan yang dihasilkan dan $\lvert \mathrm{attr}(r) \rvert$ adalah banyaknya pasangan atribut-nilai yang menjadi syarat pada aturan $r$. Skema pembobotan tambahan per kategori atribut (subjek, objek, lingkungan), sebagaimana lazim pada literatur WSC, dapat diterapkan pada tahap implementasi apabila diperlukan; secara baku, seluruh pasangan atribut-nilai diberi bobot seragam (=1).
+
+Cakupan (\textit{covereage}) mengukur proporsi permintaan akses pada log uji yang tercakup oleh setidaknya satu aturan pada kebijakan hasil \textit{mining}, alih-alih jatuh pada keputusan \textit{default} (mis. \textit{default-deny}).
+Kelengkapan cakupan sebagai dimensi kualitas kebijakan hasil mining \parencite{perez-haro_abac_2024}:
+\[
+\mathrm{Coverage} = \frac{\text{jumlah permintaan akses yang cocok dengan } \ge 1 \text{ aturan}}{\text{total permintaan akses pada log uji}}.
+\]
+Ketiga metrik ini (F1, WSC, dan \textit{coverage}) bersama-sama merepresentasikan variabel kualitas kebijakan yang digunakan pada Eksperimen 1.
+
+Jejak memori diformalkan sebagai nilai puncak RSS sepanjang eksekusi algoritma.
+\text{MemPeak} = nilai maksimum RSS(t) atas seluruh waktu \textit{sampling} t, dengan RSS(t) adalah RSS proses pada waktu \textit{sampling} ke-t.
+Sesuai prosedur dual, MemPeak dilaporkan dalam dua bentuk, yakni MemPeak\_alloc, yaitu puncak alokasi struktur data algoritma yang diukur tracemalloc dan menjadi metrik utama karena bersih dari \textit{overhead} interpreter;
+dan MemPeak\_sys, yaitu VmHWM pada tataran sistem operasi yang dilaporkan sebagai konteks penggunaan sumber daya nyata pada perangkat \textit{edge}.
+Selain nilai pada satu titik konfigurasi, jejak memori juga dilaporkan sebagai kurva penskalaan terhadap ukuran populasi virtual NP dan terhadap dimensi soal D.
+Bentuk kurva inilah bukti terkuat bagi H2, karena klaim CoDA-EDA bersifat asimtotik , atau memori O(D) yang tidak bergantung NP, sehingga yang perlu ditunjukkan adalah kedataran kurva terhadap NP dan kelinearan terhadap D, bukan selisih angka pada satu titik yang dapat tersamar oleh \textit{offset baseline}.
+Metrik inilah yang digunakan pada Eksperimen 2 untuk menguji Hipotesis H2.
+
+Waktu komputasi dipisahkan menjadi tiga komponen.
+T\_init, waktu pembelajaran awal hingga elit pertama terbentuk.
+T\_param, waktu satu siklus pembaruan yang hanya melibatkan pembaruan parameter (\textit{Probability Vector}).
+Dan T\_struct, waktu satu siklus pembaruan yang turut melibatkan pembelajaran ulang struktur dependensi saat \textit{drift} terdeteksi.
+Ketiganya diukur sebagai \textit{wall-clock time} langsung pada perangkat target dan digunakan pada Eksperimen 3 untuk menguji Hipotesis H3, khususnya melalui perbandingan rata-rata waktu per siklus CoDA-EDA terhadap iBOA.
+
+Kualitas dan efisiensi strategi \textit{warm-start} pada skenario \textit{drift} diukur melalui dua metrik tambahan.
+Dua metrik tersebut adalah T\_reopt, yaitu waktu yang dibutuhkan sejak \textit{drift} terdeteksi hingga kebijakan mencapai kriteria konvergensi yang ditetapkan; dan $\delta$Quality, yaitu selisih F1 dan WSC antara strategi \textit{warm-start} dan \textit{re-mining} penuh pada titik waktu yang setara, untuk menilai apakah \textit{warm-start} mencapai kualitas kebijakan yang setara dengan \textit{re-mining} penuh.
+
+\begin{longtable}{|c|L{2.3cm}|L{2.6cm}|L{3.3cm}|L{3.3cm}|p{1.6cm}|}
+\caption{Definisi Operasional Metrik dan Instrumen Evaluasi}
+\label{tab:definisi-operasional-metrik} \\
+\hline
+\textbf{No} & \textbf{Metrik} & \textbf{Simbol} & \textbf{Definisi/Formula} & \textbf{Instrumen} & \textbf{Hipotesis} \\
+\hline
+\endfirsthead
+
+\multicolumn{6}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{No} & \textbf{Metrik} & \textbf{Simbol} & \textbf{Definisi/Formula} & \textbf{Instrumen} & \textbf{Hipotesis} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+1 & Akurasi & F1 & Rata-rata harmonik presisi dan recall keputusan akses terhadap log uji & Skrip evaluasi Python terhadap log uji holdout & H1 \\
+\hline
+2 & Kompleksitas struktural & WSC & Jumlah pasangan atribut-nilai pada seluruh aturan kebijakan & Skrip evaluasi Python & H1 \\
+\hline
+3 & Cakupan & Coverage & Proporsi permintaan akses yang tercakup $\ge$ 1 aturan & Skrip evaluasi Python & H1 \\
+\hline
+4 & Jejak memori & MemPeak\_alloc (utama); MemPeak\_sys (konteks) & Puncak alokasi struktur data algoritma; dan puncak resident set size pada tataran sistem. Dilaporkan pula sebagai kurva penskalaan terhadap NP dan D & tracemalloc (utama) + VmHWM pada /proc/[pid]/status, satu proses terpisah per konfigurasi (Subbab 3.7) & H2 \\
+\hline
+5 & Waktu inisialisasi & T\_init & Waktu hingga elite pertama terbentuk & Wall-clock timer pada perangkat target & H3 \\
+\hline
+6 & Waktu siklus parameter & T\_param & Waktu satu siklus pembaruan Probability Vector saja & Wall-clock timer pada perangkat target & H3 \\
+\hline
+7 & Waktu siklus struktur & T\_struct & Waktu satu siklus dengan pembaruan struktur dependensi & Wall-clock timer pada perangkat target & H3 \\
+\hline
+8 & Waktu re-optimasi & T\_reopt & Waktu sejak drift terdeteksi hingga konvergensi tercapai & Wall-clock timer pada perangkat target & H4 \\
+\hline
+9 & Selisih kualitas warm-start & $\Delta$Quality & Selisih F1/WSC antara warm-start dan re-mining penuh & Skrip evaluasi Python & H4 \\
+\hline
+
+\end{longtable}
+
+Definisi operasional dan formula pada Tabel \ref{tab:definisi-operasional-metrik} menjadi landasan pengolahan data dari pelaksanaan demonstrasi, sekaligus menjadi rujukan bagi teknik analisis statistik yang akan dilakukan.

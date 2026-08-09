@@ -1,0 +1,13 @@
+\section{Batasan Masalah}
+
+Agar ruang lingkup penelitian tetap terukur dan sesuai dengan konfigurasi eksperimen yang digunakan, penelitian ini dibatasi pada beberapa hal berikut.
+
+\begin{enumerate}
+    \item Algoritma \text{CoDA-EDA} yang dirancang dibatasi pada pemodelan dependensi atribut berorde-1 (pohon \textit{Chow-Liu}, $k=1$). Untuk perluasan ke orde yang lebih tinggi ($k \geq 2$) bukan bagian dari implementasi dan pengujian utama.
+    \item Evaluasi dilakukan pada kelima dataset \textit{ground-truth} ABAC Lab \parencite{bui_abac_2025} yang diperluas dengan injeksi korelasi dan \textit{drift} terkontrol. Sebagai validasi eksternal, penelitian ini turut memakai dataset \textit{Smart Building IoT} \parencite{diaz-rodriguez_abac_2025} untuk menguji generalisasi seluruh hipotesis yang ada. Penelitian ini tidak menggunakan data produksi dari organisasi atau perangkat IoT sungguhan, mengingat keterbatasan akses terhadap data semacam itu sebagaimana telah diakui pula oleh \textcite{bui_abac_2025}.
+    \item Perbandingan kinerja dibatasi pada enam algoritma \textit{baseline} yang telah ditetapkan pada \textit{roadmap} penelitian, yakni \textit{compact-GA, compact-PSO}, BOA, iBOA, ACO, dan UBK. Penelitian ini tidak melakukan perbandingan menyeluruh terhadap ratusan varian metaheuristik lain yang ada pada literatur umum.
+    \item Pengujian pada perangkat \textit{edge} dibatasi pada satu \textit{platform} spesifik, yaitu Raspberry Pi 5 (SoC Broadcom BCM2712, quad-core ARM Cortex-A76 @2.4GHz) dan tidak mencakup seluruh spektrum perangkat IoT, termasuk \textit{gateway} IoT kelas menengah lain maupun mikrokontroler kelas \textit{ultra-low power} dengan RAM sangat terbatas seperti ESP32.
+    \item Fokus penelitian ini adalah pada tahap \textit{policy mining} dan optimasi kebijakan ABAC. Penelitian ini tidak mencakup implementasi penuh \textit{Policy Enforcement Point} (PEP), integrasi dengan protokol komunikasi IoT tertentu seperti MQTT atau CoAP, maupun aspek keamanan formal seperti pembuktian matematis terhadap ketahanan algoritma dari serangan siber.
+    \item Penelitian ini tidak membandingkan CoDA-EDA dengan pendekatan berbasis \textit{Large Language Model} (LLM) untuk \textit{policy mining} ABAC yang mulai berkembang. Integrasi \textit{hybrid} LLM-metaheuristik merupakan arah riset terpisah yang berada di luar cakupan penelitian ini.
+    \item Analisis kompleksitas memori dan waktu pada bab-bab berikutnya bersifat analisis \textit{by-construction} yang divalidasi secara empiris melalui pengukuran pada perangkat target. Penelitian ini tidak menyertakan konvergensi formal secara matematis mendalam.
+\end{enumerate}

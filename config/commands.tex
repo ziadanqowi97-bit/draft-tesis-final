@@ -1,0 +1,13 @@
+% ==================================================
+% Shared Formatting Helpers
+% ==================================================
+\newcommand{\thesisheadingfont}{\bfseries\fontsize{14}{17}\selectfont}
+\newcommand{\placeholderlabel}{[Catatan]}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+
+\newcommand{\placeholder}[1]{%
+\begin{quote}
+\textbf{\placeholderlabel} #1
+\end{quote}
+}

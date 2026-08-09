@@ -1,0 +1,65 @@
+\section{Validasi Eksternal}
+
+Seluruh pengujian di atas memakai dataset dari generator ABAC Lab yang diperluas sendiri.
+Validasi eksternal menguji apakah temuan bertahan pada data yang dibangkitkan oleh pihak lain \parencite{diaz-rodriguez_abac_2025} dengan generator, kebijakan, dan distribusi yang tidak dikendalikan penelitian ini.
+Dua sifat dataset ini menuntut penyesuaian, antara lain rasio \textit{permit}nya berat (0,75) sehingga kebijakan sepele yang mengizinkan semua permintaan sudah beroleh \textit{F-score} 0,858.
+Pembanding sahih adalah garis dasar sepele itu dan berkas aslinya juga besar (5,7 juta permintaan) sehingga disubsampel terstratifikasi menjadi 8.000 barus berdimensi efektif 428.
+Hasil kualitas (H1) disajikan pada Tabel \ref{tab:validasi-iot}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
+\caption{Validasi Eksternal Smart Building IoT --- Kualitas ($D=428$; garis sepele F1=0{,}858; 5 seed)}
+\label{tab:validasi-iot} \\
+\hline
+\textbf{Algoritma} & \textbf{F-score} & \textbf{Presisi} & \textbf{Cakupan} & \textbf{$>$sepele} & \textbf{Keterangan} \\
+\hline
+\endfirsthead
+
+\multicolumn{6}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Algoritma} & \textbf{F-score} & \textbf{Presisi} & \textbf{Cakupan} & \textbf{$>$sepele} & \textbf{Keterangan} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+BOA & 0{,}998 & 1{,}000 & 0{,}747 & 5/5 seed & Kebijakan hampir dipulihkan sempurna \\
+\hline
+ACO & 0{,}994 & 1{,}000 & 0{,}742 & 5/5 seed & Setara BOA \\
+\hline
+compact-PSO & 0{,}964 & 1{,}000 & 0{,}704 & 4/5 seed & Di atas garis sepele \\
+\hline
+compact-GA & 0{,}961 & 1{,}000 & 0{,}697 & 5/5 seed & Di atas garis sepele \\
+\hline
+iBOA & 0{,}943 & 1{,}000 & 0{,}674 & 4/5 seed & Setara CoDA-EDA \\
+\hline
+CoDA-EDA & 0{,}938 & 1{,}000 & 0{,}665 & 5/5 seed & Melampaui sepele di seluruh seed \\
+\hline
+UBK & 0{,}834 & 1{,}000 & 0{,}539 & 2/5 seed & Satu-satunya yang tak konsisten \\
+\hline
+
+\end{longtable}
+
+Validasi eksternal H1 berhasil.
+CoDA-EDA melampaui garis dasar sepele pada seluruh lima \textit{seed} (\textit{F-score} 0,938 berbanding 0,858), demikian pula lima algoritma lain, hanya UBK yang tidak konsisten (2 dari 5 \textit{seed}).
+Uji Friedman signifikan $(p = 1,6 \times 10^{-3})$.
+Presisi seluruh algoritma 1,000 sehingga pembedanya semata cakupan dan posisi CoDA-EDA setara iBOA serta sedikit di bawah keluarga \textit{compact}/BOA/ACO.
+Hal ini konsisten dengan pola dimensi dan anggaran aturan yang ada.
+
+Keempat hipotesis turut diuji pada dataset ini.
+H2 (memori) menyatakan urutan jejak memori antar-algoritma konsisten dengan temuan ABAC Lab.
+H3 dan H4 (pembaruan) menyatakan siklus pembaruan lima jendela dijalankan pada dua mode pembentukan jendela.
+Pada model jendela sepadan (stasioner), lantai derau IoT yang rendah $(0,0065 < \tau)$ membuat pemicu \textit{drift} CoDA-EDA menyala hanya 1 dari 5 jendela, sehingga \textit{warm-start} lebih cepat dari \textit{always} (6,7 vs 7,9 detik) dengan kualitas setara (F1 0,977 vs 0,973).
+H3 yang gagal ditunjukkan pada \textit{e-document} justru dapat diperlihatkan di sini.
+Pada mode jendela ber-\textit{drift} (diurut menurut atribut lokasi), pemicu menyala 5 dari 5 jendela sesuai rancangan.
+H4 terkonfirmasi pada kedua mode.
+\textit{warm-start} 2,1-2,5 kali lebih cepat dari \textit{re-mining} penuh (6,7 vs 16,9 detik) dengan kualitas lebih tinggi (F1 0,977 vs 0,914).
+
+Temuan keempat hipotesis bertahan di luar generator yang dikembangkan sendiri.
+Kerangka penambangan bekerja, CoDA-EDA menghasilkan kebijakan bermakna jauh di atas garis sepele, jejak memorinya berperilaku sesuai H2, dan mekanisme H3/H4 terlihat.
+Bahkan H3 yang terbatas pada \textit{e-document} dapat ditunjukkan pada IoT berkat lantai derau yang lebih rendah, memberi bukti bahwa keterbatasan H3 bersifat sepsifik dataset (bias sampel-hingga), bukan cacat mekanisme.

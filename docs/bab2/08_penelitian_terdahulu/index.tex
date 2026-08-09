@@ -1,0 +1,52 @@
+\section{Penelitian Terdahulu}
+
+Pendekatan berbasis pencarian evolusioner untuk \textit{ABAC policy mining} diperkenalkan oleh \textcite{gaspar-cunha_evolutionary_2015}, jauh sebelum ACO \parencite{shang_abac_2024} dan UBK \parencite{li_attribute_2026} yang menjadi \textit{baseline} penelitian ini.
+\textcite{gaspar-cunha_evolutionary_2015} mengusulkan pendekatan evolusioner multi-objektif dengan representasi fenotipik dan operator genetik khusus untuk aturan ABAC, strategi \textit{separate-and-conquer}, inisialisasi populasi kustom, skema promosi diversitas, dan kriteria penghentian dini yang dioptimasi terhadap tiga objektif sekaligus, yakni konsistensi terhadap data permintaan akses, kompleksitas kebijakan yang rendah, dan penghindaran atribut yang secara unik merepresentasikan identitas subjek/objek.
+\textcite{gaspar-cunha_evolutionary_2015} sendiri mencatat bahwa penerapan teknik evolusioner pada kebijakan keamanan telah dieksplorasi sebelumnya secara terbatas.
+Misalnya, \textcite{li_policy_2008} menggunakan \textit{genetic programming} untuk kebijakan keamanan multi-level berskala sangat kecil sebagai bukti konsep, dan \textcite{lim_dynamic_2009} menggunakan algoritma evolusioner multi-objektif SPEA2 untuk pembelajaran kebijakan keamanan dinamis.
+
+Perkembangan berikutnya bergeser ke metaheuristik \textit{population-based} berbasis kecerdasan kawanan.
+\textcite{shang_abac_2024} menggunakan \textit{Ant Colony Optimization} (ACO) dan \textcite{li_attribute_2026} menggunakan \textit{Upgraded Black-winged Kite} (UBK), keduanya dievaluasi dengan metrik akurasi dan \textit{Weighted Structural Complexity} (WSC).
+Di sisi lain, penelitian non-evolusioner pada \textit{policy mining} juga terus berkembang.
+\textcite{guo_--fly_2025} mengusulkan kerangka \textit{on-the-fly} yang memformulasikan \textit{policy mining} sebagai persoalan optimasi aproksimasi submodular, dipandu oleh teknik pemangkasan ruang pencarian, dengan fokus pada usabilitas kebijakan bagi manusia maupun LLM.
+Kerangka tersebut dievaluasi pada kontrol akses secara umum, bukan ABAC secara spesifik, dan mencapai penurunan redundansi 93,2\% dibanding metode pembanding.
+Pendekatan ini bersifat deterministik/\textit{greedy}, bukan \textit{population-based} maupun EDA, dan sebagaimana \textcite{gaspar-cunha_evolutionary_2015}, \textcite{shang_abac_2024}, serta \textcite{li_attribute_2026}, tidak membahas keterbatasan memori perangkat \textit{edge-IoT} sebagai pertimbangan desain.
+
+\begin{longtable}{|c|p{2.5cm}|p{3cm}|p{3cm}|p{3cm}|}
+\caption{Ringkasan Posisi Penelitian Terdahulu}
+\label{tab:posisi-penelitian} \\
+\hline
+\textbf{No} & \textbf{Peneliti (Tahun)} & \textbf{Metode} & \textbf{Fokus/Kontribusi} & \textbf{Celah terhadap CoDA-EDA} \\
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{No} & \textbf{Peneliti (Tahun)} & \textbf{Metode} & \textbf{Fokus/Kontribusi} & \textbf{Celah terhadap CoDA-EDA} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ========== DATA BARIS ==========
+1 & \textcite{gaspar-cunha_evolutionary_2015} & \textit{Genetic programming} multi-objektif (representasi fenotipik kustom) & Salah satu pendekatan evolusioner paling awal untuk ABAC policy mining; 3 objektif: konsistensi, kompleksitas rendah, hindari atribut identitas unik & Population-based (menyimpan populasi pohon ekspresi penuh); tidak dirancang untuk perangkat memori terbatas \\
+\hline
+2 & \textcite{shang_abac_2024} & \textit{Ant Colony Optimization} (ACO) & Baseline population-based penelitian ini; dievaluasi dengan akurasi \& WSC & Population-based --- jejak memori (matriks feromon) tumbuh dengan ukuran populasi/masalah \\
+\hline
+3 & \textcite{li_attribute_2026} & \textit{Upgraded Black-winged Kite} (UBK) & Baseline population-based penelitian ini; kecerdasan kawanan berbasis populasi & Population-based --- kebutuhan memori sama dengan algoritma population-based lain \\
+\hline
+4 & \textcite{guo_--fly_2025} & Optimasi submodular/aproksimasi (deterministik, non-evolusioner) & Kontrol akses umum (bukan ABAC spesifik); fokus usabilitas kebijakan bagi manusia/LLM & Bukan pendekatan population-based/EDA; tidak membahas keterbatasan memori perangkat edge-IoT \\
+\hline
+5 & --- (celah penelitian) & EDA / \textit{compact-EDA} / \textit{dependency-aware} EDA & Belum ditemukan penelitian yang menerapkan kelas algoritma ini pada ABAC policy mining & Celah inilah yang diisi CoDA-EDA, bersama Premis 1-4 dan Hipotesis H1-H4 \\
+\hline
+
+\end{longtable}
+
+Berdasarkan ringkasan pada Tabel \ref{tab:posisi-penelitian}, tampak bahwa seluruh penelitian terdahulu pada \textit{ABAC policy mining} belum mempertimbangkan keterbatasan memori perangkat \textit{edge-IoT} sebagai bagian dari rancangan algoritmanya.
+Selain itu, sepanjang penelusuran literatur yang dilakukan, belum ditemukan penelitian yang menerapkan kelas algoritma EDA pada persoalan ini.
+Kekosongan inilah yang menjadi dasar argumentasi kebaruan penelitian yang akan diuraikan lebih rinci pada Subbab selanjutnya.

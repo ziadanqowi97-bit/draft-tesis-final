@@ -1,0 +1,55 @@
+\section{Jejak Memori}
+
+Hipotesis H2 menyatakan jejak memori CoDA-EDA tetap datar terhadap ukuran populasi virtual NP, sementara algoritma berpopulasi eksplisit tumbuh terhadap NP.
+Pengujian mengukur puncak alokasi (\textit{tracemalloc}) pada NP = 25 hingga 400 dengan isolasi proses per konfigurasi, lalu memeriksa bentuk kurva penskalaan yang menjadi bukti terkuat bagi klaik asimtotik $O(D)$ versus $O(NP \times D)$.
+Hasil rerata lintas lima dataset disajikan pada Tabel \ref{tab:skala-memori-np}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4cm}|}
+\caption{Penskalaan Jejak Memori terhadap Ukuran Populasi NP (rerata lintas lima dataset)}
+\label{tab:skala-memori-np} \\
+\hline
+\textbf{Algoritma} & \textbf{alloc NP=25 (KB)} & \textbf{alloc NP=400 (KB)} & \textbf{Rasio 400/25} & \textbf{Keterangan} \\
+\hline
+\endfirsthead
+
+\multicolumn{5}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Algoritma} & \textbf{alloc NP=25 (KB)} & \textbf{alloc NP=400 (KB)} & \textbf{Rasio 400/25} & \textbf{Keterangan} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+CoDA-EDA & 492 & 492 & 1{,}00$\times$ & DATAR --- memori tak bergantung NP ($O(D)$) \\
+\hline
+compact-GA & 169 & 103 & 0{,}77$\times$ & Datar (compact univariat) \\
+\hline
+compact-PSO & 172 & 106 & 0{,}76$\times$ & Datar (compact univariat) \\
+\hline
+iBOA & 190 & 134 & 0{,}82$\times$ & Datar (statistik inkremental) \\
+\hline
+ACO & 212 & 2.036 & 6{,}22$\times$ & Tumbuh --- populasi/feromon \\
+\hline
+BOA & 349 & 4.028 & 7{,}68$\times$ & Tumbuh --- populasi + jaringan Bayes \\
+\hline
+UBK & 387 & 5.169 & 9{,}20$\times$ & Tumbuh --- populasi swarm \\
+\hline
+
+\end{longtable}
+
+Vonis H2 terkonfirmasi kuat dan menyeluruh.
+Rasio penskalaan $\text{alloc}(\text{NP}=400)/\text{alloc}(\text{NP}=25)$ CoDA-EDA tepat $1{,}00\times$. 
+Jejak memorinya sama sekali tidak tumbuh ketika ukuran populasi dinaikkan enam belas kali lipat, dan setara dengan keluarga \textit{compact} ($0{,}76$--$0{,}77\times$) serta iBOA ($0{,}82\times$). 
+Sebaliknya, ketiga algoritma berpopulasi eksplisit tumbuh $6{,}2$ hingga $9{,}2$ kali lipat, yaitu ACO $6{,}22\times$, BOA $7{,}68\times$, dan UBK $9{,}20\times$. 
+Sedangkan CoDA-EDA, yang justru memodelkan dependensi antar-atribut, tidak menanggung pertumbuhan memori itu sama sekali.
+
+Kedataran ini adalah inti kontribusi rancangan dari CoDA-EDA yang menyatukan pembaruan tanpa populasi ala \textit{compact} dengan pemodelan dependensi berorde-terbatas sehingga memperoleh manfaat struktur pada kualitas (di atas keluarga \textit{compact}) sekaligus jejak memori yang tidak tumbuh dengan NP.
+Perlu dicatat bahwa alokasi mutlak CoDA-EDA pada satu titik (492 KB) lebih tinggi daripada \textit{compact} (103-172 KB) dan iBOA (134-190 KB) karena beban komputasi pohon dependensi.
+Klaim H2 adalah tentang bentuk penskalaan terhadap NP, yang menentukan kelayakan pada perangkat terbatas saat populasi virtual diperbesar untuk kualitas, bukan tentang selisih pada satu titik.
+Untuk \textit{gateway edge} yang perlu menaikkan NP demi kualitas tanpa membengkakkan RAM, sifat datar inilah keunggulan operasional CoDA-EDA.

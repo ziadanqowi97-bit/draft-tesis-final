@@ -1,0 +1,52 @@
+\documentclass[12pt, a4paper, oneside]{report}
+
+% ==================================================
+% Configuration
+% ==================================================
+\input{config/metadata}
+\input{config/packages}
+\input{config/resources}
+\input{config/layout}
+\input{config/commands}
+\input{config/styles}
+
+% Build hanya Bab 3
+%\includeonly{docs/bab1/index}
+
+% ==================================================
+% Document Body
+% ==================================================
+\begin{document}
+
+% Front matter
+\pagenumbering{roman}
+\include{docs/cover}
+\include{docs/pengesahan}
+\newpage
+\include{docs/abstrak}
+\newpage
+\tableofcontents
+\addcontentsline{toc}{chapter}{\contentsname}
+\newpage
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
+\newpage
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+\newpage
+\include{docs/glosarium}
+\newpage
+
+% Main matter
+\cleardoublepage
+\pagenumbering{arabic}
+\include{docs/bab1/index}
+\include{docs/bab2/index}
+\include{docs/bab3/index}
+\include{docs/bab4/index}
+\include{docs/bab5/index}
+
+% Back matter
+\printbibliography[heading=dapusstyle]
+
+\end{document}

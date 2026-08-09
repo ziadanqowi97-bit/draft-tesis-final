@@ -1,0 +1,42 @@
+\section{EDA Ringan/\textit{Compact}}
+
+Sebagaimana yang sudah diuraikan, skema EDA kanonik tetap mensyaratkan penyimpanan populasi penuh pada setiap generasi dan celah inilah yang dijawab oleh kelas algoritma \textit{compact}.
+\textcite{khalfi_metaheuristics_2023} mendefinisikan algoritma \textit{compact} sebagai salah satu ekspresi paling sederhana dari algoritma EDA, yang menggantikan penyimpanan populasi eksplisit dengan sebuah \textit{Probability Vector} (PV) tunggal yang merepresentasikan model probabilistik dari sebuah populasi virtual berukuran \textit{NP}, tanpa pernah benar-benar menyimpan NP individu tersebut di memori.
+Signifikasi persoalan ini dikonkretkan \textcite{khalfi_metaheuristics_2023} melalui contoh nyata.
+Pada mikrokontroler ATmega328P dengan RAM 2 KB, sebuah algoritma genetika standar dengan populasi 128 individu ber-\textit{encoding} 32-bit menghabiskan sekitar 80\% dari seluruh memori yang tersedia dan tidak menyisakan ruang bagi proses lain yang berjalan pada perangkat yang sama.
+Ilustrasi ini secara langsung menggambarkan tantangan memori pada perangkat \textit{edge} IoT.
+
+Secara umum, algoritma \textit{compact} bekerja melalui \textit{template} berikut \parencite{khalfi_metaheuristics_2023}:
+\begin{itemize}
+    \item PV diinisialisasi, kemudian sebuah solusi elit awal disampling darinya.
+    \item Pada setiap iterasi, sebuah solusi kandidat baru disampling dari PV.
+    \item \textit{Fitness}-nya dibandingkan dengan solusi elit saat ini melalui skema turnamen pemenang/pecundang.
+    \item PV kemudian diperbarui berdasarkan selisih antara nilai pemenang dan pecundang pada tiap variabel, dengan besaran pembaruan berbanding terbalik dengan ukuran populasi virtual NP.
+    \item Elit digantikan oleh kandidat baru jika kondisi elitisme terpenuhi.
+\end{itemize}
+Dengan skema ini, hanya dua solusi (elit dan kandidat) serta satu PV yang perlu disimpan di memori pada satu waktu dan bukan NP individu penuh sebagaimana EDA kanonik atau algoritma \textit{population-based} lain, sehingga jejak memori akan turun dari $O(NP \times D) \text{ menjadi } O(D)$, dengan D adalah dimensi atau jumlah variabel keputusan.
+Siklus kerja algoritma \textit{compact} beserta mekanisme pembaruan PV dan keunggulan memorinya diilustrasikan pada Gambar \ref{fig:siklus-compact}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{gambar_compact.png}
+    \caption{Siklus Kerja Algoritma \textit{Compact} dan Mekanisme Pembaruan PV}
+    \label{fig:siklus-compact}
+\end{figure}
+
+Gambar \ref{fig:siklus-compact} memperlihatkan bahwa algoritma \textit{compact} bekerja dalam satu putaran iteratif yang diulang hingga kriteria terpenuhi.
+Karena hanya satu PV beserta dua solusi yang perlu disimpan, jejak memorinya tetap O(D) tanpa pernah menyimpan populasi virtual berukuran NP secara eksplisit.
+Prinsip pembaruan hemat memori inilah yang akan diadopsi pada solusi yang diusulkan sebagai komponen \textit{compact}-nya.
+
+Untuk ruang pencarian diskret/biner, \textit{compact-GA} merepresentasikan PV sebagai vektor probabilitas per-bit, yang diperbarui sebesar $\pm \frac{1}{NP}$ berdasarkan nilai bit pemenang dan pecundang pada setiap posisi \parencite{khalfi_metaheuristics_2023}.
+Representasi biner/kategorikal semacam ini relevan bagi ruang kebijakan ABAC yang bersifat diskret.
+Sejumlah varian dikembangkan dari \textit{compact-GA}, antara lain varian elitis yang terbukti mengungguli \textit{compact-GA} nonelitis orisinal, serta \textit{uniform compact Genetic Algorithm} (UcGA) yang memperkenalkan ukuran populasi virtual berbeda per variabel.
+
+Untuk ruang pencarian kontinu, PV pada \textit{real-valued compact Genetic Algorithm} (rcGA) menyimpan parameter distribusi Gaussian per dimensi, alih-alih probabilitas per-bit, namun tetap mengikuti logika pembaruan pemenang/pecundang yang sama.
+Prinsip ini kemudian diperluas ke berbagai logika pencarian metaheuristik lain, salah satunya \textit{compact-PSO} yang mereformulasikan mekanisme pembaruan kecepatan-posisi PSO ke dalam kerangka probabilistik \textit{compact} \parencite{khalfi_metaheuristics_2023}.
+Keberadaan varian \textit{compact} untuk beragam metaheuristik menunjukkan bahwa prinsip penggantian populasi eksplisit dengan model probabilistik ringan bersifat umum dan dapat diterapkan lintas logika pencarian dan bukan eksklusif milik satu keluarga algoritma tertentu.
+
+Meskipun demikian, \textcite{khalfi_metaheuristics_2023} mencatat bahwa algoritma \textit{compact} pada umumnya melakukan pencarian tak berkorelasi yang tidak menyimpan nilai korealsi silang antar-variabel keputusan.
+Dengan kata lain, PV pada \textit{compact-GA, rcGA}, maupun \textit{compact-PSO} standar mengasumsikan independensi antar-variabel.
+Asumsi independensi ini efisien dari segi memori, tetapi mengabaikan potensi dependensi antar-atribut yang lazim ditemukan pada kebijakan ABAC dunia nyata.
+Celah antara efisiensi memori dan kemampuan memodelkan dependensi inilah yang menjadi motivasi utama pada penelitian ini.

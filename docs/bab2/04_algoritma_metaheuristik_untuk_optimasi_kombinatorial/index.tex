@@ -1,0 +1,23 @@
+\section{Algoritma Metaheuristik untuk Optimasi Kombinatorial}
+
+Optimasi kombinatorial merujuk pada persoalan pencarian solusi terbaik dari ruang solusi berukuran diskret dan sangat besar, yang pada umumnya tergolong \textit{NP-hard} sehingga tidak dapat diselesaikan secara eksak dalam waktu yang wajar untuk instansi berskala besar.
+Algoritma metaheuristik hadir sebagai pendekatan pencarian heuristik tingkat tinggi yang mampu mendekati solusi optimal tanpa jaminan optimalitas formal, dengan biaya komputasi yang jauh lebih rendah dibanding pendekatan eksak.
+\textcite{rajwar_exhaustive_2023} mencatat bahwa lebih dari 500 algoritma metaheuristik baru telah dikembangkan hingga saat studi mereka dilakukan, dengan lebih dari 350 di antaranya muncul dalam dekade terakhir.
+Angka tersebut menandakan betapa pesatnya pertumbuhan di bidang ini.
+
+Berdasarkan sumber inspirasinya, \textcite{rajwar_exhaustive_2023} mengklasifikasikan algoritma metaheuristik ke dalam empat kategori utama.
+Kategori pertama adalah algoritma evolusioner (\textit{evolutionary algorithms}) yang terinspirasi oleh seleksi alam Darwin, misal \textit{Genetic Algorithm} dan \textit{Differential Evolution}.
+Kategori kedua adalah algoritma kecerdasan (\textit{swarm intelligence}) yang terinspirasi oleh perilaku kolektif kelompok organisme, misal \textit{Particle Swarm Optimization} dan \textit{Ant Colony Optimization}.
+Kategori yang ketiga adalah algoritma berbasis hukum fisika atau kimia, seperti \textit{Simulated Annealing} dan \textit{Gravitational Search Algorithm}.
+Kategori terakhir adalah kategori lain-lain yang mencakup algoritma yang terinspirasi dari perilaku manusia, strategi permainan, maupun teorema matematis.
+\textcite{jaksic_comprehensive_2023} menegaskan bahwa klasifikasi semacam ini penting namun relatif jarang dan kerap tidak konsisten antar-penulis, sehingga kajian taksonomi seperti ini tetap perlu terus diperbarui seiring pesatnya publikasi metode baru.
+
+Selain berdasarkan sumber inspirasi, \textcite{rajwar_exhaustive_2023} turut mengklasifikasikan algoritma metaheuristik berdasarkan ukuran populasi pencarian menjadi dua kategori, yakni algoritma berbasis lintasan (\textit{trajectory-based}) yang menggunakan satu agen pencarian tunggal yang bergerak secara bertahap melalui ruang solusi (mis. \textit{Simulated Annealing} dan \textit{Tabu Search}), dan algoritma berbasis populasi (\textit{population-based}) yang menggunakan banyak agen pencarian secara simultan sehingga memungkinkan eksplorasi ruang solusi yang jauh lebih luas (mis. \textit{Genetic Algorithm, Particle Swarm Optimization, Ant Colony Optimization}).
+
+Kedua algoritma metaheuristik yang menjadi \textit{baseline population-based} penelitian ini, yakni ACO dan UBK, tergolong dalam kategori algoritma kecerdasan kawanan berbasis populasi menurut taksonomi di atas.
+ACO terinspirasi oleh perilaku koloni semut dalam mencari jalur makanan terpendek, sementara UBK terinspirasi oleh strategi berburu burung \textit{black-winged kite}.
+Keduanya memanfaatkan banyak agen pencarian yang berinteraksi untuk mengeksplorasi ruang kebijakan ABAC secara paralel, sebagaimana ciri umum algoritma \textit{population-based} yang diuraikan \textcite{rajwar_exhaustive_2023}.
+
+Namun demikian, kemampuan eksplorasi luas melalui banyak agen pencarian yang menjadi kekuatan utama algotima \textit{population-based} ini juga menjadi sumber utama kebutuhan memori.
+Jadi setiap agen dalam populasi umumnya perlu direpresentasikan dan disimpan secara eksplisit sepanjang proses optimasi, sehingga jejak memori bertumbuh sebanding dengan ukuran populasi.
+Pada perangkat \textit{edge}-IoT dengan keterbatasan memori, karakteristik ini menjadi kendala tersendiri.

@@ -1,0 +1,77 @@
+\section{Sintesis, Keterbatasan, dan Jawaban Rumusan Masalah}
+
+Subbab ini menyintesis hasil keempat hipotesis lintas seluruh dataset, memosisikannya terhadap kebaruan yang diklaim, menjawab rumusan masalah, dan menyatakan keterbatasan.
+Status ringkas H1-H4 disajikan pada Tabel \ref{tab:sintesis-hipotesis}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|}
+\caption{Sintesis Status Hipotesis H1-H4 Lintas Dataset}
+\label{tab:sintesis-hipotesis} \\
+\hline
+\textbf{Hipotesis} & \textbf{Dua dataset utama ($D=436$ \& $1.907$)} & \textbf{Tiga dataset kecil ($D=46$--$54$)} & \textbf{Smart Building IoT (eksternal)} \\
+\hline
+\endfirsthead
+
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Hipotesis} & \textbf{Dua dataset utama ($D=436$ \& $1.907$)} & \textbf{Tiga dataset kecil ($D=46$--$54$)} & \textbf{Smart Building IoT (eksternal)} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{4}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+H1 --- Kualitas & Unggul keluarga compact; setara iBOA; kalah moderat ACO/UBK pada D besar & Setara mayoritas (tumpul; duplikasi tinggi) & Melampaui sepele 5/5; setara iBOA \\
+\hline
+H2 --- Memori & Terkonfirmasi (datar $1{,}00\times$ vs $6{,}2$--$9{,}2\times$) & Konsisten (properti algoritma) & Konsisten \\
+\hline
+H3 --- Pembaruan & Terdukung (workforce stasioner); tak tampil di e-document (lantai derau) & Terbatas (kejenuhan) & Terdukung (mode sepadan; relearn 1/5) \\
+\hline
+H4 --- Warm-start & Terdukung penuh ($2{,}0$--$2{,}6\times$, kualitas naik) & Terdukung ($21$--$52\times$; kualitas campur) & Terdukung ($2{,}1$--$2{,}5\times$, kualitas naik) \\
+\hline
+
+\end{longtable}
+
+Dua pola menonjol dan menjadi tumpuan kontribusi.
+Pertama, H2 (memori datar terhadap NP) terkonfirmasi menyeluruh.
+CoDA-EDA datar $1,00\times$ sementara algoritma berpopulasi eksplisit (BOA, ACO, UBK) tumbuh 6,2 hingga 9,2 kali lipat.
+Kedua, H4 \textit{warm-start} terkonfirmasi konsisten lintas lima dataset dan pada data eksternal.
+Sebaliknya, H1 (kualitas statis) bersifat terbatas yang bergantung pada dimensi dan anggaran aturan, dan H3 bersyarat pada tingkat \textit{drift} serta lantai derau.
+\textit{Trade-off} inti menjadi jelas.
+CoDA-EDA menukar \textit{recall} penambangan statis pada dimensi besar demi jejak memori yang tidak tumbuh dengan ukuran populasi dan pembaruan berkala yang jauh lebih cepat.
+Untuk \textit{gateway edge} bersumber daya terbatas yang menyegarkan kebijakan berkala, pertukaran itu menguntungkan.
+Pusat kontribusi bertumpu pada H2 dan H4, bukan pada klaim keunggulan penambangan sekali jalan.
+
+Terhadap tida unsur kebaruan, hasil memberi dukungan yang terukur.
+Kebaruan pertama, yakni EDA \textit{compact} yang sadar dependensi pada \textit{ABAC policy mining} terkonfirmasi bekerja.
+CoDA-EDA menghasilkan kebijakan bermakna pada seluruh dataset sambil mempertahankan memori datar.
+Kebaruan kedua, yakni pembatasan dependensi orde satu juga didukung.
+BOA yang tak membatasi orde tidak unggul kualitas pada ruang ABAC jarang dan jauh lebih boros memori, sementara pada anggaran aturan memadai CoDA-EDA setara BOA namun dengan memori tak tumbuh.
+Orde satu memadai untuk keuntungan struktur tanpa ongkos penuh.
+Kebaruan ketiga, yakni pemisahan frekuensi pembaruan juga terbukti pada H3 dan menjadi fondasi keunggulan \textit{warm-start} H4.
+Posisi CoDA-EDA terhadap iBOA yang bergantung konteks memperjelas posisi yang diisi.
+
+Dengan demikian rumusan masalah terjawab.
+Masalah pertama tentang bagaimana merancang algoritma \textit{compact} yang memodelkan dependensi tanpa membengkakkan memori dijawab rancangan CoDA-EDA dan dikonfirmasi H2.
+Masalah kedua tentang kualitas kebijakan dijawab pada H1 yang menunjukkan bahwa algoritma yang dirancang kompetitif dan hemat, mengungguli keluarga \textit{compact} serta setara iBOA/BOA pada anggaran memadai, dengan keterbatasan jujur pada dimensi besar terhadap ACO/UBK.
+Masalah yang ketiga tentang pembaruan inkremental mengurangi biaya dijawab pada H3-H4.
+Pemicu \textit{drift} menghemat pada data stabil, \textit{warm-start} 2-2,6 kali lebih cepat dengan kualitas sekurang-kurangnya setara.
+Masalah keempat tentang jejak memori dan waktu pada \textit{edge} dijawab pengukuran langsung pada Raspberry Pi 5, sehingga semua tujuan penelitian tercapai.
+
+Keterbatasan hasil dinyatakan secara terbuka.
+Untuk validitas internal, kesetaraan antar kondisi tetap dijaga.
+Meskipun demikian, implementasi BOA membatasi kandidat induk pada skala besar sebagai bentuk aproksimasi yang lazim.
+Mengenai validitas eksternal, generalisasi diuji hanya pada satu dataset pihak lain.
+Penetapan ukuran subsampel dan ambang batas dukungan minimum turut memengaruhi dimensi efektif yang teramati.
+Pada validitas konstruk, kualitas diringkas dengan \textit{F-score}, WSC, dan \textit{coverage}.
+Metrik ini tidak menangkap seluruh aspek keterbacaan kebijakan bagi administrator.
+Hal ini terlihat pada aturan CoDA-EDA berpengenal-banyak di \textit{Smart Building IoT} yang WSC-nya membengkak akibat enumerasi disjungtif.
+Terkait validitas simpulan, uji non-parametrik dipilih untuk menghindari asumsi normalitas.
+Perbandingan utama memiliki daya uji yang memadai (45 blok).
+Sementara itu, beberapa perbandingan pada dataset kecil dan validasi eksternal dengan jumlah ulangan kecil (5 \textit{seed}) hanya dilaporkan secara deksriptif.
+
+Secara keseluruhan, Bab IV menegaskan kontribusi CoDA-EDA terletak pada efisiensi sumber daya dan efisiensi pembaruan, bukan pada dominasi kualitas penambangan statis, dan bahwa temuan tersebut bertahan pada data yang dibangkitkan pihak lain.

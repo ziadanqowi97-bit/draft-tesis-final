@@ -1,0 +1,24 @@
+\section{\textit{Policy Mining} pada ABAC}
+
+Sebagaimana yang sudah disinggung, spesifikasi kebijakan ABAC secara manual merupakan proses yang mahal dan sulit diskalakan pada sistem berskala besar.
+\textit{Policy mining} hadir sebagai solusi otomatis atas persoalan ini.
+\textcite{perez-haro_abac_2024} mendefinisikan \textit{policy mining} sebagai prosedur otomatis untuk menghasilkam aturan akses dengan menambang pola atribut-nilai dari \textit{log} akses, yaitu catatan permintaan akses yang telah diberikan izin atau ditolak oleh sistem.
+Secara lebih formal, \textcite{diaz-rodriguez_abac_2025} merumuskan masalah \textit{policy mining} ABAC sebagai berikut: diberikan sebuah \textit{log} akses \textit{L}, tujuan \textit{policy mining} ABAC adalah menghasilkan kebijakan ABAC yang secara akurat merepresentasikan pola perizinan yang terdapat pada \textit{L}.
+
+Berbagai pendekatan telah dikembangkan untuk menyelesaikan masalah ini.
+\textcite{diaz-rodriguez_abac_2025} merangkum bahwa pendekatan-pendekatan tersebut umumnya berbasis salah satu dari beberapa strategi ekstraksi aturan.
+Pendekatannya antara lain adalah \textit{association rule mining} yang dipelopori oleh \textcite{xu_mining_2015} yang membentuk aturan secara progresif dari \textit{log permission} namun kinerjanya menurun pada \textit{log} berukuran besar.
+Pendekatan lain yang digunakan seperti pembelajaran mesin, seperti yang dilakukan oleh \textcite{iyer_mining_2018} dengan melakukan pendekatan berbasis algoritma PRISM, atau kombinasi \textit{data mining}-statistik yang dilakukan oleh \textcite{chen_polisma_2020}, dan deteksi klaster dengan mengelompokkan permintaan akses sebelum aturan dibentuk.
+\textcite{perez-haro_abac_2024} menyoroti bahwa mayoritas pendekatan tersebut mengandalkan strategi berbasis frekuensi, yaitu menetapkan ambang dukungan minimum untuk membentuk aturan.
+Namun pendekatan tersebut menghadapi \textit{trade-off} yang nyata.
+Ambang tinggi dapat menyisakan banyak sumber daya tanpa aturan, khususnya yang jarang diakses.
+Sedangkan ambang rendah dapat memicu ledakan aturan atau \textit{rule explosion} yang tidak andal.
+Sebagai alternatif, mereka mengusulkan pemodelan \textit{log} akses sebagai jaringan afiliasi dan menerapkan analisis \textit{biclique} untuk mengekstraksi aturan tanpa memerlukan ambang frekuensi.
+
+Kualitas kebijakan hasil \textit{policy mining} lazim diukur melalui dua dimensi utama, yakni akurasi dan kompleksitas struktural.
+Akurasi biasanya diukur menggunakan \textit{F-score}, yaitu rata-rata harmonik antara presisi dan \textit{recall} aturan yang diekstraksi terhadap \textit{log} akses asli \parencite{diaz-rodriguez_abac_2025}.
+Kompleksitas struktural diukur melalui \textit{Weighted Structural Complexity} (WSC), sebuah metrik yang awalnya dirumuskan oleh \textcite{molloy_critical_1995} untuk \textit{role mining} pada RBAC dan kemudian diadaptasi oleh \textcite{xu_mining_2015} untuk konteks ABAC \parencite{perez-haro_abac_2024}.
+WSC pada dasarnya menjumlahkan banyaknya pasangan atribut-nilai yang digunakan untuk mendeskripsikan seluruh aturan dalam suatu kebijakan, sehingga kebijakan dengan WSC rendah lebih ringkas dan lebih mudah dikelola oleh administrator.
+
+Kedua metrik ini, akurasi dan WSC, konsisten dengan metrik kualitas kebijakan yang telah ditetapkan pada Hipotesis 1 untuk mengevaluasi CoDA-EDA terhadap \textit{baseline compact-GA/compact-PSO}.
+Adapun pendekatan metaheuristik \textit{population-based} seperti ACO \parencite{siyuan_abac_2025} dan UBK \parencite{li_attribute_2026} yang menjadi \textit{baseline} penelitian ini merupakan varian lain dari strategi ekstraksi aturan berbasis pencarian (\textit{search-based}), berbeda dari strategi \textit{association-rule, machine learning}, klaster, maupun \textit{graph-based} yang sudah diuraikan di atas.

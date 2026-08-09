@@ -1,0 +1,61 @@
+\section{Tahapan Penelitian}
+
+Kerangka DSRM dari \textcite{peffers_design_2007} telah diperkenalkan sebelumnya, yang mencakup enam aktivitas utama.
+Pemaparan berikut ini menjabarkan secara konkret operasionalisasi keenam aktivitas tersebut dalam penelitian, termasuk penempatannya pada berbagai tahapan yang tercantum yang kesemuanya dirangkun dalam Tabel \ref{tab:pemetaan-dsrm}.
+
+\begin{longtable}{|c|p{3.5cm}|>{\raggedright\arraybackslash}p{8.5cm}|}
+\caption{Pemetaan Aktivitas DSRM terhadap Struktur Penelitian}
+\label{tab:pemetaan-dsrm} \\
+\hline
+\textbf{No} & \textbf{Aktivitas DSRM} & \textbf{Deskripsi Operasional pada Penelitian Ini} \\
+\hline
+\endfirsthead
+
+\multicolumn{3}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{No} & \textbf{Aktivitas DSRM} & \textbf{Deskripsi Operasional pada Penelitian Ini} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{3}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+1 & \textit{Problem Identification and Motivation} & Mengidentifikasi kesenjangan penelitian: belum tersedia algoritma metaheuristik untuk \textit{policy mining} ABAC yang sekaligus ringan, sadar dependensi, dan dapat diperbarui inkremental pada \textit{edge-IoT}. \\
+\hline
+2 & \textit{Define the Objectives for a Solution} & Menetapkan empat tujuan khusus dan kriteria keberhasilan terukur pada Hipotesis H1-H4. \\
+\hline
+3 & \textit{Design and Development} & Merancang \& mengimplementasikan algoritma CoDA-EDA; mengimplementasikan enam algoritma pembanding secara setara; mengonstruksi dataset ABAC-IoT berkorelasi-terkontrol. \\
+\hline
+4 & \textit{Demonstration} & Menjalankan CoDA-EDA beserta \textit{baseline} pada dataset yang dikonstruksi, di perangkat Raspberry Pi 5, mengikuti skenario eksperimen yang menguji H1-H4. \\
+\hline
+5 & \textit{Evaluation} & Mengukur \& membandingkan hasil demonstrasi terhadap metrik (WSC, akurasi, memori, waktu) dan menguji signifikansi statistik terhadap H1-H4. \\
+\hline
+6 & \textit{Communication} & Mengomunikasikan permasalahan, artefak CoDA-EDA, dan hasil evaluasi melalui laporan tesis serta naskah publikasi ilmiah terkait. \\
+\hline
+
+\end{longtable}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{gambar_dsrm.png}
+    \caption{Enam Aktivitas DSRM dan Pemetaannya terhadap Struktur Penelitian}
+    \label{fig:gambar-dsrm}
+\end{figure}
+Gambar \ref{fig:gambar-dsrm} memvisualisasikan keenam aktivitas DSRM sebagai satu alur proses, sekaligus menegaskan sifat iteratifnya.
+
+Aktivitas \textit{Design and Development} merupakan aktivitas paling ekstensif pada penelitian ini karena mencakup tiga komponen.
+Pertama, perancangan algoritma CoDAA-EDA itu sendiri, termasuk representasi model probabilistik, mekanisme pembaruan kompetitif tanpa populasi eksplisit, dan strategi pembaruan struktur dependensi berbasis delta.
+Kedua, implementasi enam algoritma pembanding (\textit{compact-GA, compact-PSO}, BOA, iBOA, ACO, dan UBK) secara setara, agar perbandingan kinerja pada aktivitas \textit{Evaluation} tidak bias oleh perbedaan kualitas implementasi.
+Ketiga, konstruksi dataset ABAC-IoT dengan tingkat korelasi atribut terkontrol, mengingat dataset semacam ini belum tersedia sebagai sumber daya siap pakai.
+
+Aktivitas \textit{Demonstration} dilaksanakan dengan menjalankan CoDA-EDA beserta seluruh algoritma pembanding pada datset yang telah dikonstruksi, di atas perangkat \textit{edge-IoT} target penelitian ini, yaitu Raspberry Pi 5, mengikuti skenario eksperimen yang secara eksplisit dirancang untuk menguji hipotesis yang ada.
+Aktivitas \textit{Evaluation} kemudian mengukur hasil demonstrasi tersebut melalui metrik kualitas kebijakan, jejak memori, dan waktu komputasi, serta menguji signifikansi statistik perbandingan antar-algoritma.
+Aktivitas \textit{Communication} akan dilaksanakan melalui penyusunan buku laporan tesis serta naskah publikasi ilmiah terkait.
+
+Perlu dicatat bahwa meskipun keenam aktivitas di atas disajikan secara nominal berurutan, \textcite{peffers_design_2007} menegaskan bahwa proses DSRM bersifat iteratif.
+Peneliti dimungkinkan untuk kembali ke aktivitas \textit{Design and Development} apabila hasil \textit{Demonstration} atau \textit{Evaluation} menunjukkan kebutuhan penyempurnaan rancangan algoritma.
