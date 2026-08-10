@@ -5,9 +5,33 @@
 \renewcommand{\thechapter}{\Roman{chapter}}
 \renewcommand{\thesection}{\thechapter.\arabic{section}}
 
-% Nomor persamaan
+% ==================================================
+% Nomor Persamaan
+% ==================================================
+
 \numberwithin{equation}{chapter}
-\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+
+\renewcommand{\theequation}{%
+  \thechapter.\arabic{equation}%
+}
+
+
+% ==================================================
+% Nomor Algoritma
+% ==================================================
+
+\numberwithin{algorithm}{chapter}
+
+\renewcommand{\thealgorithm}{%
+  \thechapter.\arabic{algorithm}%
+}
+
+\floatname{algorithm}{Algoritma}
+
+
+% ==================================================
+% Kedalaman Heading
+% ==================================================
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
