@@ -674,3 +674,162 @@
   \addcontentsline{toc}{chapter}{DAFTAR PUSTAKA}
   \vspace{10pt}
 }
+
+% ==================================================
+% HALAMAN PEMISAH LAMPIRAN
+% ==================================================
+%
+% Halaman khusus sebelum seluruh bagian lampiran.
+%
+% Format:
+% - Teks: LAMPIRAN
+% - Center horizontal
+% - Center vertikal
+% - 14 pt
+% - Bold
+% - Single spacing
+% - Masuk ke Daftar Isi
+% - Nomor halaman tetap melanjutkan tesis
+% ==================================================
+
+\newcommand{\thesisappendixcover}{%
+  \clearpage
+
+  % ------------------------------------------------
+  % Masukkan halaman LAMPIRAN ke Daftar Isi
+  % ------------------------------------------------
+  %
+  % \phantomsection diperlukan agar hyperlink dari
+  % Daftar Isi mengarah tepat ke halaman ini.
+  %
+  \phantomsection
+  \addcontentsline{toc}{chapter}{LAMPIRAN}
+
+  % Nomor halaman tetap ditampilkan
+  \thispagestyle{plain}%
+
+  \begingroup
+
+    % Single spacing
+    \setstretch{1}%
+
+    % Hilangkan paragraph spacing global
+    \setlength{\parindent}{0pt}%
+    \setlength{\parskip}{0pt}%
+
+    % ------------------------------------------------
+    % Center vertikal
+    % ------------------------------------------------
+
+    \null
+    \vfill
+
+    % ------------------------------------------------
+    % Judul halaman
+    % ------------------------------------------------
+
+    {\centering
+      \normalfont
+      \bfseries
+      \fontsize{14pt}{16.8pt}\selectfont
+      LAMPIRAN
+      \par
+    }
+
+    % ------------------------------------------------
+    % Center vertikal
+    % ------------------------------------------------
+
+    \vfill
+    \null
+
+  \endgroup
+
+  % Lampiran A nantinya dimulai di halaman berikutnya
+  \clearpage
+}
+
+% ==================================================
+% SETUP LAMPIRAN
+% ==================================================
+
+\newcommand{\thesisappendixsetup}{%
+
+  % Mengubah penomoran chapter menjadi:
+  % A, B, C, ...
+  \appendix
+
+  % Format section di dalam lampiran:
+  % A.1, A.2, A.3, ...
+  \renewcommand{\thesection}{%
+    \thechapter.\arabic{section}%
+  }%
+
+}
+
+
+% ==================================================
+% JUDUL SETIAP LAMPIRAN
+% ==================================================
+%
+% Penggunaan:
+%
+% \thesisappendixpage
+%   {Judul Lampiran}
+%   {label}
+%
+% Contoh:
+%
+% \thesisappendixpage
+%   {Contoh Kebijakan Hasil Mining Lengkap}
+%   {app:kebijakan-mining}
+%
+% Menghasilkan:
+%
+% Lampiran A Contoh Kebijakan Hasil Mining Lengkap
+%
+% PENTING:
+% Tidak dimasukkan ke Daftar Isi.
+% ==================================================
+
+\newcommand{\thesisappendixpage}[2]{%
+
+  % Setiap lampiran dimulai di halaman baru
+  \clearpage
+
+  % Naikkan counter:
+  % A -> B -> C -> ...
+  \refstepcounter{chapter}%
+
+  % Label untuk cross-reference
+  \label{#2}%
+
+  % Nomor halaman tetap ditampilkan
+  \thispagestyle{plain}%
+
+  \begingroup
+
+    % Single spacing
+    \setstretch{1}%
+
+    % Hilangkan paragraph spacing global
+    \setlength{\parindent}{0pt}%
+    \setlength{\parskip}{0pt}%
+
+    % ------------------------------------------------
+    % Judul lampiran
+    % ------------------------------------------------
+
+    {\noindent
+      \normalfont
+      \bfseries
+      \fontsize{12pt}{14.4pt}\selectfont
+      Lampiran \thechapter\space #1
+      \par
+    }%
+
+  \endgroup
+
+  % Jarak judul ke isi lampiran
+  \vspace{14.4pt}%
+}

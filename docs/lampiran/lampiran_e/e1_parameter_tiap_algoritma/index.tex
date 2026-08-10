@@ -1,0 +1,52 @@
+\section{Parameter Tiap Algoritma}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{3.2cm}          % Algoritma
+    >{\raggedright\arraybackslash}p{5.5cm}          % Parameter kunci
+    >{\raggedright\arraybackslash}p{5.5cm}          % Catatan
+    @{}
+}
+\caption{Parameter kunci CoDA-EDA dan enam baseline} \\
+\toprule
+Algoritma & Parameter kunci (nilai) & Catatan \\
+\midrule
+\endfirsthead
+\caption{Parameter kunci CoDA-EDA dan enam baseline (lanjutan)} \\
+Algoritma & Parameter kunci (nilai) & Catatan \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+CoDA-EDA &
+$NP = 100$; $p_0 = 3/D$; $\mathit{mi\_rows} = 1500$; $w_{\mathrm{fp}} = 1,0$; $w_{\mathrm{wsc}} = 0,1$ &
+Pohon Chow-Liu order-1 disusun via algoritma Prim; struktur hanya dipicu drift \\
+
+compact-GA &
+$NP = 100$; $p_0 = 3/D$; laju $\pm 1/NP$ &
+Univariat; representasi biner identik dengan CoDA-EDA \\
+
+compact-PSO &
+$NP = 100$; $w = 0,7$; $c_1 = c_2 = 1,5$; $p_0 = 3/D$ &
+Posisi-kecepatan diadaptasi ke ruang kebijakan diskret \\
+
+BOA &
+$NP = 100$; $\mathit{cand} = 8$; $\mathit{top\_vars} = 400$ &
+Jaringan Bayes via BIC; kandidat induk dibatasi 400 variabel paling informatif agar layak pada $D$ besar \\
+
+iBOA &
+$NP = 100$; $k_{\mathrm{order}} = 2$ &
+Pohon dependensi inkremental (Chow-Liu); pembanding langsung H3 \\
+
+ACO &
+$NP = 100$ (semut); $\rho = 0,1$ (evaporasi feromon) &
+Parameter mengikuti nilai baku publikasi asli \\
+
+UBK &
+$NP = 100$; $\alpha$ adaptif $= 0,8 \cdot \max(0,05; 1 - t/200)$; derau $= 0,3$ &
+Strategi berburu berbasis populasi \\
+
+\end{longtable}
+
+Prior kejarangan $p_0 = 3/D$ bersifat sadar-dimensi (aturan ABAC nyata umumnya $2$--$5$ pasangan atribut-nilai), sehingga jumlah bit aktif di awal pencarian tetap konstan meskipun $D$ berbeda antar-dataset.

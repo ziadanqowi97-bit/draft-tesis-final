@@ -1,0 +1,33 @@
+\section{Ringkasan Uji Monotonisitas (Kalibrasi)}
+
+Uji monotonisitas dipakai untuk memverifikasi bahwa \textit{baseline} diimplementasikan secara sahih (kualitas tidak menurun ketika anggaran dinaikkan) sekaligus mengidentifikasi tuas hiperparameter yang benar-benar menggerakkan cakupan. 
+Dua tuas diuji seragam pada seluruh algoritma.
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{4.5cm}          % Tuas
+    >{\raggedleft\arraybackslash}p{3.5cm}           % Nilai diuji
+    >{\raggedright\arraybackslash}p{5.5cm}          % Efek terhadap CoDA-EDA
+    >{\raggedright\arraybackslash}p{5.5cm}          % Kesimpulan
+    @{}
+}
+\caption{Efek tuas hiperparameter terhadap kualitas (dataset e-document)} \\
+\toprule
+Tuas & Nilai diuji & Efek terhadap CoDA-EDA & Kesimpulan \\
+\midrule
+\endfirsthead
+\caption{Efek tuas hiperparameter terhadap kualitas (dataset e-document) (lanjutan)} \\
+Tuas & Nilai diuji & Efek terhadap CoDA-EDA & Kesimpulan \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+Bobot false positive ($w_{\mathrm{fp}}$) & $1,0 / 2,0 / 4,0$ & Cakupan $0,186 \rightarrow 0,187$ (praktis datar) & Bukan tuas cakupan; ditetapkan $w_{\mathrm{fp}} = 1,0$ \\
+
+Anggaran jumlah aturan & $4 / 8 / 12$ & F-score $0,362 \rightarrow 0,571 \rightarrow 0,568$ (monoton naik) & Tuas cakupan sesungguhnya; jumlah aturan diperlakukan sebagai parameter rekayasa \\
+
+\end{longtable}
+
+Karena kenaikan anggaran aturan menaikkan F-score secara monoton (tanpa penurunan), implementasi kerangka penambangan dinyatakan sahih. 
+Nilai baku eksperimen ditetapkan $w_{\mathrm{fp}} = 1,0$; jumlah aturan efektif pada anggaran baku berkisar 4--5.

@@ -1,0 +1,55 @@
+\section{Efisiensi Pembaruan (H3 dan H4) -- Waktu Per Siklus dan Kualitas}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{3.8cm}          % Dataset / skenario (kiri)
+    >{\raggedleft\arraybackslash}p{2.5cm}           % Relearn (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % warm (s) (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % always (s) (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % cold (s) (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % F1 warm (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % F1 cold (kanan)
+    @{}
+}
+\caption{Waktu total pembaruan (warm/always/cold) dan F-score akhir per dataset dan skenario drift} \\
+\toprule
+\multirow{2}{*}{Dataset / skenario} &
+\multirow{2}{*}{Relearn (dari 4)} &
+\multicolumn{3}{c}{Waktu pembaruan} &
+\multicolumn{2}{c}{F-score akhir} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-7}
+& & warm (s) & always (s) & cold (s) & F1 warm & F1 cold \\
+\midrule
+\endfirsthead
+\caption{Waktu total pembaruan (warm/always/cold) dan F-score akhir per dataset dan skenario drift (lanjutan)} \\
+\toprule
+\multirow{2}{*}{Dataset / skenario} &
+\multirow{2}{*}{Relearn (dari 4)} &
+\multicolumn{3}{c}{Waktu pembaruan} &
+\multicolumn{2}{c}{F-score akhir} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-7}
+& & warm (s) & always (s) & cold (s) & F1 warm & F1 cold \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+workforce / stasioner     & 0,0 & 3,46 & 4,58 & 9,05 & 0,901 & 0,805 \\
+workforce / rendah        & 4,0 & 4,50 & 4,49 & 9,12 & 0,891 & 0,812 \\
+workforce / sedang        & 4,0 & 4,52 & 4,53 & 8,95 & 0,877 & 0,816 \\
+edocument / stasioner     & 4,0 & 22,26 & 22,27 & 28,24 & 0,399 & 0,297 \\
+edocument / rendah        & 4,0 & 22,38 & 22,39 & 28,36 & 0,465 & 0,341 \\
+edocument / sedang        & 4,0 & 22,37 & 22,37 & 28,31 & 0,433 & 0,267 \\
+healthcare / stasioner    & 0,0 & 0,00 & 0,00 & 2,00 & 0,814 & 0,807 \\
+healthcare / rendah       & 3,3 & 0,00 & 0,00 & 2,81 & 0,789 & 0,838 \\
+healthcare / sedang       & 4,0 & 0,00 & 0,00 & 2,67 & 0,832 & 0,890 \\
+project-management / stasioner & 0,0 & 0,17 & 0,21 & 4,45 & 0,909 & 0,928 \\
+project-management / rendah    & 3,0 & 0,16 & 0,20 & 3,98 & 0,928 & 0,896 \\
+project-management / sedang    & 3,3 & 0,20 & 0,24 & 4,13 & 0,936 & 0,928 \\
+university / stasioner    & 0,0 & 0,08 & 0,11 & 3,76 & 0,810 & 0,803 \\
+university / rendah       & 4,0 & 0,07 & 0,07 & 3,88 & 0,808 & 0,819 \\
+university / sedang       & 3,7 & 0,08 & 0,08 & 3,99 & 0,798 & 0,850 \\
+
+\end{longtable}
+
+H$_3$ (\textit{warm} vs \textit{always}) tampak ketika $\textit{Relearn} < 4$ (pemicu drift diam); H$_4$ (\textit{warm} vs \textit{cold}) tampak dari waktu \textit{warm} yang jauh lebih kecil dari \textit{cold} dengan F1$_{\mathrm{warm}}$ $\geq$ F1$_{\mathrm{cold}}$.

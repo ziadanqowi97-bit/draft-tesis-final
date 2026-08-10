@@ -1,0 +1,94 @@
+% ==================================================
+% LAMPIRAN D
+% ==================================================
+
+\thesisappendixpage
+  {Analisis Karakteristik Dataset (Pra-Eksperimen)}
+  {app:karakteristik-dataset}
+
+
+% ==================================================
+% ISI LAMPIRAN D
+% ==================================================
+
+Lampiran ini memuat profil karakteristik seluruh dataset yang dijalankan sebelum eksperimen utama, sebagai dasar penentuan kecocokan tiap dataset dengan tiap hipotesis.
+Kolom skala menyatakan jumlah \textit{user/resource}/aksi; \textit{permit} unik menandai risiko duplikasi (makin sedikit makin berisiko); lantai derau JSD stasioner menentukan kelayakan mekanisme H3 (layak bila di bawah ambang $\tau = 0,01$).
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{4.0cm}          % Dataset
+    >{\raggedleft\arraybackslash}p{2.5cm}           % Skala (U/R/A)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % D
+    >{\raggedleft\arraybackslash}p{2.5cm}           % Permit unik
+    >{\raggedleft\arraybackslash}p{2.5cm}           % Duplikasi
+    >{\raggedleft\arraybackslash}p{2.5cm}           % Rasio permit
+    >{\raggedleft\arraybackslash}p{2.5cm}           % Lantai derau JSD
+    >{\raggedleft\arraybackslash}p{2.5cm}           % H3
+    @{}
+}
+\caption{Profil karakteristik dataset} \\
+\toprule
+Dataset &
+\multicolumn{1}{c}{Skala (U/R/A)} &
+\multicolumn{1}{c}{$D$} &
+\multicolumn{1}{c}{Permit unik} &
+\multicolumn{1}{c}{Duplikasi} &
+\multicolumn{1}{c}{Rasio permit} &
+\multicolumn{1}{c}{Lantai derau JSD} &
+\multicolumn{1}{c}{H3} \\
+\midrule
+\endfirsthead
+\caption{Profil karakteristik dataset (lanjutan)} \\
+Dataset &
+\multicolumn{1}{c}{Skala (U/R/A)} &
+\multicolumn{1}{c}{$D$} &
+\multicolumn{1}{c}{Permit unik} &
+\multicolumn{1}{c}{Duplikasi} &
+\multicolumn{1}{c}{Rasio permit} &
+\multicolumn{1}{c}{Lantai derau JSD} &
+\multicolumn{1}{c}{H3} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+workforce            & 353/250/9 & 436    & 14.513 & rendah  & 0,30 & 0,0066 & layak \\
+e-document           & 500/300/4 & 1907   & 32.961 & rendah  & 0,30 & 0,0325 & tak layak \\
+healthcare           & 21/16/3   & 46     & 14     & TINGGI  & 0,30 & 0,0022 & layak \\
+project-management   & 19/40/4   & 51     & 17     & TINGGI  & 0,30 & 0,0010 & layak \\
+university           & 22/34/9   & 54     & 90     & TINGGI  & 0,30 & 0,0026 & layak \\
+Smart Building IoT   & ---/---/4 & 428    & 5.729  & rendah  & 0,75 & 0,0065 & layak \\
+
+\end{longtable}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{4.5cm}          % Dataset
+    >{\raggedright\arraybackslash}p{3.0cm}          % H1 (kualitas)
+    >{\raggedright\arraybackslash}p{3.0cm}          % H2 (memori)
+    >{\raggedright\arraybackslash}p{4.0cm}          % H3 (pembaruan)
+    >{\raggedright\arraybackslash}p{3.5cm}          % H4 (warm-start)
+    @{}
+}
+\caption{Matriks kecocokan dataset $\times$ hipotesis} \\
+\toprule
+Dataset & H1 (kualitas) & H2 (memori) & H3 (pembaruan) & H4 (warm-start) \\
+\midrule
+\endfirsthead
+\caption{Matriks kecocokan dataset $\times$ hipotesis (lanjutan)} \\
+Dataset & H1 (kualitas) & H2 (memori) & H3 (pembaruan) & H4 (warm-start) \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+workforce            & Baik   & Baik & Layak (JSD < $\tau$) & Baik \\
+e-document           & Baik   & Baik & Tak layak (JSD > $\tau$) & Baik \\
+healthcare           & Terbatas (duplikasi) & Baik & Layak (JSD < $\tau$) & Baik \\
+project-management   & Terbatas (duplikasi) & Baik & Layak (JSD < $\tau$) & Baik \\
+university           & Terbatas (duplikasi) & Baik & Layak (JSD < $\tau$) & Baik \\
+Smart Building IoT   & Kontras garis-sepele & Baik & Layak (JSD < $\tau$) & Baik \\
+
+\end{longtable}
+
+\textbf{Ringkasan implikasi:} hanya \textit{workforce} dan \textit{e-document} yang layak menjadi tumpuan vonis $H_1$ (permit unik memadai); ketiga dataset kecil terbatas untuk $H_1$ karena duplikasi tinggi namun tetap sahih untuk $H_2$/$H_3$/$H_4$; \textit{e-document} tidak layak untuk $H_3$ karena lantai derau melampaui $\tau$, sedangkan \textit{Smart Building IoT} justru layak --- menjadi sarana menunjukkan mekanisme $H_3$ yang tidak dapat diperlihatkan pada \textit{e-document}.

@@ -1,0 +1,33 @@
+\section{Uji Validasi Eksternal \textit{Smart Building IoT} (H1)}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{3.2cm}          % Pembanding
+    >{\raggedleft\arraybackslash}p{2.5cm}           % ΔF1
+    >{\raggedleft\arraybackslash}p{3.0cm}           % p (Wilcoxon)
+    >{\raggedleft\arraybackslash}p{2.5cm}           % r (rank-biserial)
+    @{}
+}
+\caption{Post-hoc CoDA-EDA vs baseline pada Smart Building IoT  (Friedman $\chi^2 = 21,4$; $p = 0,002$; $n = 5$ seed)} \\
+\toprule
+Pembanding & $\Delta$F1 & $p$ (Wilcoxon) & $r$ (rank-biserial) \\
+\midrule
+\endfirsthead
+\caption{Post-hoc CoDA-EDA vs baseline pada Smart Building IoT (lanjutan)} \\
+Pembanding & $\Delta$F1 & $p$ (Wilcoxon) & $r$ (rank-biserial) \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+compact-GA  & $-0,023$ & $0,438$ & $-0,60$ \\
+compact-PSO & $-0,026$ & $0,625$ & $-0,60$ \\
+iBOA        & $-0,005$ & $1,000$ & $-0,20$ \\
+BOA         & $-0,057$ & $0,062$ & $-1,00$ \\
+ACO         & $-0,056$ & $0,062$ & $-1,00$ \\
+UBK         & $+0,104$ & $0,062$ & $+1,00$ \\
+
+\end{longtable}
+
+\textbf{Catatan:} Dengan hanya lima seed, nilai $p$ terkecil yang mungkin pada uji Wilcoxon dua sisi adalah $2/2^5 = 0,0625$, sehingga taraf $0,05$ tidak dapat dicapai berapa pun besar perbedaannya. 
+Hasil eksternal karena itu ditafsirkan secara deskriptif (arah $r$ dan posisi relatif), bukan sebagai vonis signifikansi; uji Friedman omnibus tetap signifikan ($p = 0,002$).

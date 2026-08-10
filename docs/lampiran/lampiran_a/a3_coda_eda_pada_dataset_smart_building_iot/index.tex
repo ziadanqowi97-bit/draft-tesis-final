@@ -1,0 +1,23 @@
+\section{CoDA-EDA pada Dataset \textit{Smart Building IoT} (D = 428)}
+
+\textbf{Sumber data:} \textit{Smart Building IoT} \\
+\textbf{Ukuran log:} $n = 8000 \text{ permintaan,} D = 428 \text{ pasangan atribut-nilai}$ \\
+\textbf{Metrik kebijakan:} F1 = 0,998; \textit{precision} = 1,000; \textit{recall} = 0,996; \textit{coverage} = 0,747; WSC = 276; jumlah aturan = 5 \\
+
+\begin{itemize}
+    \item \textbf{Aturan 1:} JIKA \textsf{area} $\in \{\texttt{backyard}, \texttt{bedroom}\}$ DAN \textsf{action} = \texttt{arm} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=1770  FP=0  WSC=2
+
+    \item \textbf{Aturan 2:} JIKA \textsf{uname} $\in \{\texttt{116}, \texttt{104}, \texttt{110}, \texttt{108}, \texttt{118}, \texttt{119}, \texttt{107}, \texttt{84}, \texttt{77}, \texttt{114}, \texttt{38}, \texttt{97}, \texttt{117}, \texttt{109}, \texttt{87}, \texttt{106}, \texttt{54}, \texttt{88}, \texttt{115}, \texttt{99}, \texttt{93}, \texttt{36}, \texttt{2}, \texttt{113}, \texttt{111}\}$ … (+34 nilai lain) DAN \textsf{action} $\in \{\texttt{arm}, \texttt{access}, \texttt{control}\}$ MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=4111  FP=0  WSC=59
+
+    \item \textbf{Aturan 3:} JIKA \textsf{rname} $\in \{\texttt{1100}, \texttt{1109}, \texttt{1068}, \texttt{1106}, \texttt{\_\_rare\_\_}, \texttt{1091}, \texttt{1108}, \texttt{629}, \texttt{1067}, \texttt{1052}, \texttt{1105}, \texttt{254}, \texttt{961}, \texttt{1097}, \texttt{1038}, \texttt{1031}, \texttt{1090}, \texttt{1098}, \texttt{1102}, \texttt{1069}, \texttt{1041}, \texttt{1033}, \texttt{1008}, \texttt{1107}, \texttt{1077}\}$ … (+87 nilai lain) DAN \textsf{action} $\in \{\texttt{arm}, \texttt{access}, \texttt{control}\}$ MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=4794  FP=0  WSC=112
+
+    \item \textbf{Aturan 4:} JIKA \textsf{rname} $\in \{\texttt{1100}, \texttt{1092}, \texttt{1065}, \texttt{1043}, \texttt{1097}, \texttt{1096}, \texttt{1032}, \texttt{1073}, \texttt{711}, \texttt{1078}, \texttt{1060}, \texttt{1087}, \texttt{1041}, \texttt{1051}, \texttt{1008}, \texttt{1071}, \texttt{843}, \texttt{1057}, \texttt{837}, \texttt{980}, \texttt{899}, \texttt{849}, \texttt{1076}, \texttt{1086}, \texttt{1055}\}$ … (+75 nilai lain) DAN \textsf{action} $\in \{\texttt{access}, \texttt{control}\}$ MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=854  FP=0  WSC=100
+
+    \item \textbf{Aturan 5:} JIKA \textsf{type} $\in \{\texttt{TV}, \texttt{Security Cameras}, \texttt{Smart locks}\}$ DAN \textsf{action} $\in \{\texttt{arm}, \texttt{control}\}$ MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=3417  FP=0  WSC=3
+
+\end{itemize}

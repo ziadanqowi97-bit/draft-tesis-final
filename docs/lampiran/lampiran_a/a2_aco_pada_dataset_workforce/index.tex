@@ -1,0 +1,23 @@
+\section{ACO pada Dataset \textit{Workforce} (Pembanding)}
+
+\textbf{Sumber data:} ABAC Lab / \textit{workforce} (\textit{corr} = sedang, \textit{drift} = stasioner) \\
+\textbf{Ukuran log:} $n = 10000 \text{ permintaan,} D = 436 \text{ pasangan atribut-nilai}$ \\
+\textbf{Metrik kebijakan:} F1 = 0,820; \textit{precision} = 0,697; \textit{recall} = 0,995; \textit{coverage} = 0,428; WSC = 19; jumlah aturan = 5 \\
+
+\begin{itemize}
+    \item \textbf{Aturan 1:} JIKA \textsf{tenantType} = \texttt{primary} DAN \textsf{action} $\in \{\texttt{modify}, \texttt{view}\}$ MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=2879  FP=1297  WSC=1
+
+    \item \textbf{Aturan 2:} JIKA \textsf{provider} = \texttt{eWorkforce} DAN \textsf{position} = \texttt{helpdeskOperator} DAN \textsf{action} = \texttt{delete} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=57  FP=0  WSC=2
+
+    \item \textbf{Aturan 3:} JIKA \textsf{assignedRegion} = \texttt{north} DAN \textsf{certifications} = \texttt{powerProtectionSpecialist} DAN \textsf{action} = \texttt{complete} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=19  FP=0  WSC=2
+
+    \item \textbf{Aturan 4:} JIKA \textsf{managedStaff} $\in \{\texttt{tech009}, \texttt{tech011}, \texttt{tech014}, \texttt{tech025}, \texttt{tech036}, \texttt{tech046}, \texttt{tech060}, \texttt{tech062}, \texttt{tech065}\}$ DAN \textsf{action} = \texttt{complete} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=21  FP=2  WSC=9
+
+    \item \textbf{Aturan 5:} JIKA \textsf{department} = \texttt{workforce} DAN \textsf{assignedRegion} = \texttt{north} DAN \textsf{assignedTechnician} $\in \{\texttt{tech005}, \texttt{tech014}, \texttt{tech046}\}$ DAN \textsf{action} = \texttt{complete} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=12  FP=0  WSC=5
+
+\end{itemize}

@@ -1,0 +1,29 @@
+\section{Parameter Siklus Pembaruan (H3 dan H4)}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{5.0cm}          % Parameter
+    >{\raggedleft\arraybackslash}p{3.0cm}           % Nilai
+    >{\raggedright\arraybackslash}p{7.0cm}          % Keterangan
+    @{}
+}
+\caption{Parameter simulasi siklus pembaruan lintas jendela} \\
+\toprule
+Parameter & Nilai & Keterangan \\
+\midrule
+\endfirsthead
+\caption{Parameter simulasi siklus pembaruan lintas jendela (lanjutan)} \\
+Parameter & Nilai & Keterangan \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+Ambang pemicu drift ($\tau$) & $0,01$ & Struktur Chow-Liu dipelajari ulang bila divergensi Jensen-Shannon $> \tau$ \\
+Jumlah jendela & 5 & Log dibagi menjadi lima jendela berurutan (empat siklus pembaruan) \\
+Anggaran pembelajaran awal & 9.000 evaluasi & Jendela pertama / kondisi cold \\
+Anggaran per pembaruan & 3.000 evaluasi & Tiap siklus pembaruan (warm/always) \\
+Anggaran per aturan & 3.000 evaluasi & Batas per aturan pada siklus pembaruan \\
+Ukuran populasi virtual ($NP$) & 100 & Sama seperti eksperimen H1 \\
+
+\end{longtable}

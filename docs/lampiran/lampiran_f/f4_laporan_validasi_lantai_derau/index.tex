@@ -1,0 +1,44 @@
+\section{Laporan Validasi --- Lantai Derau, Drift Bersih, dan Duplikasi}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{4.0cm}          % Dataset
+    >{\raggedleft\arraybackslash}p{3.2cm}           % Lantai derau JSD
+    >{\raggedleft\arraybackslash}p{3.2cm}           % Drift bersih (→0,10)
+    >{\raggedleft\arraybackslash}p{3.2cm}           % Drift bersih (→0,25)
+    >{\raggedleft\arraybackslash}p{3.2cm}           % Duplikasi
+    >{\raggedleft\arraybackslash}p{3.2cm}           % Status (OK/total)
+    @{}
+}
+\caption{Lantai derau JSD, drift bersih terkalibrasi, tingkat duplikasi, dan status validasi per dataset} \\
+\toprule
+Dataset &
+\multicolumn{1}{c}{Lantai derau $JSD$} &
+\multicolumn{1}{c}{Drift bersih ($\to 0,10$)} &
+\multicolumn{1}{c}{Drift bersih ($\to 0,25$)} &
+\multicolumn{1}{c}{Duplikasi} &
+\multicolumn{1}{c}{Status (OK/total)} \\
+\midrule
+\endfirsthead
+\caption{Lantai derau JSD, drift bersih terkalibrasi, tingkat duplikasi, dan status validasi per dataset (lanjutan)} \\
+Dataset &
+\multicolumn{1}{c}{Lantai derau $JSD$} &
+\multicolumn{1}{c}{Drift bersih ($\to 0,10$)} &
+\multicolumn{1}{c}{Drift bersih ($\to 0,25$)} &
+\multicolumn{1}{c}{Duplikasi} &
+\multicolumn{1}{c}{Status (OK/total)} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+workforce            & $0,017$ & $0,094$ & $0,236$ & 16--57\% & 11/27 OK \\
+e-document           & $0,132$ & $0,091$ & $0,228$ & 5--37\%  & 24/27 OK \\
+healthcare           & $0,003$ & $0,102$ & $0,172$ & 95--99\% & 0/27 OK \\
+project-management   & $0,001$ & $0,099$ & $0,175$ & 92--94\% & 0/27 OK \\
+university           & $0,009$ & $0,089$ & $0,181$ & 68--88\% & 0/27 OK \\
+
+\end{longtable}
+
+Dua pola menegaskan temuan pra-eksperimen. Pertama, lantai derau $JSD$ \textit{e-document} sangat tinggi ($0,132$) --- jauh melampaui ambang $\tau = 0,01$ --- sehingga pelaporan drift bersih wajib dan mekanisme $H_3$ tidak dapat ditunjukkan pada dataset ini; nilai absolut lantai derau ini bergantung pada ukuran jendela pengukuran. 
+Kedua, ketiga dataset kecil berduplikasi 68--99\% dan seluruh konfigurasinya tertandai peringatan ($0/27$ OK), mengonfirmasi status mereka sebagai konteks pelengkap dan bukan tumpuan vonis $H_1$.

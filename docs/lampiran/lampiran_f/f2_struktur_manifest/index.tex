@@ -1,0 +1,30 @@
+\section{Struktur Manifest}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{3.5cm}          % Medan
+    >{\raggedright\arraybackslash}p{11.5cm}         % Keterangan
+    @{}
+}
+\caption{Medan (field) manifest per konfigurasi dataset} \\
+\toprule
+Medan & Keterangan \\
+\midrule
+\endfirsthead
+\caption{Medan (field) manifest per konfigurasi dataset (lanjutan)} \\
+Medan & Keterangan \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+\texttt{tag} & Pengenal konfigurasi, mis. \texttt{workforce\_corr-sedang\_drift-rendah\_seed-0} \\
+\texttt{dataset}, \texttt{corr}, \texttt{drift}, \texttt{seed} & Identitas dataset dasar, tingkat korelasi, skenario drift, dan seed \\
+\texttt{uattr}, \texttt{rattr} & Pasangan atribut subjek dan objek yang dipilih untuk injeksi korelasi \\
+\texttt{alpha} & Parameter penggandeng distribusi bersama hasil kalibrasi biner \\
+\texttt{target\_nmi}, \texttt{observed\_nmi} & Target $NMI$ dan $NMI$ yang benar-benar terukur pada log final \\
+\texttt{target\_jsd}, \texttt{observed\_jsd} & Target $JSD$ dan $JSD$ terukur per jendela (untuk perhitungan drift bersih) \\
+\texttt{permit\_ratio} & Rasio permit teramati pada log \\
+\texttt{duplication\_rate} & Tingkat duplikasi entri (indikator keragaman efektif data) \\
+
+\end{longtable}

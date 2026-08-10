@@ -1,0 +1,49 @@
+\section{Jejak Memori (H2) -- Rasio Penskalaan alloc$(NP=400)/\text{alloc}(NP=25)$ Per Dataset}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{3.0cm}          % Algoritma (kiri)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % workforce (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % e-document (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % healthcare (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % project-mgmt (kanan)
+    >{\raggedleft\arraybackslash}p{2.2cm}           % university (kanan)
+    >{\raggedleft\arraybackslash}p{2.5cm}           % Rata-rata (kanan)
+    @{}
+}
+\caption{Rasio penskalaan jejak memori terhadap ukuran populasi (per dataset dan rata-rata)} \\
+\toprule
+Algoritma &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{workforce} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{e-document} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{healthcare} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{project-mgmt} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{university} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.5cm}}{Rata-rata} \\
+\midrule
+\endfirsthead
+\caption{Rasio penskalaan jejak memori terhadap ukuran populasi (per dataset dan rata-rata) (lanjutan)} \\
+Algoritma &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{workforce} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{e-document} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{healthcare} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{project-mgmt} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.2cm}}{university} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.5cm}}{Rata-rata} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+CoDA-EDA  & 1,00 & 1,00 & 1,00 & 1,00 & 1,00 & 1,00x \\
+compact-GA & 0,47 & 0,36 & 1,00 & 1,00 & 1,00 & 0,77x \\
+compact-PSO & 0,48 & 0,39 & 1,00 & 1,00 & 0,95 & 0,76x \\
+iBOA      & 0,53 & 0,58 & 1,00 & 1,00 & 1,00 & 0,82x \\
+BOA       & 12,09 & 13,80 & 3,94 & 4,21 & 4,37 & 7,68x \\
+ACO       & 9,47 & 13,24 & 2,63 & 2,82 & 2,94 & 6,22x \\
+UBK       & 12,08 & 15,64 & 5,64 & 6,17 & 6,49 & 9,20x \\
+
+\end{longtable}
+
+Catatan: rasio mendekati 1,00 menandakan memori datar terhadap ukuran populasi.
+Nilai per-dataset pada algoritma berpopulasi lebih tinggi pada dua dataset besar karena skala populasi absolutnya lebih besar.

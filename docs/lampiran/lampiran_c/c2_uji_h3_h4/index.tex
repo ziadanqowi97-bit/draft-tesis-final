@@ -1,0 +1,53 @@
+\section{Uji H3 dan H4 (Efisiensi Pembaruan) Per Dataset dan Skenario}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{4.5cm}          % Dataset / skenario
+    >{\raggedleft\arraybackslash}p{3.8cm}           % H3: p (warm vs always)
+    >{\raggedleft\arraybackslash}p{2.5cm}           % H3: r
+    >{\raggedleft\arraybackslash}p{3.8cm}           % H4: p (warm vs cold)
+    >{\raggedleft\arraybackslash}p{2.5cm}           % H4: r
+    @{}
+}
+\caption{Uji Wilcoxon berpasangan waktu pembaruan — H3 (warm vs always) dan H4 (warm vs cold)} \\
+\toprule
+Dataset / skenario &
+\multicolumn{1}{c}{H3: $p$ (warm vs always)} &
+\multicolumn{1}{c}{$r$} &
+\multicolumn{1}{c}{H4: $p$ (warm vs cold)} &
+\multicolumn{1}{c}{$r$} \\
+\midrule
+\endfirsthead
+\caption{Uji Wilcoxon berpasangan waktu pembaruan — H3 (warm vs always) dan H4 (warm vs cold) (lanjutan)} \\
+Dataset / skenario &
+\multicolumn{1}{c}{H3: $p$ (warm vs always)} &
+\multicolumn{1}{c}{$r$} &
+\multicolumn{1}{c}{H4: $p$ (warm vs cold)} &
+\multicolumn{1}{c}{$r$} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\endlastfoot
+
+% Isi data
+workforce / stasioner       & $6,1 \times 10^{-5}$ & $+1,00$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+workforce / rendah          & $0,389$              & $+0,20$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+workforce / sedang          & $0,053$              & $+0,60$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+edocument / stasioner       & $0,489$              & $-0,07$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+edocument / rendah          & $0,389$              & $+0,33$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+edocument / sedang          & $0,762$              & $-0,07$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+healthcare / stasioner      & \text{---}           & \text{---} & $6,5 \times 10^{-4}$ & $+1,00$ \\
+healthcare / rendah         & \text{---}           & \text{---} & $6,1 \times 10^{-5}$ & $+1,00$ \\
+healthcare / sedang         & \text{---}           & \text{---} & $6,1 \times 10^{-5}$ & $+1,00$ \\
+project-management / stasioner & $0,715$           & $+0,00$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+project-management / rendah & $0,068$              & $+1,00$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+project-management / sedang & $0,144$              & $+0,50$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+university / stasioner      & $0,225$              & $+0,60$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+university / rendah         & $0,285$              & $-0,33$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+university / sedang         & $0,655$              & $+0,00$ & $6,1 \times 10^{-5}$ & $+1,00$ \\
+
+\end{longtable}
+
+\textbf{Keterangan:} $p = \text{``---''}$ berarti kedua kondisi identik (mis. warm = always ketika pemicu drift menyala di setiap jendela) atau jumlah pasangan terlalu kecil untuk uji. 
+H3 didukung pada baris ber-$p$ signifikan dengan $r$ positif; H4 konsisten didukung (warm lebih cepat dari cold) di seluruh dataset.

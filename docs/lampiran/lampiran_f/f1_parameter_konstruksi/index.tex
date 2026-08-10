@@ -1,0 +1,31 @@
+\section{Parameter Konstruksi}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{5.5cm}          % Parameter
+    >{\raggedleft\arraybackslash}p{5.5cm}           % Nilai
+    @{}
+}
+\caption{Parameter injeksi korelasi, drift, dan pembangkitan log} \\
+\toprule
+Parameter & Nilai \\
+\midrule
+\endfirsthead
+\caption{Parameter injeksi korelasi, drift, dan pembangkitan log (lanjutan)} \\
+Parameter & Nilai \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+Tingkat korelasi -- target $NMI$ & rendah = 0,05; sedang = 0,35; tinggi = 0,65 \\
+Skenario drift -- target $JSD$ (bersih) & stasioner = 0,00; rendah = 0,10; sedang = 0,25 \\
+Entri per jendela & 2.000 \\
+Jumlah jendela & 5 (empat transisi/siklus pembaruan) \\
+Rasio permit & 0,30 (proporsi keputusan izin pada log) \\
+Seed dataset & 0, 1, 2 \\
+Total konfigurasi & 5 dataset $\times$ 3 korelasi $\times$ 3 drift $\times$ 3 seed = 135 \\
+
+\end{longtable}
+
+Kalibrasi korelasi bersifat \textit{closed-loop}: parameter penggandeng distribusi bersama dicari melalui pencarian biner hingga $NMI$ yang terukur pada log final (bukan pada distribusi teoretis) mendekati target, dengan ukuran log kalibrasi disamakan dengan ukuran log final untuk menekan bias sampel-hingga.

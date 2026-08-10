@@ -1,0 +1,21 @@
+% ==================================================
+% LAMPIRAN F
+% ==================================================
+
+\thesisappendixpage
+  {Rincian Konstruksi Dataset}
+  {app:konstruksi-dataset}
+
+
+% ==================================================
+% ISI LAMPIRAN F
+% ==================================================
+
+Dataset penelitian dikonstruksi dengan memperluas generator log sintetis \textit{ABAC Lab}: korelasi antar-atribut disuntikkan hingga mencapai target \textit{normalized mutual information} ($NMI$), sedangkan pergeseran (\textit{drift}) antar-jendela disuntikkan hingga mencapai target \textit{Jensen-Shannon divergence} ($JSD$). 
+Karena estimator $NMI$ dan $JSD$ memiliki bias sampel-hingga yang membesar seiring rasio sel/sampel, tingkat \textit{drift} dilaporkan sebagai nilai bersih (divergensi terukur dikurangi lantai derau kondisi stasioner). 
+Lampiran ini merinci parameter konstruksi, struktur manifest, dan laporan validasi.
+
+\input{docs/lampiran/lampiran_f/f1_parameter_konstruksi/index.tex}
+\input{docs/lampiran/lampiran_f/f2_struktur_manifest/index.tex}
+\input{docs/lampiran/lampiran_f/f3_laporan_validasi_kalibrasi_korelasi/index.tex}
+\input{docs/lampiran/lampiran_f/f4_laporan_validasi_lantai_derau/index.tex}

@@ -1,0 +1,34 @@
+\section{Anggaran Evaluasi}
+
+Kesetaraan perbandingan dijaga dengan menyetarakan anggaran evaluasi fungsi fitness (bukan jumlah iterasi) antar-algoritma, dihitung untuk keseluruhan proses \textit{separate-and-conquer}. 
+Pada eksperimen kualitas ($H_1$) semua-dataset, anggaran ditetapkan seragam: maksimum 20.000 evaluasi total, 4.000 evaluasi per aturan, dan paling banyak 12 aturan; pencarian berhenti lebih awal ketika seluruh permit telah tercakup atau tidak ada aturan yang menambah cakupan. 
+Akibatnya, dataset berdimensi besar (\textit{workforce}, \textit{e-document}) memakai anggaran mendekati penuh, sedangkan dataset kecil berhenti lebih awal karena permit uniknya sedikit.
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{4.0cm}          % Dataset
+    >{\centering\arraybackslash}p{1.8cm}            % D
+    >{\centering\arraybackslash}p{4.0cm}            % Evals terpakai (min–maks)
+    >{\raggedleft\arraybackslash}p{2.8cm}           % Rata-rata
+    >{\centering\arraybackslash}p{2.8cm}            % Jumlah aturan
+    @{}
+}
+\caption{Anggaran evaluasi terpakai per dataset (eksperimen H1)} \\
+\toprule
+Dataset & $D$ & Evals terpakai (min--maks) & Rata-rata & Jumlah aturan \\
+\midrule
+\endfirsthead
+\caption{Anggaran evaluasi terpakai per dataset (eksperimen H1) (lanjutan)} \\
+Dataset & $D$ & Evals terpakai (min--maks) & Rata-rata & Jumlah aturan \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+workforce            & 436    & 16.400--20.100 & 20.003 & 4--5 \\
+e-document           & 1907   & 16.400--20.100 & 20.003 & 4--5 \\
+healthcare           & 46     & 4.001--12.300  & 4.656  & 1--3 \\
+project-management   & 51     & 4.001--20.001  & 9.328  & 1--5 \\
+university           & 54     & 4.001--20.100  & 11.413 & 1--5 \\
+
+\end{longtable}

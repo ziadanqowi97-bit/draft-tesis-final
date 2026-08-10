@@ -1,0 +1,39 @@
+\section{Fungsi Fitness Selaras-F1}
+
+Skor satu aturan berbentuk
+\[
+\frac{TP^2}{TP + w_{fp}\cdot FP} - w_{wsc}\cdot WSC,
+\]
+yang setara dengan $TP \times$ presisi sehingga menghargai cakupan dan presisi sekaligus (selaras F1); bentuk penalti linier ditolak karena optimumnya aturan bercakupan nol (\texttt{modul codaeda/problem.py}).
+
+\begin{verbatim}
+def fitness(self, x, uncovered):
+
+    self.evals += 1
+
+    if x[self.act_idx].sum() == 0:        # aturan tanpa aksi tidak pernah cocok
+
+        return -1e9
+
+    m  = self.matches(x)
+
+    tp = int((m & self.label & uncovered).sum())
+
+    if tp == 0:
+
+        # aturan tanpa permit baru tidak berguna (separate-and-conquer); tanpa
+
+        # dominasi ini aturan KOSONG mengalahkan aturan bermanfaat ber-FP kecil.
+
+        return -1e9 - self.w_wsc * self.wsc(x)
+
+    fp = int((m & ~self.label).sum())
+
+    # Skor = TP x presisi = TP^2 / (TP + w_fp*FP): selaras F1 (cakupan DAN presisi).*
+
+    *# Penalti linier (TP - w_fp*FP) keliru: optimumnya aturan super-presisi
+
+    # bercakupan nol, sehingga pencarian lebih kuat justru MENURUNKAN F1 kebijakan.
+
+    return (tp * tp) / (tp + self.w_fp * fp) - self.w_wsc * self.wsc(x)
+\end{verbatim}

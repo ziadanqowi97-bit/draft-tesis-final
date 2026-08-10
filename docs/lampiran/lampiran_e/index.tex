@@ -1,0 +1,23 @@
+% ==================================================
+% LAMPIRAN E
+% ==================================================
+
+\thesisappendixpage
+  {Konfigurasi dan Kalibrasi Algoritma}
+  {app:kalibrasi-algoritma}
+
+
+% ==================================================
+% ISI LAMPIRAN E
+% ==================================================
+
+Lampiran ini merinci parameter tiap algoritma, anggaran evaluasi, nilai ambang dan bobot fungsi fitness, serta ringkasan uji kalibrasi (monotonisitas), untuk menjamin keterulangan eksperimen. Seluruh algoritma dijalankan pada kerangka \textit{separate-and-conquer} bersama dan fungsi fitness yang identik:
+\[
+f(x) = \frac{\mathit{TP}^2}{\mathit{TP} + w_{\mathrm{fp}} \cdot \mathit{FP}} - w_{\mathrm{wsc}} \cdot \mathit{WSC},
+\]
+dengan $w_{\mathrm{fp}} = 1,0$ dan $w_{\mathrm{wsc}} = 0,1$.
+
+\input{docs/lampiran/lampiran_e/e1_parameter_tiap_algoritma/index.tex}
+\input{docs/lampiran/lampiran_e/e2_anggaran_evaluasi/index.tex}
+\input{docs/lampiran/lampiran_e/e3_parameter_siklus_pembaruan/index.tex}
+\input{docs/lampiran/lampiran_e/e4_ringkasan_uji_monotonisitas/index.tex}

@@ -1,0 +1,22 @@
+\section{CoDA-EDA pada Dataset \textit{Workforce} (D = 436)}
+
+\textbf{Sumber data:} ABAC Lab / \textit{workforce} (\textit{corr} = sedang, \textit{drift} = stasioner) \\
+\textbf{Ukuran log:} $n = 10000 \text{ permintaan,} D = 436 \text{ pasangan atribut-nilai}$ \\
+\textbf{Metrik kebijakan:} F1 = 0,885; \textit{precision} = 0,862; \textit{recall} = 0,910; \textit{coverage} = 0,317; WSC = 20; jumlah aturan = 5 \\
+
+\begin{itemize}
+    \item \textbf{Aturan 1:} JIKA \textsf{provider} $\in \{\texttt{eWorkforce}, \texttt{externalWorkforceSupplier}\}$ DAN \textsf{position} $\in \{\texttt{workforceManager}, \texttt{technician}\}$ DAN \textsf{action} = \texttt{view} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=1651  FP=113  WSC=4
+
+    \item \textbf{Aturan 2:} JIKA \textsf{provider} = \texttt{eWorkforce} DAN \textsf{assignedTenant} = \texttt{powerProtection} DAN \textsf{associatedContract} = \texttt{contract006} DAN \textsf{action} = \texttt{complete} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=28  FP=36  WSC=3
+
+    \item \textbf{Aturan 3:} JIKA \textsf{provider} $\in \{\texttt{externalHelpdeskSupplier}, \texttt{telco}\}$ DAN \textsf{tenant} = \texttt{telco} DAN \textsf{tenantType} = \texttt{primary} DAN \textsf{associatedContract} $\in \{\texttt{contract001}, \texttt{contract003}, \texttt{contract005}\}$ DAN \textsf{isAppointment} = \texttt{False} DAN \textsf{action} = \texttt{modify} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=402  FP=3  WSC=8
+
+    \item \textbf{Aturan 4:} JIKA \textsf{contractStatus} = \texttt{active} DAN \textsf{action} = \texttt{view} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=1291  FP=339  WSC=1
+
+    \item \textbf{Aturan 5:} JIKA \textsf{provider} = \texttt{externalHelpdeskSupplier} DAN \textsf{tenant} = \texttt{powerProtection} DAN \textsf{recurrence} $\in \{\texttt{True}, \texttt{False}\}$ DAN \textsf{action} = \texttt{modify} MAKA izinkan (permit) \\
+    \hspace*{1cm} Cakupan: TP=82  FP=2  WSC=4
+\end{itemize}
