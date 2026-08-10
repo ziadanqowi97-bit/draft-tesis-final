@@ -8,7 +8,7 @@ Unsur \textit{compact} (pembaruan PV tanpa populasi eksplisit) diwujudkan pada m
 Inilah yang membedakan CoDA-EDA dari BOA yang menyimpan populasi eksplisit.
 Unsur \textit{dependency-aware} berorde terbatas diwujudkan pada komponen model probabilistik kedua, yakni pohon Chow-Liu order-1 yang disusun dengan algoritma Prim agar jejaknya tetap O(D).
 Inilah yang membedakannya daria sumsi independensi penuh \textit{compact-GA/PSO} yang tidak punya komponen ini, sekaligus dari jaringan Bayes tanpa batas orde BOA.
-Unsur pemisahan frekuensi pembaruan diwujudkan pada pembedaan eksplisit antara pembaruan parameter tiap siklus dan pembaruan struktur berbasis pemicu \textit{drift} (delta terhadap ambang tau ($\tau$)).
+Unsur pemisahan frekuensi pembaruan diwujudkan pada pembedaan eksplisit antara pembaruan parameter tiap siklus dan pembaruan struktur berbasis pemicu \textit{drift} (delta terhadap ambang tau ($\tau$))\label{first:symbol-tau}.
 Inilah pembeda paling tajam terhadap iBOA yang memadukan keduanya pada satu skema inkremental.
 
 Sejalan dengan definisi \textit{policy mining ABAC} sebagai penambangan pola atribut-nilai dari log akses, setiap kandidat aturan ABAC direpresentasikan sebagai vektor biner $x = (x_1, x_2, \ldots, x_D)$ berdimensi \textit{D}, dengan \textit{D} adalah banyaknya kombinasi pasangan atribut-nilai subjek, objek, dan lingkungan yang mungkin pada domain data.
@@ -20,7 +20,7 @@ Semantik pencocokan mengikuti bahasa kebijakan ABAC Lab \parencite{bui_abac_2025
 Dengan demikian \textit{D} mencakup pasangan atribut-nilai subjek dan objek beserta himpunan aksi, dan WSC sebuah aturan sama dengan banyaknya pasangan atribut-nilai yang aktif pada vektor tersebut.
 
 Kualitas satu aturan kandidat dinilai melalui fungsi \textit{fitness} yang menyeimbangkan cakupan dan presisi.
-Misalkan \textit{TP}\label{first:tp} menyatakan banyaknya \textit{permit} yang belum tercakup dan berhasil dicocokkan aturan, \textit{FP}\label{first:fp} banyaknya permintaan berstatus \textit{deny} yang keliru diizinkan, serta \textit{WSC(x)} kompleksitas struktural aturan, maka $f(x) = \frac{\mathrm{TP}^2}{\mathrm{TP} + w_{fp} \cdot \mathrm{FP}} - w_{wsc} \cdot \mathrm{WSC}(x)$.
+Misalkan \textit{TP}\label{first:tp} menyatakan banyaknya \textit{permit} yang belum tercakup dan berhasil dicocokkan aturan, \textit{FP}\label{first:fp} banyaknya permintaan berstatus \textit{deny} yang keliru diizinkan, serta \textit{WSC(x)} kompleksitas struktural aturan, maka $f(x) = \frac{\mathrm{TP}^2}{\mathrm{TP} + w_{fp} \cdot \mathrm{FP}} - w_{wsc}\label{first:symbol-wwsc} \cdot \mathrm{WSC}(x)$.
 Suku pertama setara dengan hasil kali \textit{TP} dengan presisi aturan, sehingga menghargai cakupan dan presisi secara simultan dan selaras dengan metrik F1\label{first:f1} yang menjadi ukuran evaluasi akhir.
 Aturan yang tidak mencakup satu pun \textit{permit} baru (TP = 0) didominasi secara mutlak agar tidak pernah terpilih.
 Perumusan ini merupakan koreksi atas bentuk penalti linier $f(x) = \mathrm{TP} - w_{fp}$.
