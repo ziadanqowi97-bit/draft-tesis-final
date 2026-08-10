@@ -457,10 +457,35 @@
 % antar-entri.
 % ==================================================
 
+% ==================================================
+% Vertical Spacing Daftar Isi
+% ==================================================
+%
+% Front matter:
+%   tidak ada jarak tambahan antar-entri.
+%
+% Main matter:
+%   1 spasi sebelum setiap Bab.
+%
+% 12 pt single spacing = 14.4 pt
+% ==================================================
+
+% Default: digunakan oleh front matter
 \setlength{\cftbeforechapskip}{0pt}
+
+% Section dan turunannya tetap rapat
 \setlength{\cftbeforesecskip}{0pt}
 \setlength{\cftbeforesubsecskip}{0pt}
 \setlength{\cftbeforesubsubsecskip}{0pt}
+
+% Figure dan table
+\setlength{\cftbeforefigskip}{0pt}
+\setlength{\cftbeforetabskip}{0pt}
+
+% Dipanggil di file .toc ketika mulai memasuki main matter
+\newcommand{\thesistocmainmatter}{%
+  \setlength{\cftbeforechapskip}{14.4pt}%
+}
 
 \setlength{\cftbeforefigskip}{0pt}
 \setlength{\cftbeforetabskip}{0pt}

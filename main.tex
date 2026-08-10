@@ -18,32 +18,69 @@
 % ==================================================
 \begin{document}
 
-% Front matter
+% ==================================================
+% FRONT MATTER
+% ==================================================
+
 \pagenumbering{roman}
+
 \include{docs/cover}
 \include{docs/pengesahan}
+
 \newpage
 \include{docs/abstrak}
-\newpage
-\tableofcontents
-\newpage
-\listoffigures
-\newpage
-\listoftables
-\newpage
-\include{docs/glosarium}
-\newpage
 
-% Main matter
+% ==================================================
+% DAFTAR ISI
+% ==================================================
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{DAFTAR ISI}
+\tableofcontents
+
+% ==================================================
+% DAFTAR GAMBAR DAN ILUSTRASI
+% ==================================================
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{DAFTAR GAMBAR DAN ILUSTRASI}
+\listoffigures
+
+% ==================================================
+% DAFTAR TABEL
+% ==================================================
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{DAFTAR TABEL}
+\listoftables
+
+% ==================================================
+% DAFTAR SINGKATAN DAN LAMBANG
+% ==================================================
+
+\cleardoublepage
+\include{docs/glosarium}
+
+% ==================================================
+% MAIN MATTER
+% ==================================================
+
 \cleardoublepage
 \pagenumbering{arabic}
+
 \include{docs/bab1/index}
 \include{docs/bab2/index}
 \include{docs/bab3/index}
 \include{docs/bab4/index}
 \include{docs/bab5/index}
 
-% Back matter
+% ==================================================
+% BACK MATTER
+% ==================================================
+
 \printbibliography[heading=dapusstyle]
 
 \end{document}
