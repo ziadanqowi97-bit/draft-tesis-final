@@ -1,11 +1,11 @@
 \section{CoDA-EDA pada Dataset \textit{Workforce} (D = 436)}
 
 \textbf{Sumber data:} ABAC Lab / \textit{workforce} (\textit{corr} = sedang, \textit{drift} = stasioner) \\
-\textbf{Ukuran log:} $n = 10000 \text{ permintaan,} D = 436 \text{ pasangan atribut-nilai}$ \\
+\textbf{Ukuran log:} $n = 10000 \text{ permintaan}, D = 436 \text{ pasangan atribut-nilai}$ \\
 \textbf{Metrik kebijakan:} F1 = 0,885; \textit{precision} = 0,862; \textit{recall} = 0,910; \textit{coverage} = 0,317; WSC = 20; jumlah aturan = 5 \\
 
 \begin{itemize}
-    \item \textbf{Aturan 1:} JIKA \textsf{provider} $\in \{\texttt{eWorkforce}, \texttt{externalWorkforceSupplier}\}$ DAN \textsf{position} $\in \{\texttt{workforceManager}, \texttt{technician}\}$ DAN \textsf{action} = \texttt{view} MAKA izinkan (permit) \\
+    \item \textbf{Aturan 1:} JIKA \textsf{provider} $\in \{\texttt{eWorkforce},\\ \texttt{externalWorkforceSupplier}\}$ DAN \textsf{position} $\in \\\{\texttt{workforceManager}, \texttt{technician}\}$ DAN \textsf{action} = \texttt{view} MAKA izinkan (permit) \\
     \hspace*{1cm} Cakupan: TP=1651  FP=113  WSC=4
 
     \item \textbf{Aturan 2:} JIKA \textsf{provider} = \texttt{eWorkforce} DAN \textsf{assignedTenant} = \texttt{powerProtection} DAN \textsf{associatedContract} = \texttt{contract006} DAN \textsf{action} = \texttt{complete} MAKA izinkan (permit) \\

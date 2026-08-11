@@ -5,28 +5,43 @@ Struktur dependensi disusun sebagai pohon rentang maksimum menggunakan algoritma
 \begin{verbatim}
 def chow_liu_prim(A, rng, max_rows=1536, eps=1e-6):
     n, D = A.shape
-    idx = rng.choice(n, max_rows, replace=False) if n > max_rows else np.arange(n)
+    idx = rng.choice(n, max_rows, replace=False) 
+    if n > max_rows else np.arange(n)
 
-    # Bit-packing: kolom biner dikemas 8 baris/byte; ko-okurensi via AND bitwise +
-    # tabel popcount, tanpa membentuk matriks MI D x D maupun salinan float data.
+    # Bit-packing: kolom biner dikemas 8 baris/byte; 
+    # ko-okurensi via AND bitwise + tabel popcount, 
+    # tanpa membentuk matriks MI D x D maupun salinan 
+    # float data.
 
-    P    = np.packbits(A[idx], axis=0)          # (disusun per blok baris)
-    cnt1 = _POPCNT[P].sum(axis=0).astype(float); p1 = cnt1 / n
+    # (disusun per blok baris)
+    P    = np.packbits(A[idx], axis=0) 
+    cnt1 = _POPCNT[P].sum(axis=0).astype(float); 
+    p1 = cnt1 / n
 
-    def mi_row(i):            # mutual information baris-ke-i terhadap semua variabel
+    # mutual information baris-ke-i terhadap 
+    # semua variabel
+    def mi_row(i):            
         j11 = _POPCNT[P & P[:, i:i+1]].sum(axis=0) / n
-        # ... hitung j10, j01, j00 lalu MI = SUM p*log2(p / (p_i * p_j)) ...
+        # ... hitung j10, j01, j00 
+        # lalu MI = SUM p*log2(p / (p_i * p_j)) ...
         return mi
 
-    # Algoritma Prim: HANYA larik sepanjang D (bukan matriks D x D) -> memori O(D)
-    parent = np.full(D, -1); best = np.full(D, -np.inf); intree = np.zeros(D, bool)
+    # Algoritma Prim: HANYA larik sepanjang D 
+    # (bukan matriks D x D) -> memori O(D)
+    parent = np.full(D, -1); best = np.full(D, -np.inf); 
+    intree = np.zeros(D, bool)
     cur = 0; intree[cur] = True
 
     for _ in range(D - 1):
-        m   = mi_row(cur)                       # satu baris MI dihitung saat perlu
-        upd = (~intree) & (m > best); best[upd] = m[upd]; bestfrom[upd] = cur
-        nxt = int(np.argmax(np.where(intree, -np.inf, best)))
-        parent[nxt] = bestfrom[nxt]; intree[nxt] = True; cur = nxt
+        # satu baris MI dihitung saat perlu
+        m   = mi_row(cur)                       
+        upd = (~intree) & (m > best); 
+        best[upd] = m[upd]; bestfrom[upd] = cur
+        nxt = int(np.argmax(np.where(intree, 
+        -np.inf, best)))
+        parent[nxt] = bestfrom[nxt]; intree[nxt] = True; 
+        cur = nxt
 
-    return parent, cp0, cp1, wgt   # induk + tabel probabilitas bersyarat per variabel
+    return parent, cp0, cp1, wgt   
+    # induk + tabel probabilitas bersyarat per variabel
 \end{verbatim}

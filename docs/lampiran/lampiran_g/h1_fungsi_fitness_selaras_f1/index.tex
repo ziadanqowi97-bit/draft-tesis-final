@@ -11,7 +11,8 @@ def fitness(self, x, uncovered):
 
     self.evals += 1
 
-    if x[self.act_idx].sum() == 0:        # aturan tanpa aksi tidak pernah cocok
+    # aturan tanpa aksi tidak pernah cocok
+    if x[self.act_idx].sum() == 0: 
 
         return -1e9
 
@@ -21,19 +22,23 @@ def fitness(self, x, uncovered):
 
     if tp == 0:
 
-        # aturan tanpa permit baru tidak berguna (separate-and-conquer); tanpa
-
-        # dominasi ini aturan KOSONG mengalahkan aturan bermanfaat ber-FP kecil.
+        # aturan tanpa permit baru tidak berguna
+        # (separate-and-conquer); tanpa 
+        # dominasi ini aturan KOSONG mengalahkan 
+        # aturan bermanfaat ber-FP kecil.
 
         return -1e9 - self.w_wsc * self.wsc(x)
 
     fp = int((m & ~self.label).sum())
 
-    # Skor = TP x presisi = TP^2 / (TP + w_fp*FP): selaras F1 (cakupan DAN presisi).*
+    # Skor = TP x presisi = TP^2 / (TP + w_fp*FP): 
+    # selaras F1 (cakupan DAN presisi).*
 
-    *# Penalti linier (TP - w_fp*FP) keliru: optimumnya aturan super-presisi
+    # Penalti linier (TP - w_fp*FP) keliru: 
+    # optimumnya aturan super-presisi
+    # bercakupan nol, sehingga pencarian lebih kuat 
+    # justru MENURUNKAN F1 kebijakan.
 
-    # bercakupan nol, sehingga pencarian lebih kuat justru MENURUNKAN F1 kebijakan.
-
-    return (tp * tp) / (tp + self.w_fp * fp) - self.w_wsc * self.wsc(x)
+    return (tp * tp) / (tp + self.w_fp * fp) 
+    - self.w_wsc * self.wsc(x)
 \end{verbatim}

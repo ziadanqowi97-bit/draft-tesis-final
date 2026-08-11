@@ -3,22 +3,35 @@
 Pergeseran distribusi antar-jendela diukur sebagai Jensen-Shannon divergence atas marginal pasangan atribut-nilai; struktur dependensi hanya dipelajari ulang ketika pergeseran melampaui ambang $\tau$, sedangkan parameter (\textit{Probability Vector}) tetap diperbarui tiap siklus.
 
 \begin{verbatim}
-def av_marginal(A):     # distribusi frekuensi pasangan atribut-nilai pada satu jendela
+# distribusi frekuensi pasangan atribut-nilai 
+# pada satu jendela
+def av_marginal(A):     
     m = A.mean(axis=0).astype(np.float64); s = m.sum()
-    return m / s if s > 0 else np.full(len(m), 1.0 / max(1, len(m)))
+    return m / s if s > 0 else np.full(len(m), 
+    1.0 / max(1, len(m)))
 
-def jsd(p, q, eps=1e-12):                       # Jensen-Shannon divergence
+# Jensen-Shannon divergence
+def jsd(p, q, eps=1e-12):                       
     m  = 0.5 * (p + q)
-    kl = lambda a: float(np.sum(np.where(a > 0, a * np.log2((a+eps)/(m+eps)), 0.0)))
-    return max(0.0, min(1.0, 0.5 * kl(p) + 0.5 * kl(q)))
+    kl = lambda a: float(np.sum(np.where(a > 0, 
+    a * np.log2((a+eps)/(m+eps)), 0.0)))
+    return max(0.0, min(1.0, 
+    0.5 * kl(p) + 0.5 * kl(q)))
 
-# Pemicu (di run_sequential): struktur dipelajari ulang HANYA bila drift > tau
+# Pemicu (di run_sequential): struktur dipelajari 
+# ulang HANYA bila drift > tau
 
-cur     = av_marginal(prob.A)                   # distribusi jendela berjalan
-delta   = 0.0 if ref is None else jsd(ref, cur) # pergeseran thd jendela referensi
-relearn = (mode == "always") or (delta > tau)   # tau = 0,01 (baku)
+# distribusi jendela berjalan
+cur     = av_marginal(prob.A)
+
+# pergeseran thd jendela referensi
+delta   = 0.0 if ref is None else jsd(ref, cur)
+
+# tau = 0,01 (baku)
+relearn = (mode == "always") or (delta > tau)   
 
 if relearn:
-    T = chow_liu_prim(prob.A, rng)              # perbarui struktur; jika tidak: PV saja
+    # perbarui struktur; jika tidak: PV saja
+    T = chow_liu_prim(prob.A, rng)              
 \end{verbatim}
 
