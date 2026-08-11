@@ -5,12 +5,12 @@
 \renewcommand{\thechapter}{\Roman{chapter}}
 \renewcommand{\thesection}{\thechapter.\arabic{section}}
 
+
 % ==================================================
 % Nomor Persamaan
 % ==================================================
 
 \numberwithin{equation}{chapter}
-
 \renewcommand{\theequation}{%
   \thechapter.\arabic{equation}%
 }
@@ -21,11 +21,9 @@
 % ==================================================
 
 \numberwithin{algorithm}{chapter}
-
 \renewcommand{\thealgorithm}{%
   \thechapter.\arabic{algorithm}%
 }
-
 \floatname{algorithm}{Algoritma}
 
 
@@ -48,9 +46,9 @@
   {}
 
 \titlespacing*{\chapter}
-  {0pt}             % kiri
-  {0pt}             % sebelum judul
-  {\baselineskip}   % sesudah judul
+  {0pt}
+  {0pt}
+  {\baselineskip}
 
 
 % ==================================================
@@ -66,70 +64,28 @@
 
 % ==================================================
 % FRONT MATTER
-%
-% DAFTAR ISI
-% DAFTAR GAMBAR DAN ILUSTRASI
-% DAFTAR TABEL
-%
-% Aturan:
-%
-% Judul:
-% - Center
-% - Times
-% - 14 pt
-% - Bold
-% - Line spacing 1.5
-% - Before 0 pt
-% - After 0 pt
-%
-% Isi:
-% - 12 pt
-% - Regular
-% - Justify
-% - Single spacing
-% - Before 0 pt
-% - After 0 pt
-%
-% Jarak judul ke isi:
-% - 2 spasi
 % ==================================================
 
-
-% ==================================================
-% Nama Halaman
-% ==================================================
-
+% Nama halaman dan nama float dalam bahasa Indonesia.
+% Diletakkan di captionsindonesian agar tidak ditimpa Babel.
 \addto\captionsindonesian{%
   \renewcommand{\contentsname}{DAFTAR ISI}%
   \renewcommand{\listfigurename}{DAFTAR GAMBAR DAN ILUSTRASI}%
   \renewcommand{\listtablename}{DAFTAR TABEL}%
+  \renewcommand{\figurename}{Gambar}%
+  \renewcommand{\tablename}{Tabel}%
 }
 
 
 % ==================================================
-% Helper:
-% Judul Daftar
-% ==================================================
-%
-% 14 pt
-% Bold
-% Center
-% Leading 21 pt = 1.5 spacing
-%
-% Tidak ada vertical spacing sebelum judul karena
-% margin atas halaman sudah diatur 3 cm oleh geometry.
+% Helper Judul Daftar
 % ==================================================
 
 \newcommand{\thesisfrontlisttitle}[1]{%
   \begingroup
-
-    % Hilangkan pengaruh konfigurasi paragraf global
     \setlength{\parindent}{0pt}%
     \setlength{\parskip}{0pt}%
-
-    % Reset global one-half spacing
     \setstretch{1}%
-
     \noindent
     {%
       \centering
@@ -138,37 +94,20 @@
       \fontsize{14pt}{21pt}\selectfont
       #1\par
     }%
-
   \endgroup
 }
 
 
 % ==================================================
-% Helper:
-% Isi Daftar
-% ==================================================
-%
-% 12 pt
-% Regular
-% Single spacing
-% Justify
-% Before / after = 0 pt
+% Helper Isi Daftar
 % ==================================================
 
 \newcommand{\thesisfrontlistbodysetup}{%
-
-  % Single spacing
   \setstretch{1}%
-
-  % Font isi
   \normalfont
   \fontsize{12pt}{14.4pt}\selectfont
-
-  % Paragraph spacing
   \setlength{\parindent}{0pt}%
   \setlength{\parskip}{0pt}%
-
-  % Justify
   \justifying
 }
 
@@ -176,107 +115,134 @@
 % ==================================================
 % Jarak Judul -> Isi
 % ==================================================
-%
-% Isi menggunakan:
-%
-% 12 pt / 14.4 pt single spacing
-%
-% sehingga:
-%
-% 2 spasi = 2 x 14.4 pt = 28.8 pt
-% ==================================================
 
 \newlength{\thesisfrontlistgap}
 \setlength{\thesisfrontlistgap}{28.8pt}
 
 
 % ==================================================
+% DAFTAR LAMPIRAN
+% ==================================================
+%
+% File: .lap
+% Level:
+%   thesisappendix        -> Lampiran A, Lampiran B, ...
+%   thesisappendixsection -> A.1, A.2, B.1, ...
+% ==================================================
+
+\makeatletter
+
+% --------------------------------------------------
+% Entri utama: Lampiran A, Lampiran B, ...
+% --------------------------------------------------
+%
+% indent  = 0em
+% numwidth = 6.8em
+%
+% numwidth ini memberi ruang untuk teks:
+% "Lampiran A"
+%
+% Efeknya:
+% - "Lampiran A" tampil di kiri
+% - judul lampiran mulai setelahnya
+% - jika judul panjang, baris berikutnya akan sejajar
+%   dengan awal judul, bukan dengan margin kiri
+% --------------------------------------------------
+
+\providecommand*\l@thesisappendix{}
+\renewcommand*\l@thesisappendix{%
+  \@dottedtocline{1}{0em}{6.8em}%
+}
+
+% --------------------------------------------------
+% Entri anak: A.1, A.2, B.1, ...
+% --------------------------------------------------
+%
+% indent   = 6.8em
+% numwidth = 3.2em
+%
+% Hasilnya entry anak masuk ke dalam seperti contoh.
+% --------------------------------------------------
+
+\providecommand*\l@thesisappendixsection{}
+\renewcommand*\l@thesisappendixsection{%
+  \@dottedtocline{2}{6.8em}{3.2em}%
+}
+
+% --------------------------------------------------
+% Halaman Daftar Lampiran
+% --------------------------------------------------
+
+\providecommand{\listofappendices}{}
+\renewcommand{\listofappendices}{%
+  \thispagestyle{plain}%
+  \thesisfrontlisttitle{DAFTAR LAMPIRAN}%
+  \vspace{\thesisfrontlistgap}%
+  \begingroup
+    \thesisfrontlistbodysetup
+    \setcounter{tocdepth}{3}%
+    \@starttoc{lap}%
+  \endgroup
+}
+
+\makeatother
+
+
+% ==================================================
 % Custom TOC / LOF / LOT
 % ==================================================
 %
-% PENTING:
-%
-% Package tocloft mendefinisikan ulang:
-%
-% \tableofcontents
-% \listoffigures
-% \listoftables
-%
-% ketika \begin{document}.
-%
-% Karena itu override kita dipasang melalui
-% \AtBeginDocument agar tidak ditimpa lagi.
+% tocloft dapat mendefinisikan ulang perintah daftar ketika dokumen
+% dimulai. Karena itu override dilakukan pada \AtBeginDocument.
 % ==================================================
 
 \makeatletter
 
 \AtBeginDocument{%
 
-  % ==================================================
+  % ------------------------------
   % DAFTAR ISI
-  % ==================================================
-
+  % ------------------------------
   \renewcommand{\tableofcontents}{%
-
     \thispagestyle{plain}%
-
-    % Judul
     \thesisfrontlisttitle{\contentsname}%
-
-    % Jarak 2 spasi
     \vspace{\thesisfrontlistgap}%
-
-    % Isi
     \begingroup
       \thesisfrontlistbodysetup
       \@starttoc{toc}%
     \endgroup
+
+    % File .toc dapat mengubah tocdepth ketika memasuki lampiran.
+    % \setcounter bersifat global, jadi kembalikan setelah Daftar Isi
+    % selesai agar daftar lain dan dokumen utama tidak terpengaruh.
+    \setcounter{tocdepth}{3}%
   }%
 
-
-  % ==================================================
+  % ------------------------------
   % DAFTAR GAMBAR DAN ILUSTRASI
-  % ==================================================
-
+  % ------------------------------
   \renewcommand{\listoffigures}{%
-
     \thispagestyle{plain}%
-
-    % Judul
     \thesisfrontlisttitle{\listfigurename}%
-
-    % Jarak 2 spasi
     \vspace{\thesisfrontlistgap}%
-
-    % Isi
     \begingroup
       \thesisfrontlistbodysetup
       \@starttoc{lof}%
     \endgroup
   }%
 
-
-  % ==================================================
+  % ------------------------------
   % DAFTAR TABEL
-  % ==================================================
-
+  % ------------------------------
   \renewcommand{\listoftables}{%
-
     \thispagestyle{plain}%
-
-    % Judul
     \thesisfrontlisttitle{\listtablename}%
-
-    % Jarak 2 spasi
     \vspace{\thesisfrontlistgap}%
-
-    % Isi
     \begingroup
       \thesisfrontlistbodysetup
       \@starttoc{lot}%
     \endgroup
   }%
-
 }
 
 \makeatother
@@ -285,13 +251,6 @@
 % ==================================================
 % Font Entri TOC / LOF / LOT
 % ==================================================
-%
-% Semua:
-%
-% 12 pt
-% Regular
-% Single spacing
-% ==================================================
 
 \newcommand{\thesisfrontentryfont}{%
   \normalfont
@@ -299,260 +258,110 @@
 }
 
 
-% ==================================================
-% Daftar Isi
-% ==================================================
+% Daftar Isi: chapter
+\renewcommand{\cftchapfont}{\thesisfrontentryfont}
+\renewcommand{\cftchappagefont}{\thesisfrontentryfont}
 
-% Chapter
-\renewcommand{\cftchapfont}{%
-  \thesisfrontentryfont
-}
+% Daftar Isi: section
+\renewcommand{\cftsecfont}{\thesisfrontentryfont}
+\renewcommand{\cftsecpagefont}{\thesisfrontentryfont}
 
-\renewcommand{\cftchappagefont}{%
-  \thesisfrontentryfont
-}
+% Daftar Isi: subsection
+\renewcommand{\cftsubsecfont}{\thesisfrontentryfont}
+\renewcommand{\cftsubsecpagefont}{\thesisfrontentryfont}
 
+% Daftar Isi: subsubsection
+\renewcommand{\cftsubsubsecfont}{\thesisfrontentryfont}
+\renewcommand{\cftsubsubsecpagefont}{\thesisfrontentryfont}
 
-% Section
-\renewcommand{\cftsecfont}{%
-  \thesisfrontentryfont
-}
-
-\renewcommand{\cftsecpagefont}{%
-  \thesisfrontentryfont
-}
-
-
-% Subsection
-\renewcommand{\cftsubsecfont}{%
-  \thesisfrontentryfont
-}
-
-\renewcommand{\cftsubsecpagefont}{%
-  \thesisfrontentryfont
-}
-
-
-% Subsubsection
-\renewcommand{\cftsubsubsecfont}{%
-  \thesisfrontentryfont
-}
-
-\renewcommand{\cftsubsubsecpagefont}{%
-  \thesisfrontentryfont
-}
-
-
-% ==================================================
 % Daftar Gambar
-% ==================================================
+\renewcommand{\cftfigfont}{\thesisfrontentryfont}
+\renewcommand{\cftfigpagefont}{\thesisfrontentryfont}
 
-\renewcommand{\cftfigfont}{%
-  \thesisfrontentryfont
-}
-
-\renewcommand{\cftfigpagefont}{%
-  \thesisfrontentryfont
-}
-
-
-% ==================================================
 % Daftar Tabel
-% ==================================================
-
-\renewcommand{\cfttabfont}{%
-  \thesisfrontentryfont
-}
-
-\renewcommand{\cfttabpagefont}{%
-  \thesisfrontentryfont
-}
+\renewcommand{\cfttabfont}{\thesisfrontentryfont}
+\renewcommand{\cfttabpagefont}{\thesisfrontentryfont}
 
 
 % ==================================================
 % Nomor Chapter pada Daftar Isi
 % ==================================================
 
-% Menampilkan:
-%
-% Bab I
-% Bab II
-% Bab III
-%
 \renewcommand{\cftchappresnum}{Bab~}
 
 
 % ==================================================
 % Indentasi Daftar Isi
 % ==================================================
-%
-% Contoh:
-%
-% Bab I   PENDAHULUAN
-%         I.1 Latar Belakang
-%         I.2 Rumusan Masalah
-%             I.2.1 ...
-% ==================================================
 
-% Chapter mulai dari margin kiri
-% 4em cukup untuk "Bab VIII"
 \cftsetindents{chapter}{0em}{4em}
-
-% Section sejajar dengan teks judul chapter
 \cftsetindents{section}{4em}{3em}
-
-% Subsection
 \cftsetindents{subsection}{7em}{4em}
-
-% Subsubsection
 \cftsetindents{subsubsection}{11em}{5em}
 
 
 % ==================================================
-% Indentasi Daftar Gambar
+% Indentasi Daftar Gambar / Tabel
 % ==================================================
 
 \cftsetindents{figure}{0em}{4em}
-
-
-% ==================================================
-% Indentasi Daftar Tabel
-% ==================================================
-
 \cftsetindents{table}{0em}{4em}
 
 
 % ==================================================
 % Dotted Leader
 % ==================================================
-%
-% Contoh:
-%
-% ABSTRAK..............................i
-% Bab I PENDAHULUAN...................1
-% I.1 Latar Belakang..................1
-% ==================================================
 
-% Kerapatan titik
 \renewcommand{\cftdotsep}{1}
 
-
-% Chapter
 \renewcommand{\cftchapleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
-
-% Section
 \renewcommand{\cftsecleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
-
-% Subsection
 \renewcommand{\cftsubsecleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
-
-% Subsubsection
 \renewcommand{\cftsubsubsecleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
-
-% Figure
 \renewcommand{\cftfigleader}{%
   \cftdotfill{\cftdotsep}%
 }
 
-
-% Table
 \renewcommand{\cfttableader}{%
   \cftdotfill{\cftdotsep}%
 }
 
 
 % ==================================================
-% Before / After Entry = 0 pt
-% ==================================================
-%
-% Tidak ada tambahan vertical space otomatis
-% antar-entri.
+% Vertical Spacing Daftar Isi / Gambar / Tabel
 % ==================================================
 
-% ==================================================
-% Vertical Spacing Daftar Isi
-% ==================================================
-%
-% Front matter:
-%   tidak ada jarak tambahan antar-entri.
-%
-% Main matter:
-%   1 spasi sebelum setiap Bab.
-%
-% 12 pt single spacing = 14.4 pt
-% ==================================================
-
-% Default: digunakan oleh front matter
 \setlength{\cftbeforechapskip}{0pt}
-
-% Section dan turunannya tetap rapat
 \setlength{\cftbeforesecskip}{0pt}
 \setlength{\cftbeforesubsecskip}{0pt}
 \setlength{\cftbeforesubsubsecskip}{0pt}
-
-% Figure dan table
 \setlength{\cftbeforefigskip}{0pt}
 \setlength{\cftbeforetabskip}{0pt}
 
-% Dipanggil di file .toc ketika mulai memasuki main matter
+% Dipanggil melalui file .toc ketika mulai main matter.
 \newcommand{\thesistocmainmatter}{%
   \setlength{\cftbeforechapskip}{14.4pt}%
 }
-
-\setlength{\cftbeforefigskip}{0pt}
-\setlength{\cftbeforetabskip}{0pt}
 
 
 % ==================================================
 % Caption Styles
 % ==================================================
 
-\renewcommand{\tablename}{Tabel}
-\renewcommand{\figurename}{Gambar}
-
-
-% ==================================================
-% Jarak standar gambar
-% ==================================================
-%
-% Pedoman:
-%
-% teks
-%   ↓ 1 spasi
-% gambar
-%   ↓ 1 spasi
-% caption
-%   ↓ 1 spasi
-% teks berikutnya
-%
-% Caption = 12 pt, single spacing.
-% 1 baseline single spacing ≈ 14.4 pt.
-% ==================================================
-
 \newlength{\thesisfigurespace}
 \setlength{\thesisfigurespace}{14.4pt}
-
-
-% ==================================================
-% Font Caption
-% ==================================================
-%
-% - 12 pt
-% - Regular
-% - Single spacing
-% ==================================================
 
 \DeclareCaptionFont{thesiscaptionfont}{%
   \normalfont
@@ -565,24 +374,19 @@
 % Caption Gambar
 % ==================================================
 %
-% Caption berada di bawah gambar.
-%
-% skip:
-%   gambar -> caption = 1 spasi
-%
-% belowskip:
-%   dibuat 0 karena caption -> paragraf berikutnya
-%   akan dikendalikan oleh \intextsep.
+% - satu baris: caption package akan memusatkan caption karena
+%   singlelinecheck=true;
+% - lebih dari satu baris: mengikuti justification=justified.
 % ==================================================
 
-\captionsetup[figure]{
+\captionsetup[figure]{%
   name=Gambar,
   font=thesiscaptionfont,
   labelfont=normalfont,
   textfont=normalfont,
   format=hang,
   justification=justified,
-  singlelinecheck=false,
+  singlelinecheck=true,
   labelsep=space,
   position=bottom,
   skip=\thesisfigurespace,
@@ -592,73 +396,29 @@
 
 
 % ==================================================
-% Jarak gambar terhadap teks
-% ==================================================
-%
-% Karena sebagian besar gambar memakai [H],
-% package float menggunakan \intextsep untuk
-% jarak sebelum dan sesudah gambar.
-%
-% Jadi:
-%
-% paragraf -> gambar = 14.4 pt
-% caption -> paragraf = 14.4 pt
-% ==================================================
-
-\setlength{\intextsep}{\thesisfigurespace}
-
-
-% Untuk gambar yang menggunakan [htbp]
-% dan ditempatkan di atas/bawah halaman.
-\setlength{\textfloatsep}{\thesisfigurespace}
-
-
-% Jika dua float berdekatan.
-\setlength{\floatsep}{\thesisfigurespace}
-
-
-% ==================================================
 % Caption Tabel
 % ==================================================
-%
-% Untuk sementara tetap dipisahkan agar pengaturan
-% gambar tidak mengacaukan aturan tabel.
-% ==================================================
 
-\captionsetup[table]{
+\captionsetup[table]{%
   name=Tabel,
   font=thesiscaptionfont,
   labelfont=normalfont,
   textfont=normalfont,
   format=hang,
   justification=justified,
-  singlelinecheck=false,
-  labelsep=space
-}
-
-
-% ==================================================
-% Caption Tabel
-% ==================================================
-
-\captionsetup[table]{
-  name=Tabel,
+  singlelinecheck=true,
   labelsep=space,
-  justification=centering,
-  singlelinecheck=true
+  parskip=0pt
 }
 
 
 % ==================================================
-% Caption Gambar
+% Jarak Float terhadap Teks
 % ==================================================
 
-\captionsetup[figure]{
-  name=Gambar,
-  labelsep=space,
-  justification=centering,
-  singlelinecheck=true
-}
+\setlength{\intextsep}{\thesisfigurespace}
+\setlength{\textfloatsep}{\thesisfigurespace}
+\setlength{\floatsep}{\thesisfigurespace}
 
 
 % ==================================================
@@ -667,87 +427,51 @@
 
 \defbibheading{dapusstyle}{%
   \newpage
-  \vspace*{0pt}
+  \vspace*{0pt}%
   \begin{center}
     \thesisheadingfont DAFTAR PUSTAKA
   \end{center}
-  \addcontentsline{toc}{chapter}{DAFTAR PUSTAKA}
-  \vspace{10pt}
+  \phantomsection
+  \addcontentsline{toc}{chapter}{DAFTAR PUSTAKA}%
+  \vspace{10pt}%
 }
+
 
 % ==================================================
 % HALAMAN PEMISAH LAMPIRAN
-% ==================================================
-%
-% Halaman khusus sebelum seluruh bagian lampiran.
-%
-% Format:
-% - Teks: LAMPIRAN
-% - Center horizontal
-% - Center vertikal
-% - 14 pt
-% - Bold
-% - Single spacing
-% - Masuk ke Daftar Isi
-% - Nomor halaman tetap melanjutkan tesis
 % ==================================================
 
 \newcommand{\thesisappendixcover}{%
   \clearpage
 
-  % ------------------------------------------------
-  % Masukkan halaman LAMPIRAN ke Daftar Isi
-  % ------------------------------------------------
-  %
-  % \phantomsection diperlukan agar hyperlink dari
-  % Daftar Isi mengarah tepat ke halaman ini.
-  %
+  % Halaman "LAMPIRAN" tetap masuk Daftar Isi.
   \phantomsection
-  \addcontentsline{toc}{chapter}{LAMPIRAN}
+  \addcontentsline{toc}{chapter}{LAMPIRAN}%
 
-  % Nomor halaman tetap ditampilkan
   \thispagestyle{plain}%
 
   \begingroup
-
-    % Single spacing
     \setstretch{1}%
-
-    % Hilangkan paragraph spacing global
     \setlength{\parindent}{0pt}%
     \setlength{\parskip}{0pt}%
 
-    % ------------------------------------------------
-    % Center vertikal
-    % ------------------------------------------------
-
     \null
     \vfill
-
-    % ------------------------------------------------
-    % Judul halaman
-    % ------------------------------------------------
 
     {\centering
       \normalfont
       \bfseries
       \fontsize{14pt}{16.8pt}\selectfont
-      LAMPIRAN
-      \par
-    }
-
-    % ------------------------------------------------
-    % Center vertikal
-    % ------------------------------------------------
+      LAMPIRAN\par
+    }%
 
     \vfill
     \null
-
   \endgroup
 
-  % Lampiran A nantinya dimulai di halaman berikutnya
   \clearpage
 }
+
 
 % ==================================================
 % SETUP LAMPIRAN
@@ -755,16 +479,59 @@
 
 \newcommand{\thesisappendixsetup}{%
 
-  % Mengubah penomoran chapter menjadi:
-  % A, B, C, ...
+  % Simpan \section asli
+  \let\thesisoriginalsection\section
+
+  % Ubah mode ke appendix
   \appendix
 
-  % Format section di dalam lampiran:
-  % A.1, A.2, A.3, ...
+  % Format nomor section: A.1, A.2, ...
   \renewcommand{\thesection}{%
     \thechapter.\arabic{section}%
   }%
 
+  % --------------------------------------------------
+  % DAFTAR ISI
+  % --------------------------------------------------
+  % Section lampiran tidak tampil di TOC
+  \addtocontents{toc}{%
+    \protect\setcounter{tocdepth}{0}%
+  }%
+
+  % --------------------------------------------------
+  % DAFTAR TABEL
+  % --------------------------------------------------
+  % Tabel lampiran tidak masuk Daftar Tabel
+  \captionsetup[table]{list=false}%
+  \captionsetup[longtable]{list=false}%
+
+  % --------------------------------------------------
+  % SECTION LAMPIRAN -> masuk ke .lap
+  % --------------------------------------------------
+
+  \RenewDocumentCommand{\section}{s o m}{%
+
+    % \section*{...}
+    \IfBooleanTF{##1}{%
+      \thesisoriginalsection*{##3}%
+    }{%
+
+      % \section{...}
+      \IfNoValueTF{##2}{%
+        \thesisoriginalsection{##3}%
+        \addcontentsline{lap}{thesisappendixsection}{%
+          \protect\numberline{\thesection}##3%
+        }%
+      }{%
+
+        % \section[short]{long}
+        \thesisoriginalsection[##2]{##3}%
+        \addcontentsline{lap}{thesisappendixsection}{%
+          \protect\numberline{\thesection}##2%
+        }%
+      }%
+    }%
+  }%
 }
 
 
@@ -773,63 +540,42 @@
 % ==================================================
 %
 % Penggunaan:
+% \thesisappendixpage{Judul Lampiran}{label}
 %
-% \thesisappendixpage
-%   {Judul Lampiran}
-%   {label}
-%
-% Contoh:
-%
-% \thesisappendixpage
-%   {Contoh Kebijakan Hasil Mining Lengkap}
-%   {app:kebijakan-mining}
-%
-% Menghasilkan:
-%
-% Lampiran A Contoh Kebijakan Hasil Mining Lengkap
-%
-% PENTING:
-% Tidak dimasukkan ke Daftar Isi.
+% Lampiran A/B/C tidak dimasukkan ke Daftar Isi, tetapi otomatis
+% dimasukkan ke Daftar Lampiran (.lap).
 % ==================================================
 
 \newcommand{\thesisappendixpage}[2]{%
 
-  % Setiap lampiran dimulai di halaman baru
   \clearpage
 
-  % Naikkan counter:
   % A -> B -> C -> ...
   \refstepcounter{chapter}%
 
-  % Label untuk cross-reference
+  % Anchor harus berada pada halaman lampiran yang benar.
+  \phantomsection
   \label{#2}%
 
-  % Nomor halaman tetap ditampilkan
+  % Tulis ke Daftar Lampiran.
+  \addcontentsline{lap}{thesisappendix}{%
+    \protect\numberline{Lampiran~\thechapter}#1%
+  }%
+
   \thispagestyle{plain}%
 
   \begingroup
-
-    % Single spacing
     \setstretch{1}%
-
-    % Hilangkan paragraph spacing global
     \setlength{\parindent}{0pt}%
     \setlength{\parskip}{0pt}%
-
-    % ------------------------------------------------
-    % Judul lampiran
-    % ------------------------------------------------
 
     {\noindent
       \normalfont
       \bfseries
-      \fontsize{12pt}{14.4pt}\selectfont
-      Lampiran \thechapter\space #1
-      \par
+      \fontsize{14pt}{16.8pt}\selectfont
+      Lampiran \thechapter\space #1\par
     }%
-
   \endgroup
 
-  % Jarak judul ke isi lampiran
   \vspace{14.4pt}%
 }

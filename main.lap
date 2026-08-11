@@ -1,0 +1,28 @@
+\contentsline {thesisappendix}{\numberline {Lampiran~A}Contoh Kebijakan Hasil Mining Lengkap}{84}{section*.19}%
+\contentsline {thesisappendixsection}{\numberline {A.1}CoDA-EDA pada Dataset \textit {Workforce} (D = 436)}{84}{section.A.1}%
+\contentsline {thesisappendixsection}{\numberline {A.2}ACO pada Dataset \textit {Workforce} (Pembanding)}{85}{section.A.2}%
+\contentsline {thesisappendixsection}{\numberline {A.3}CoDA-EDA pada Dataset \textit {Smart Building IoT} (D = 428)}{86}{section.A.3}%
+\contentsline {thesisappendix}{\numberline {Lampiran~B}Tabel Hasil Eksperimen Lengkap}{87}{section*.20}%
+\contentsline {thesisappendixsection}{\numberline {B.1}Kualitas Kebijakan (H1) -- Rerata Per Dataset dan Tingkat Korelasi}{87}{section.B.1}%
+\contentsline {thesisappendixsection}{\numberline {B.2}Jejak Memori (H2) -- Rasio Penskalaan alloc$(NP=400)/\text {alloc}(NP=25)$ Per Dataset}{89}{section.B.2}%
+\contentsline {thesisappendixsection}{\numberline {B.3}Efisiensi Pembaruan (H3 dan H4) -- Waktu Per Siklus dan Kualitas}{90}{section.B.3}%
+\contentsline {thesisappendixsection}{\numberline {B.4}Validasi Eksternal \textit {Smart Building IoT} (H1-H4)}{92}{section.B.4}%
+\contentsline {thesisappendix}{\numberline {Lampiran~C}Hasil Uji Statistik Lengkap}{93}{section*.21}%
+\contentsline {thesisappendixsection}{\numberline {C.1}Uji H1 (Kualitas Kebijakan) Per Dataset}{93}{section.C.1}%
+\contentsline {thesisappendixsection}{\numberline {C.2}Uji H3 dan H4 (Efisiensi Pembaruan) Per Dataset dan Skenario}{96}{section.C.2}%
+\contentsline {thesisappendixsection}{\numberline {C.3}Uji Validasi Eksternal \textit {Smart Building IoT} (H1)}{98}{section.C.3}%
+\contentsline {thesisappendix}{\numberline {Lampiran~D}Analisis Karakteristik Dataset (Pra-Eksperimen)}{99}{section*.22}%
+\contentsline {thesisappendix}{\numberline {Lampiran~E}Konfigurasi dan Kalibrasi Algoritma}{101}{section*.23}%
+\contentsline {thesisappendixsection}{\numberline {E.1}Parameter Tiap Algoritma}{101}{section.E.1}%
+\contentsline {thesisappendixsection}{\numberline {E.2}Anggaran Evaluasi}{102}{section.E.2}%
+\contentsline {thesisappendixsection}{\numberline {E.3}Parameter Siklus Pembaruan (H3 dan H4)}{102}{section.E.3}%
+\contentsline {thesisappendixsection}{\numberline {E.4}Ringkasan Uji Monotonisitas (Kalibrasi)}{103}{section.E.4}%
+\contentsline {thesisappendix}{\numberline {Lampiran~F}Rincian Konstruksi Dataset}{105}{section*.24}%
+\contentsline {thesisappendixsection}{\numberline {F.1}Parameter Konstruksi}{105}{section.F.1}%
+\contentsline {thesisappendixsection}{\numberline {F.2}Struktur Manifest}{105}{section.F.2}%
+\contentsline {thesisappendixsection}{\numberline {F.3}Laporan Validasi --- Kalibrasi Korelasi}{107}{section.F.3}%
+\contentsline {thesisappendixsection}{\numberline {F.4}Laporan Validasi --- Lantai Derau, Drift Bersih, dan Duplikasi}{107}{section.F.4}%
+\contentsline {thesisappendix}{\numberline {Lampiran~G}Kutipan Kode Kunci}{109}{section*.25}%
+\contentsline {thesisappendixsection}{\numberline {G.1}Fungsi Fitness Selaras-F1}{109}{section.G.1}%
+\contentsline {thesisappendixsection}{\numberline {G.2}Pohon Chow-Liu order-1 via Algoritma Prim (Memori O(D))}{110}{section.G.2}%
+\contentsline {thesisappendixsection}{\numberline {G.3}Mekanisme Deteksi Drift}{111}{section.G.3}%
