@@ -1,6 +1,6 @@
 \section{Konstruksi Dataset Penelitian}
 
-Sebagaimana telah ditegaskan sebelumnya, dataset ABAC dengan tingkat korelasi antar-atribut yang bervariasi dan berdomain IoT belum tersedia sebagai sumber daya siap pakai.
+Sebagaimana yag sudah disinggung sebelumnya, dataset ABAC dengan tingkat korelasi antar-atribut yang bervariasi dan berdomain IoT belum tersedia sebagai sumber daya siap pakai.
 Penelusuran terhadap ABAC Lab \parencite{bui_abac_2025} menunjukkan bahwa lima dataset \textit{ground-truth} yang tersedia (\textit{healthcare, project-management, university, workforce, e-document}) seluruhnya berdomain organisasi/\textit{enterprise}, dan generator log sintetisnya belum mendukung kontrol eksplisit terhadap tingkat korelasi atribut.
 Subbab ini menguraikan rancangan konstruksi dataset yang dibutuhkan untuk menguji hipotesis sebagai bagian dari aktivitas \textit{Design and Development}.
 
@@ -42,6 +42,7 @@ Enumerasi penuh ruang $(subjek \times objek \times aksi)$ menunjukkan bahwa prop
 Konsekuensinya, log tidak dapat dibangkitkan melalui sampling seragam atas ruang permintaan, melainkan harus melalui stratifikasi \textit{permit/deny} dengan himpunan \textit{permit} dipra-komputasi terlebih dahulu.
 
 Temuan kedua menyangkut kelayakan dataset.
+Seluruh dataset ABAC Lab yang digunakan bersifat sintetis yang dibangkitkan oleh generator log ABAC Lab \parencite{bui_abac_2025} yang diperluas sehingga karakteristik yang dilaporkan berikut merupakan properti konstruksi, bukan properti data operasional.
 Setelah dibatasi pada entitas yang memiliki pasangan atribut terkorelasi, jumlah \textit{triple permit} unik yang tersedia berbeda tajam antar-dataset (\textit{healthcare} hanya 14, \textit{project-management} 17, dan \textit{university} 90, dibandingkan \textit{workforce} 14.513 dan \textit{e-document} 32.961).
 Pada ketiga dataset kecil, pembangkitkan log berukuran memadai menghasilkan tingkat duplikasi entri 48-93\%, sehingga tugas \textit{mining} menjadi \textit{degenerate}, yakni algoritma dihadapkan pada pengulangan pola yang sama alih-alih keragaman pola yang wajar.
 Karena itu penelitian ini menetapkan \textit{workforce} dan \textit{e-document} sebagai dataset utama untuk pengujian Hipotesis H1, sebab \textit{permit} uniknya memberi keragaman pola yang memadai.

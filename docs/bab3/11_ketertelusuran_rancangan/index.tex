@@ -1,0 +1,28 @@
+\section{Ketertelusuran Rancangan Penelitian}
+
+Setelah seluruh variabel, rancangan algoritma, konstruksi dataset, desain eksperimen, metrik, dan teknik analisis ditetapkan, bagian ini menautkan kembali setiap keputusan rancangan ke akar masalah yang melatarinya dan ke bukti yang direncanakan untuk mengujinya.
+Tabel \ref{tab:pemetaan-kebutuhan} merangkum ketelusuran tersebut dari akar masalah, kebutuhan artefak, keputusan desian, hingga bukti evaluasi.
+Matriks ini memastikan tidak ada komponen CoDA-EDA yang ditetapkan tanpa justifikasi masalah, dan tidak ada klaim yang tidak memiliki rencana pembuktian.
+
+\begin{longtable}{@{} >{\centering\arraybackslash}p{1.5cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{3.5cm} @{}}
+\caption{Desain artefak dan pemetaan kebutuhan}
+\label{tab:pemetaan-kebutuhan} \\
+\toprule
+ID & Masalah / akar penyebab & Kebutuhan artefak & Keputusan desain & Bukti evaluasi \\
+\midrule
+\endfirsthead
+\caption{Desain artefak dan pemetaan kebutuhan (lanjutan)} \\
+ID & Masalah / akar penyebab & Kebutuhan artefak & Keputusan desain & Bukti evaluasi \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+M1 & Populasi eksplisit membebani memori & Memori tidak bergantung pada $NP$ & PV tanpa populasi eksplisit & Kurva memori vs $NP$; analisis \& regresi vs $D$ (Gambar IV.x) \\
+M2 & Model univariat mengabaikan dependensi & Menangkap dependensi dengan biaya terbatas & Pohon Chow-Liu orde satu ($O(D)$ via Prim) & Perbandingan terhadap baseline compact univariat (compact-GA/PSO); kualitas per dimensi/korelasi (H1) \\
+M3 & Pembaruan struktur berulang mahal & Struktur diperbarui hanya saat diperlukan & Pemisahan pembaruan parameter--struktur + deteksi drift (JSD, $\tau$) & Ablasi mekanisme pembaruan (warm vs always); trigger rate; overhead deteksi (H3) \\
+M4 & Kebijakan berubah setelah drift & Re-optimasi tanpa mining penuh & Warm-start dari model sebelumnya & Ablasi warm-start (warm vs cold); waktu menuju target kualitas + uji non-inferioritas (H4) \\
+M5 & Benchmark berpotensi tidak adil & Representasi, fitness, anggaran, operator setara & Kontrol eksperimen bersama (kesetaraan implementasi) & Tabel konfigurasi, sanity check, kontrol kesetaraan \\
+\end{longtable}
+
+Dengan matriks tersebut, alur argumentasi dari Bab I, Bab II, Bab III, hingga Bab IV menjadi satu kesatuan yang dapat ditelusuri.
+Setiap baris menautkan satu masalah pada konteks \textit{edge-IoT} ke mekanisme desain yang menjawabnya dan ke pengujian yang menilainya.

@@ -8,6 +8,9 @@ Uji normalitas (Shapiro-Wilk) akan tetap dilakukan pada setiap kumpulan data seb
 
 Untuk Eksperimen 1 dan 2 yang melibatkan perbandingan ketujuh kondisi algoritma sekaligus, digunakan uji Friedman sebagai uji omnibus non-parametrik untuk mendeteksi ada-tidaknya perbedaan signifikan di antara algoritma pada tiap kombinasi dataset-skenario.
 Apabila uji Friedman menunjukkan perbedaan signifikan (p < alpha), dilanjutkan dengan uji post-hoc berpasangan, yakni uji Wilcoxon signed-rank antara CoDA-EDA dan tiap \textit{baseline} yang relevan, dengan koreksi Holm-Bonferroni untuk mengendalikan inflasi galat Tipe I akibat perbandingan ganda.
+Unit blok pada uji Friedman/Wilcoxon adalah satu kombinasi (tingkat korelasi $\times$ \textit{seed} pembangkitan dataset $\times$ replikasi algoritma) pada dataset tertentu untuk H1. Ketujuh kondisi algoritma dibandingkan berpasangan di dalam blok yang sama, sehingga variabilitas antar-blok tidak mencemari perbandingan antar-algoritma.
+Koreksi Holm-Bonferroni diterapkan per keluarga perbandingan, yakni satu keluarga = enam perbandingan post-hoc (CoDA-EDA vs tiap \textit{baseline}) dalam satu dataset.
+Koreksi tidak dicampur lintas dataset agar keluarga uji tetap terdefinisi dan daya uji tidak terkuras berlebihan.
 
 Perlu dicatat bahwa banyaknya replikasi bukan sekadar soal ketelitian, melainkan menentukan apakah pengujian dapat dilakukan sama sekali.
 Pada uji Wilcoxon signed-rank dua sisi, nilai p terkecil yang mungkin diperoleh dengan n pasangan adalah $\frac{2}{2^n}$, sehingga dengan lima replikasi nilai p tidak akan pernah turun di bawah 0,0625 dan taraf signifikansi 0,05 mustahil tercapai berapa pun besar perbedaannya.
@@ -21,6 +24,9 @@ Untuk Eksperimen 3 dan 4 yang masing-masing membandingkan tepat dua kondisi, yak
 Tingkat signifikansi ditetapkan pada alpha = 0,05 untuk seluruh uji.
 Mengingat nilai-p semata tidak merepresentasikan besaran praktis suatu perbedaan, hasil uji dilengkapi dengan ukuran efek yang sesuai untuk data non-parametrik, seperti \textit{rank-biserial correlation} untuk uji Wilcoxon \parencite{peres_effect_2026}.
 Seluruh analisis statistik dilaksanakan menggunakan pustaka SciPy pada bahasa Python.
+Kualitas kebijakan dihitung terhadap keseluruhan log tempat kebijakan ditambang.
+Dengan demikian metrik dimaknai sebagai fidelitas rekonstruksi kebijakan, yakni sejauh mana himpunan aturan hasil penambangan mereproduksi keputusan izin/tolak yang tercatat pada log, dan bukan sebagai generalisasi prediktif ke permintaan yang belum pernah dilihat.
+Pemaknaan ini konsisten dengan tujuan \textit{policy mining} ABAC, yaitu menyimpulkan kebijakan yang menjelaskan log akses yang tersedia.
 Selain ukuran efek, penelitian ini membedakan uji superioritas dari uji 'tidak lebih buruk'.
 Untuk klaim yang bersifat kesetaraan/non-inferioritas pada kualitas, ditetapkan margin non-inferioritas praktis $\delta = 0,02$ pada \textit{F-score} (dan margin setara pada WSC) sebelum pengujian dilakukan.
 Suatu kondisi dinyatakan non-inferior bila batas atas selang kepercayaan 95/% dari selisih (pembanding - CoDA-EDA) berada di bawah $\delta$.
