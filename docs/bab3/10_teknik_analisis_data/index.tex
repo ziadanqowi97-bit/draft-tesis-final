@@ -21,6 +21,9 @@ Untuk Eksperimen 3 dan 4 yang masing-masing membandingkan tepat dua kondisi, yak
 Tingkat signifikansi ditetapkan pada alpha = 0,05 untuk seluruh uji.
 Mengingat nilai-p semata tidak merepresentasikan besaran praktis suatu perbedaan, hasil uji dilengkapi dengan ukuran efek yang sesuai untuk data non-parametrik, seperti \textit{rank-biserial correlation} untuk uji Wilcoxon \parencite{peres_effect_2026}.
 Seluruh analisis statistik dilaksanakan menggunakan pustaka SciPy pada bahasa Python.
+Selain ukuran efek, penelitian ini membedakan uji superioritas dari uji 'tidak lebih buruk'.
+Untuk klaim yang bersifat kesetaraan/non-inferioritas pada kualitas, ditetapkan margin non-inferioritas praktis $\delta = 0,02$ pada \textit{F-score} (dan margin setara pada WSC) sebelum pengujian dilakukan.
+Suatu kondisi dinyatakan non-inferior bila batas atas selang kepercayaan 95/% dari selisih (pembanding - CoDA-EDA) berada di bawah $\delta$.
 
 Rancangan uji statistik untuk keempat hipotesis dirngkum pada Tabel \ref{tab:uji-statistik} yang memetakan tiap hipotesis terhadap eksperimen sumber datanya, kondisi yang dibandingkan, prosedur uji, dan ukuran efek pelengkapnya.
 

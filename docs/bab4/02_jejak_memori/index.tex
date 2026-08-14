@@ -43,11 +43,22 @@ UBK & 387 & 5.169 & 9{,}20$\times$ & Tumbuh --- populasi swarm \\
 
 \end{longtable}
 
-Vonis H2 terkonfirmasi kuat dan menyeluruh.
+Vonis H2 terdukung kuat dan konsisten pada konfigurasi yang diuji.
 Rasio penskalaan $\text{alloc}(\text{NP}=400)/\text{alloc}(\text{NP}=25)$ CoDA-EDA tepat $1{,}00\times$. 
 Jejak memorinya sama sekali tidak tumbuh ketika ukuran populasi dinaikkan enam belas kali lipat, dan setara dengan keluarga \textit{compact} ($0{,}76$--$0{,}77\times$) serta iBOA ($0{,}82\times$). 
 Sebaliknya, ketiga algoritma berpopulasi eksplisit tumbuh $6{,}2$ hingga $9{,}2$ kali lipat, yaitu ACO $6{,}22\times$, BOA $7{,}68\times$, dan UBK $9{,}20\times$. 
 Sedangkan CoDA-EDA, yang justru memodelkan dependensi antar-atribut, tidak menanggung pertumbuhan memori itu sama sekali.
+Sebagai bukti empiris pelengkap bagi sifat linear terhadap D, Gambar \ref{fig:jejak-memori} memetakan puncak alokasi memori CoDA-EDA terhadap D pada kelima dataset (rerata lintas NP).
+Regresi linear menghasilkan memori $\approx 0,80.D + 93 KB \text{dengan} R^2 =1,000 (\text{Pearson} r = 1,000)$, sedangkan variasi memori lintas NP = 25-400 berada di bawah 0,05 KB.
+Dengan demikian kedataran terhadap NP terbukti secara empiris langsung dan linearitas terhadap D turut terkonfirmasi secara empiris lintas dataset.
+Perlu dicatat, titik-titik D berasal dari lima dataset berdomain berbeda, sehingga bukti ini bersifat lintas-dataset dan bukan \textit{sweep} D terkontrol pada satu dataset.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Gambar_Memori_vs_D_CoDA-EDA.png}
+    \caption{Jejak Memori CoDA-EDA Linear Terhadap Dimensi Ruang Solusi D}
+    \label{fig:jejak-memori}
+\end{figure}
 
 Kedataran ini adalah inti kontribusi rancangan dari CoDA-EDA yang menyatukan pembaruan tanpa populasi ala \textit{compact} dengan pemodelan dependensi berorde-terbatas sehingga memperoleh manfaat struktur pada kualitas (di atas keluarga \textit{compact}) sekaligus jejak memori yang tidak tumbuh dengan NP.
 Perlu dicatat bahwa alokasi mutlak CoDA-EDA pada satu titik (492 KB) lebih tinggi daripada \textit{compact} (103-172 KB) dan iBOA (134-190 KB) karena beban komputasi pohon dependensi.

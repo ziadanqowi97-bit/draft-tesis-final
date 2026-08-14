@@ -14,7 +14,8 @@ Dugaan awal adalah CoDa-EDA mempertahankan jejak memori O(D) yang secara konsist
 
 Eksperimen 2b melengkapi Eksperimen 2a dengan menguji bentuk penskalaan, bukan sekadar selisih nilai.
 Ukuran populasi virtual NP divariasikan pada rentang 25 hingga 400 dan diterapkan pada kedua dataset utama yang berbeda dimensinya (D = 436 dan D = 1.907), lalu \text{MemPeak\_alloc} dipetakan sebagai fungsi NP dan D.
-Hipotesis H2 memprediksi kurva CoDA-EDA dan algoritma \textit{compact} mendatar terhadap NP serta linear terhadap D, sedangkan algoritma berpopulasi eksplisit (BOA, iBOA, ACO, UBK) tumbuh linear terhadap NP.
+Hipotesis H2 memprediksi kurva CoDA-EDA, keluarga \textit{compact}, dan iBOA mendatar terhadap NP (jejak memori bergantung pada D, bukan NP), sedangkan algoritma berpopulasi eksplisit (BOA, ACO, UBK) tumbuh linear terhadap NP.
+iBOA dikelompokkan pada kurva datar karena bekerja atas statistik inkremental tanpa menyimpan populasi penuh.
 Pengujian berbasis bentuk kurva ini lebih kuat daripada perbandingan pada satu titik, karena klaim O(D) versus O(NP $\times$ D) bersifat asimtotik dan tidak bergantung pada \textit{offset baseline} interpreter yang sama besarnya bagi semua algoritma.
 
 Eksperimen 3 menguji Hipotesis H3.
@@ -26,7 +27,7 @@ Pada dataset dengan skenario \textit{drift} rendah-sedang, CoDA-EDA dijalankan d
 Waktu re-optimasi dan kualitas kebijakan pasca-\textit{drift} dicatat untuk kedua strategi.
 Dugaan awal adalah strategi \textit{warm-start} mencapai kualitas kebijakan yang setara dengan \textit{re-mining} penuh dalam waktu yang jauh lebih singkat, khususnya pada skenario \textit{drift} rendah.
 
-Setiap kombinasi algoritma-dataset-skenario pada keempat eksperimen dijalankan dengan replikasi berulang sebanyak 30 kali dengan \textit{random seed} berbeda pada tiap replikasi, mengikuti konvensi umum pada literatur \textit{benchmark} metaheuristik, dan akan dikonfirmasi/disesuaikan pada tahap implementasi apabila keterbatasan waktu komputasi mensyaratkan penyesuaian.
+Setiap kombinasi algoritma-dataset-skenario pada keempat eksperimen final dijalankan dengan skema enam \textit{seed} pembangkitan dataset $\times$ lima replikasi algoritma (30 replikasi per kombinasi algoritma-dataset-skenario) pada eksperimen utama, dan lima \textit{seed} pada validasi eksternal.
 Hal tersebut dilakukan guna menghasilkan data yang memadai untuk uji signifikansi statistik dan memperhitungkan variabilitas stokastik masing-masing algoritma.
 
 \begin{longtable}{|c|>{\raggedright\arraybackslash}p{2.2cm}|p{1.6cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{2.8cm}|}
