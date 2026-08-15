@@ -5,7 +5,7 @@ Alih-alih menggunakan operator pindah silang (\textit{crossover}) dan mutasi unt
 Dengan demikian, proses eksplorasi ruang solusi dipandu langsung oleh distribusi probabilitas yang dipelajari dari data, bukan oleh operator variasi yang bersifat implisit.
 
 Secara umum, EDA bekerja melalui tiga langkah yang diulang pada setiap generasi \parencite{larranaga_estimation_2024}.
-Pertama seleksi, yaitu memilih sejumlah \textit{N} individu terbaik dari populasi berukuran \textit{M} berdasarkan nilai \textit{fitness}.
+Pertama seleksi, yaitu memilih sejumlah \textit{N}\label{first:symbol:n} individu terbaik dari populasi berukuran \textit{M}\label{first:label-m} berdasarkan nilai \textit{fitness}.
 Kedua estimasi, yaitu membangun distribusi probabilitas yang merepresentasikan individu-individu terpilih tersebut.
 Pada persoalan kombinatorial/diskret, distribusi ini umumnya direpresentasikan melalui jaringan Bayes (\textit{Bayesian network}), yakni graf asiklik berarah yang merepresentasikan struktur (in)dependensi bersyarat antar-variabel secara ringkas dan dengan jumlah parameter yang jauh lebih sedikit dibanding tabel probabilitas gabungan penuh.
 Dan ketiga adalah \textit{sampling}, yaitu membangkitkan \textit{M} individu populasi baru dengan men-\textit{sampling} dari distribusi yang telah diestimasi.

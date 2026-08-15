@@ -7,7 +7,7 @@ Kinerja algoritma metaheuristik pada replikasi berulang lazimnya tidak berdistri
 Uji normalitas (Shapiro-Wilk) akan tetap dilakukan pada setiap kumpulan data sebagai langkah pemeriksaan awal, namun penelitian ini menetapkan uji statistik non-parametrik sebagai pendekatan baku, konsisten dengan konvensi umum pada literatur \textit{benchmark} metaheuristik \parencite{omran_permutation_2022} agar tidak bergantung pada asumsi normalitas yang berisiko dilanggar.
 
 Untuk Eksperimen 1 dan 2 yang melibatkan perbandingan ketujuh kondisi algoritma sekaligus, digunakan uji Friedman sebagai uji omnibus non-parametrik untuk mendeteksi ada-tidaknya perbedaan signifikan di antara algoritma pada tiap kombinasi dataset-skenario.
-Apabila uji Friedman menunjukkan perbedaan signifikan (p < alpha), dilanjutkan dengan uji post-hoc berpasangan, yakni uji Wilcoxon signed-rank antara CoDA-EDA dan tiap \textit{baseline} yang relevan, dengan koreksi Holm-Bonferroni untuk mengendalikan inflasi galat Tipe I akibat perbandingan ganda.
+Apabila uji Friedman menunjukkan perbedaan signifikan (p < alpha)\label{first:symbol-p}, dilanjutkan dengan uji post-hoc berpasangan, yakni uji Wilcoxon signed-rank antara CoDA-EDA dan tiap \textit{baseline} yang relevan, dengan koreksi Holm-Bonferroni untuk mengendalikan inflasi galat Tipe I akibat perbandingan ganda.
 Unit blok pada uji Friedman/Wilcoxon adalah satu kombinasi (tingkat korelasi $\times$ \textit{seed} pembangkitan dataset $\times$ replikasi algoritma) pada dataset tertentu untuk H1. Ketujuh kondisi algoritma dibandingkan berpasangan di dalam blok yang sama, sehingga variabilitas antar-blok tidak mencemari perbandingan antar-algoritma.
 Koreksi Holm-Bonferroni diterapkan per keluarga perbandingan, yakni satu keluarga = enam perbandingan post-hoc (CoDA-EDA vs tiap \textit{baseline}) dalam satu dataset.
 Koreksi tidak dicampur lintas dataset agar keluarga uji tetap terdefinisi dan daya uji tidak terkuras berlebihan.
@@ -28,7 +28,7 @@ Kualitas kebijakan dihitung terhadap keseluruhan log tempat kebijakan ditambang.
 Dengan demikian metrik dimaknai sebagai fidelitas rekonstruksi kebijakan, yakni sejauh mana himpunan aturan hasil penambangan mereproduksi keputusan izin/tolak yang tercatat pada log, dan bukan sebagai generalisasi prediktif ke permintaan yang belum pernah dilihat.
 Pemaknaan ini konsisten dengan tujuan \textit{policy mining} ABAC, yaitu menyimpulkan kebijakan yang menjelaskan log akses yang tersedia.
 Selain ukuran efek, penelitian ini membedakan uji superioritas dari uji 'tidak lebih buruk'.
-Untuk klaim yang bersifat kesetaraan/non-inferioritas pada kualitas, ditetapkan margin non-inferioritas praktis $\delta = 0,02$ pada \textit{F-score} (dan margin setara pada WSC) sebelum pengujian dilakukan.
+Untuk klaim yang bersifat kesetaraan/non-inferioritas pada kualitas, ditetapkan margin non-inferioritas praktis $\delta = 0,02$\label{first:symbol-delta} pada \textit{F-score} (dan margin setara pada WSC) sebelum pengujian dilakukan.
 Suatu kondisi dinyatakan non-inferior bila batas atas selang kepercayaan 95/% dari selisih (pembanding - CoDA-EDA) berada di bawah $\delta$.
 
 Rancangan uji statistik untuk keempat hipotesis dirngkum pada Tabel \ref{tab:uji-statistik} yang memetakan tiap hipotesis terhadap eksperimen sumber datanya, kondisi yang dibandingkan, prosedur uji, dan ukuran efek pelengkapnya.

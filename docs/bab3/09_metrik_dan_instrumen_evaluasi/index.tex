@@ -16,6 +16,7 @@ F_1 = 2 \times \frac{\mathrm{Precision} \times \mathrm{Recall}}{\mathrm{Precisio
 \text{dan }
 \mathrm{Recall} = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.
 \]
+\label{first:precision}\label{first:recall}
 
 Dengan \textit{permit} sebagai kelas positif: TP (\textit{true positive}) adalah permintaan akses yang sebenarnya diizinkan dan diklasifikasikan tepat sebagai \textit{permit} oleh kebijakan hasil \textit{mining};
 FP (\textit{false positive}) adalah permintaan yang sebenarnya ditolak namun diklasifikasikan sebagai \textit{permit};
@@ -26,17 +27,17 @@ Definisi WSC dirumuskan sebagai berikut:
 \[
 \mathrm{WSC}(\pi) = \sum_{r \in \pi} \lvert \mathrm{attr}(r) \rvert,
 \]
-dengan $\pi$ adalah kebijakan yang dihasilkan dan $\lvert \mathrm{attr}(r) \rvert$ adalah banyaknya pasangan atribut-nilai yang menjadi syarat pada aturan $r$. Skema pembobotan tambahan per kategori atribut (subjek, objek, lingkungan), sebagaimana lazim pada literatur WSC, dapat diterapkan pada tahap implementasi apabila diperlukan; secara baku, seluruh pasangan atribut-nilai diberi bobot seragam (=1).
+dengan $\pi$\label{first:symbol-pi} adalah kebijakan yang dihasilkan dan $\lvert \mathrm{attr}(r) \rvert$\label{first:symbol-attrr} adalah banyaknya pasangan atribut-nilai yang menjadi syarat pada aturan $r$\label{first:symbol-r}. Skema pembobotan tambahan per kategori atribut (subjek, objek, lingkungan), sebagaimana lazim pada literatur WSC, dapat diterapkan pada tahap implementasi apabila diperlukan; secara baku, seluruh pasangan atribut-nilai diberi bobot seragam (=1).
 
-Cakupan (\textit{covereage}) mengukur proporsi permintaan akses pada log uji yang tercakup oleh setidaknya satu aturan pada kebijakan hasil \textit{mining}, alih-alih jatuh pada keputusan \textit{default} (mis. \textit{default-deny}).
+Cakupan (\textit{coverage}) mengukur proporsi permintaan akses pada log uji yang tercakup oleh setidaknya satu aturan pada kebijakan hasil \textit{mining}, alih-alih jatuh pada keputusan \textit{default} (mis. \textit{default-deny}).
 Kelengkapan cakupan sebagai dimensi kualitas kebijakan hasil mining \parencite{perez-haro_abac_2024}:
 \[
-\mathrm{Coverage} = \frac{\text{jumlah permintaan akses yang cocok dengan } \ge 1 \text{ aturan}}{\text{total permintaan akses pada log uji}}.
+\mathrm{Coverage} = \frac{\text{jumlah permintaan akses yang cocok dengan }\label{first:coverage} \ge 1 \text{ aturan}}{\text{total permintaan akses pada log uji}}.
 \]
 Ketiga metrik ini (F1, WSC, dan \textit{coverage}) bersama-sama merepresentasikan variabel kualitas kebijakan yang digunakan pada Eksperimen 1.
 
 Jejak memori diformalkan sebagai nilai puncak RSS sepanjang eksekusi algoritma.
-\text{MemPeak} = nilai maksimum RSS(t) atas seluruh waktu \textit{sampling} t, dengan RSS(t) adalah RSS proses pada waktu \textit{sampling} ke-t.
+\text{MemPeak}\label{first:symbol-mempeak} = nilai maksimum RSS(t)\label{first:symbol-rsst} atas seluruh waktu \textit{sampling} t\label{first:symbol-t}, dengan RSS(t) adalah RSS proses pada waktu \textit{sampling} ke-t.
 Sesuai prosedur dual, MemPeak dilaporkan dalam dua bentuk, yakni MemPeak\_alloc, yaitu puncak alokasi struktur data algoritma yang diukur tracemalloc dan menjadi metrik utama karena bersih dari \textit{overhead} interpreter;
 dan MemPeak\_sys, yaitu VmHWM pada tataran sistem operasi yang dilaporkan sebagai konteks penggunaan sumber daya nyata pada perangkat \textit{edge}.
 Selain nilai pada satu titik konfigurasi, jejak memori juga dilaporkan sebagai kurva penskalaan terhadap ukuran populasi virtual NP dan terhadap dimensi soal D.
@@ -44,13 +45,13 @@ Bentuk kurva inilah bukti terkuat bagi H2, karena klaim CoDA-EDA bersifat asimto
 Metrik inilah yang digunakan pada Eksperimen 2 untuk menguji Hipotesis H2.
 
 Waktu komputasi dipisahkan menjadi tiga komponen.
-T\_init, waktu pembelajaran awal hingga elit pertama terbentuk.
-T\_param, waktu satu siklus pembaruan yang hanya melibatkan pembaruan parameter (\textit{Probability Vector}).
-Dan T\_struct, waktu satu siklus pembaruan yang turut melibatkan pembelajaran ulang struktur dependensi saat \textit{drift} terdeteksi.
+T\_init\label{first:tinit}, waktu pembelajaran awal hingga elit pertama terbentuk.
+T\_param\label{first:tparam}, waktu satu siklus pembaruan yang hanya melibatkan pembaruan parameter (\textit{Probability Vector}).
+Dan T\_struct\label{first:tstruct}, waktu satu siklus pembaruan yang turut melibatkan pembelajaran ulang struktur dependensi saat \textit{drift} terdeteksi.
 Ketiganya diukur sebagai \textit{wall-clock time} langsung pada perangkat target dan digunakan pada Eksperimen 3 untuk menguji Hipotesis H3, khususnya melalui perbandingan rata-rata waktu per siklus CoDA-EDA terhadap iBOA.
 
 Kualitas dan efisiensi strategi \textit{warm-start} pada skenario \textit{drift} diukur melalui dua metrik tambahan.
-Dua metrik tersebut adalah T\_reopt, yaitu waktu yang dibutuhkan sejak \textit{drift} terdeteksi hingga kebijakan mencapai kriteria konvergensi yang ditetapkan; dan $\delta$Quality, yaitu selisih F1 dan WSC antara strategi \textit{warm-start} dan \textit{re-mining} penuh pada titik waktu yang setara, untuk menilai apakah \textit{warm-start} mencapai kualitas kebijakan yang setara dengan \textit{re-mining} penuh.
+Dua metrik tersebut adalah T\_reopt\label{first:treopt}, yaitu waktu yang dibutuhkan sejak \textit{drift} terdeteksi hingga kebijakan mencapai kriteria konvergensi yang ditetapkan; dan $\Delta$Quality\label{first:delta-quality}, yaitu selisih F1 dan WSC antara strategi \textit{warm-start} dan \textit{re-mining} penuh pada titik waktu yang setara, untuk menilai apakah \textit{warm-start} mencapai kualitas kebijakan yang setara dengan \textit{re-mining} penuh.
 
 \begin{longtable}{|c|L{2.3cm}|L{2.6cm}|L{3.3cm}|L{3.3cm}|p{1.6cm}|}
 \caption{Definisi Operasional Metrik dan Instrumen Evaluasi}

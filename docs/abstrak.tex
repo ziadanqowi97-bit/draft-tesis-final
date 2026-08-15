@@ -48,7 +48,6 @@
 {\centering
 \normalfont
 \bfseries
-\itshape
 \fontsize{14pt}{16.8pt}\selectfont
 
 CODA-EDA: \textit{COMPACT DEPENDENCY-AWARE ESTIMATION OF DISTRIBUTION ALGORITHM} UNTUK \textit{POLICY MINING ATTRIBUTE-BASED ACCESS CONTROL} (ABAC) PADA \textit{EDGE-IOT}
@@ -98,29 +97,21 @@ Oleh\par
 
 \justifying
 
-Kontrol akses berbasis atribut (ABAC) menawarkan pengaturan hak akses yang fleksibel dan \textit{fine-grained}, namun penyusunan kebijakannya secara manual bersifat mahal dan rawan galat sehingga penambangan kebijakan (\textit{policy mining}) dari log akses menjadi kebutuhan penting.
-Pada lingkungan \textit{Internet of Things} (IoT), penambangan ini idealnya dijalankan langsung pada perangkat tepi (\textit{edge}) yang bersumber daya terbatas sekaligus mampu memperbarui kebijakan secara berkala mengikuti sifat lingkungan IoT yang dinamis.
-Algoritma metaheuristik yang ada untuk penambangan kebijakan ABAC umumnya dievaluasi pada lingkungan komputasi tanpa batasan sumber daya, sedangkan algoritma hemat memori seperti keluarga \textit{compact} mengasumsikan independensi penuh antar atribut sehingga mengabaikan struktur dependensi yang penting bagi kualitas kebijakan.
-Penelitian ini merancang dan menguji CoDA-EDA (\textit{Compact Dependency-Aware Estimation of Distribution Algorithm}), sebuah \textit{Estimation of Distribution Algorithm} (EDA) yang menyatukan tiga mekanisme yang selama ini terpisah pada literatur EDA, yakni pembaruan probabilistik tanpa penyimpanan populasi eksplisit ala \textit{compact}, pemodelan dependensi antar atribut yang dibatasi pada orde satu melalui pohon Chow-Liu, serta pemisahan frekuensi pembaruan struktur dependensi (jarang dan dipicu pergeseran data atau \textit{drift}) dari pembaruan parameter (setiap siklus).
-Berdasarkan analisis kompleksitas, jejak memori algoritma bersifat O(D) yang sebanding dengan dimensi ruang solusi dan tidak bergantung pada ukuran populasi virtual.
-Secara empiri, jejak memori terbukti datar terhadap ukuran populasi (rasio penskalaan $\approx$ 1,00 pada NP 25-400), sedangkan sifat linear terhadap D ditegakkan secara analitis dan konsisten dengan pengukuran lintas dataset berdimensi berbeda.
-Penelitian ini menggunakan paradigma \textit{Design Science Research} dan mengevaluasi CoDA-EDA terhadap enam algoritma pembanding, yaitu \textit{compact-GA, compact-PSO}, BOA, iBOA, \textit{Ant Colony Optimization} (ACO), dan \textit{Upgraded Black-Winged Kite} (UBK), langsung pada perangkat \textit{edge} Raspberry Pi 5.
-Pengujian dilakukan pada lima dataset ABAC Lab (\textit{workforce, e-document, healthcare, project-management,} dan \textit{university}) dengan tingkat korelasi atribut dan skenario \textit{drift} terkontrol, serta validasi eksternal pada dataset \textit{Smart Building IoT} yang dibangkitkan pihak lain.
-Empat hipotesis diuji menggunakan uji statistik non-parametrik Friedman dengan post-hoc Wilcoxon berkoreksi Holm-Bonferroni.
-Hasil menunjukkan, pertama, dari sisi kualitas kebijakan (\textit{F-score}), CoDA-EDA secara signifikan mengungguli keluarga \textit{compact} univariat, dengan keunggulan lebih besar pada dataset berdimensi tinggi dibanding berdimensi rendah, serta tidak berbeda signifikan dari iBOA, tetapi tertinggal moderat dari ACO dan UBK pada penambangan statis berdimensi besar akibat cakupan aturannya yang lebih sempit.
-Kedua, dari sisi jejak memori, CoDA-EDA terkonfirmasi mempertahankan konsumsi memori yang datar terhadap ukuran populasi (rasio penskalaan 1,00) sementara ketiga algoritma berpopulasi eksplisit tumbuh 6,2 hingga 9,2 kali lipat.
-Ketiga, pemisahan frekuensi pembaruan menghemat waktu komputasi ketika data relatif stabil, meskipun manfaat ini bersyarat pada tingkat \textit{drift} dan lantai derau divergensi informasi pada dataset.
-Keempat, strategi \textit{warm-start} menyelesaikan re-optimasi kebijakan 2,0 hingga 2,6 kali lebih cepat dibanding penambangan ulang dari awal dengan kualitas kebijakan non-inferior.
-Validasi lintas-generator pada satu dataset sintetis pihak lain (\textit{Smart Building IoT}, 5 \textit{seed}) menunjukkan pola yang konsisten dengan keempat hipotesis.
-CoDA-EDA menghasilkan kebijakan jauh di atas garis dasar sepele pada seluruh \textit{seed}.
-Kontribusi utama penelitian ini bukan terletak pada dominasi kualitas penambangan statis, melainkan pada pertukaran rancangan yang koheren dan menguntungkan bagi konteks target.
-CoDA-EDA menukar sebagian cakupan penambangan statis demi jejak memori yang tidak tumbuh dengan ukuran populasi dan efisiensi pembaruan kebijakan berkala yang jauh lebih tinggi.
-Dengan demikian, CoDA-EDA sesuai bagi \textit{gateway edge-IoT} bersumber daya terbatas yang menuntut pembaruan kebijakan ABAC berulang, sekaligus menjadi perluasan kelas algoritma EDA \textit{compact} yang sadar dependensi ke domain kebijakan ABAC.
-
-
+Kontrol akses berbasis atribut (ABAC) menawarkan otorisasi yang fleksibel dan \textit{fine-grained}, namun penyusunan kebijakan secara manual mahal dan rawan galat, sehingga penambangan kebijakan (\textit{policy mining}) dari log akses menjadi kebutuhan penting. 
+Pada lingkungan \textit{Internet of Things} (IoT), penambangan idealnya berjalan langsung pada perangkat \textit{edge} bersumber daya terbatas sekaligus mampu memperbarui kebijakan secara berkala. 
+Algoritma metaheuristik ABAC yang ada umumnya dievaluasi tanpa batasan sumber daya, sedangkan algoritma hemat memori seperti keluarga \textit{compact} mengasumsikan independensi penuh antar-atribut sehingga mengabaikan struktur dependensi. 
+Penelitian ini merancang dan menguji CoDA-EDA (\textit{Compact Dependency-Aware Estimation of Distribution Algorithm}), yang menyatukan pembaruan probabilistik tanpa populasi eksplisit, pemodelan dependensi orde satu melalui pohon Chow-Liu, dan pemisahan pembaruan struktur (dipicu \textit{drift}) dari parameter (tiap siklus). 
+Jejak memorinya bersifat O(D) secara analitis dan datar terhadap ukuran populasi secara empiris. 
+Dengan paradigma \textit{Design Science Research}, CoDA-EDA diuji terhadap enam \textit{baseline} pada Raspberry Pi 5, memakai lima dataset ABAC Lab dan validasi lintas-generator \textit{Smart Building IoT}, melalui Friedman dan post-hoc Wilcoxon berkoreksi Holm-Bonferroni. 
+Hasil: kualitas kebijakan mengungguli keluarga \textit{compact} univariat—lebih unggul pada dimensi tinggi—tidak berbeda signifikan dari iBOA/BOA, namun tertinggal moderat dari ACO/UBK pada penambangan statis; 
+jejak memori datar (rasio 1,00) sementara algoritma berpopulasi eksplisit tumbuh 6,2–9,2 kali; 
+pemisahan pembaruan menghemat waktu saat data stabil, bersyarat pada tingkat \textit{drift}; 
+\textit{warm-start} 2,0–2,6 kali lebih cepat dengan kualitas non-inferior. 
+Validasi lintas-generator konsisten dengan keempat hipotesis, namun belum digeneralisasi ke data operasional. 
+Kontribusinya bukan dominasi kualitas statis, melainkan pertukaran rancangan yang koheren bagi \textit{gateway edge-IoT}, sekaligus memperluas kelas EDA \textit{compact} sadar-dependensi ke domain ABAC.
 
 \vspace{14.4pt}
-\textbf{Kata kunci:} ABAC, CoDA-EDA, \textit{edge-IoT}, efisiensi memori, pemodelan dependensi, pembaruan inkremental, penambangan kebijakan.
+\textbf{Kata kunci:} ABAC, CoDA-EDA, dependensi, \textit{edge-IoT}, inkremental, memori, penambangan kebijakan.
 
 \endgroup
 
@@ -223,24 +214,20 @@ Dengan demikian, CoDA-EDA sesuai bagi \textit{gateway edge-IoT} bersumber daya t
 
 \justifying
 
-\textit{Attribute-Based Access Control (ABAC) offers flexible and fine-grained authorization, yet defining its policies manually is costly and error-prone, making policy mining from access logs an important need. 
-In Internet of Things (IoT) environments, such mining ideally runs directly on resource-constrained edge devices — limited in memory, computing power, and energy — while also being able to update policies periodically to keep pace with the dynamic nature of IoT. 
-Existing metaheuristic algorithms for ABAC policy mining are generally evaluated on computing environments without resource constraints, whereas memory-efficient algorithms such as the compact family assume full independence among attributes and therefore ignore the dependency structure that is important for policy quality. 
-This research designs and evaluates CoDA-EDA (Compact Dependency-Aware Estimation of Distribution Algorithm), an Estimation of Distribution Algorithm (EDA) that unifies three mechanisms previously kept separate in the EDA literature: probabilistic updating without storing an explicit population in the compact manner, order-one bounded modeling of inter-attribute dependencies through a Chow-Liu tree, and decoupling the update frequency of the dependency structure (infrequent, triggered by data shift or drift) from that of the parameters (every cycle). 
-By construction (complexity analysis), the algorithm's memory footprint is O(D) — proportional to the solution-space dimension and independent of the virtual population size.
-Empirically, the footprint is shown to stay flat with respect to population size (scaling ration $\approx$ 1.00 for NP 25-400), while linearity in D is established analytically and is consistent with measurements across datasets of differing D. 
-The study adopts the Design Science Research paradigm and evaluates CoDA-EDA against six baseline algorithms, namely compact-GA, compact-PSO, BOA, iBOA, Ant Colony Optimization, and Upgraded Black-winged Kite, directly on a Raspberry Pi 5 edge device. 
-Testing is conducted on five ABAC Lab datasets (workforce, e-document, healthcare, project-management, and university) with controlled attribute-correlation levels and drift scenarios, together with external validation on the third-party Smart Building IoT dataset. 
-Four hypotheses are tested using non-parametric statistics (the Friedman test with Holm-Bonferroni-corrected Wilcoxon post-hoc). 
-The results show, first, in terms of policy quality (F-score), CoDA-EDA significantly outperforms the univariate compact family with an advantage that widens as the solution-space dimension grows, is on par with iBOA, but trails moderately behind Ant Colony Optimization and Upgraded Black-winged Kite on high-dimensional static mining due to its narrower rule coverage. 
-Second, in terms of memory footprint, CoDA-EDA is confirmed to keep memory consumption flat with respect to population size (a scaling ratio of 1.00) while the three explicit-population algorithms grow by 6.2 to 9.2 times. 
-Third, decoupling the update frequency saves computation time when the data are relatively stable, although this benefit is conditional on the drift level and the information-divergence noise floor of the dataset. 
-Fourth, the warm-start strategy completes policy re-optimization 2.0 to 2.6 times faster than mining from scratch while attaining non-inferior policy quality. 
-Cross-Generator validation on one third-party synthetic dataset (Smart Building IoT, 5 seeds) shows patterns consistent with all four hypotheses, with policies far above the trivial baseline across all seeds. 
-The main contribution of this research lies not in dominating static-mining quality, but in a coherent design trade-off favorable to the target context: CoDA-EDA trades part of its static-mining coverage for a memory footprint that does not grow with population size and a far higher efficiency of periodic policy updates. 
-CoDA-EDA is therefore suitable for resource-constrained edge-IoT gateways that require repeated ABAC policy updates, and extends the compact, dependency-aware EDA class to the ABAC policy-mining domain.}
+\textit{Attribute-Based Access Control (ABAC) offers flexible, fine-grained authorization, yet defining policies manually is costly and error-prone, making policy mining from access logs essential. 
+In Internet of Things (IoT) settings, such mining ideally runs directly on resource-constrained edge devices while updating policies periodically. 
+Existing ABAC metaheuristics are typically evaluated without resource limits, whereas memory-efficient methods such as the compact family assume full attribute independence and ignore dependency structure. 
+This research designs and evaluates CoDA-EDA (Compact Dependency-Aware Estimation of Distribution Algorithm), which unifies compact probabilistic updating without an explicit population, order-one dependency modeling via a Chow-Liu tree, and decoupling structure updates (drift-triggered) from parameter updates (every cycle). 
+Its memory footprint is O(D) by construction and empirically flat with respect to population size. 
+Under the Design Science Research paradigm, CoDA-EDA is evaluated against six baselines on a Raspberry Pi 5, over five ABAC Lab datasets and cross-generator validation on Smart Building IoT, via Friedman and Holm-Bonferroni-corrected Wilcoxon post-hoc. 
+Results: policy quality surpasses the univariate compact family—more so on higher-dimensional data—shows no significant difference from iBOA/BOA, but trails ACO/UBK moderately on static mining; 
+memory stays flat (ratio 1.00) while explicit-population algorithms grow 6.2–9.2 times; 
+decoupled updating saves time when data are stable, conditional on drift level; 
+warm-start is 2.0–2.6 times faster with non-inferior quality. 
+Cross-generator validation is consistent with all four hypotheses but is not generalized to operational data. 
+The contribution is not static-mining dominance but a coherent design trade-off for edge-IoT gateways, extending the compact dependency-aware EDA class to ABAC.}
 
 
 \vspace{14.4pt}
-\textit{\textbf{Keywords:} ABAC, CoDA-EDA, dependency modeling, edge-IoT, incremental update, memory efficiency, policy mining}.
+\textit{\textbf{Keywords:} ABAC, CoDA-EDA, dependency, edge-IoT, incremental, memory, policy mining}.
 \endgroup

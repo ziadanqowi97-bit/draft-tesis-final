@@ -13,7 +13,7 @@ Eksperimen ini memanfaatkan eksekusi yang sama dengan Eksperimen 1, namun berfok
 Dugaan awal adalah CoDa-EDA mempertahankan jejak memori O(D) yang secara konsisten lebih rendah dibanding keempat \textit{baseline} berpopulasi tersebut, khususnya pada dataset berdimensi lebih besar.
 
 Eksperimen 2b melengkapi Eksperimen 2a dengan menguji bentuk penskalaan, bukan sekadar selisih nilai.
-Ukuran populasi virtual NP divariasikan pada rentang 25 hingga 400 dan diterapkan pada kedua dataset utama yang berbeda dimensinya (D = 436 dan D = 1.907), lalu \text{MemPeak\_alloc} dipetakan sebagai fungsi NP dan D.
+Ukuran populasi virtual NP divariasikan pada rentang 25 hingga 400 dan diterapkan pada kedua dataset utama yang berbeda dimensinya (D = 436 dan D = 1.907), lalu \text{MemPeak\_alloc}\label{first:mempeakalloc} dipetakan sebagai fungsi NP dan D.
 Hipotesis H2 memprediksi kurva CoDA-EDA, keluarga \textit{compact}, dan iBOA mendatar terhadap NP (jejak memori bergantung pada D, bukan NP), sedangkan algoritma berpopulasi eksplisit (BOA, ACO, UBK) tumbuh linear terhadap NP.
 iBOA dikelompokkan pada kurva datar karena bekerja atas statistik inkremental tanpa menyimpan populasi penuh.
 Pengujian berbasis bentuk kurva ini lebih kuat daripada perbandingan pada satu titik, karena klaim O(D) versus O(NP $\times$ D) bersifat asimtotik dan tidak bergantung pada \textit{offset baseline} interpreter yang sama besarnya bagi semua algoritma.
@@ -54,7 +54,7 @@ Hal tersebut dilakukan guna menghasilkan data yang memadai untuk uji signifikans
 % ==================== DATA BARIS ====================
 1 & Kualitas kebijakan vs. korelasi dan dimensi & H1 & 7 kondisi (CoDA-EDA + 6 baseline) & Baris 1--5 (lima dataset; dua taraf D utama 436 dan 1.907 + tiga dataset kecil D=46--54 sebagai konteks), kondisi stasioner, 3 tingkat korelasi & Akurasi/F-score, WSC, coverage \\
 \hline
-2a & Jejak memori antar-algoritma & H2 & CoDA-EDA vs BOA, iBOA, ACO, UBK & Sama dengan Eksperimen 1 (reuse eksekusi) & MemPeak\_alloc (utama), MemPeak\_sys \\
+2a & Jejak memori antar-algoritma & H2 & CoDA-EDA vs BOA, iBOA, ACO, UBK & Sama dengan Eksperimen 1 (reuse eksekusi) & MemPeak\_alloc (utama), MemPeak\_sys\label{first:mempeaksys} \\
 \hline
 2b & Kurva penskalaan memori & H2 & CoDA-EDA vs BOA, iBOA, ACO, UBK & Baris 1--2; $NP$ divariasikan (25--400) pada dua nilai D & MemPeak\_alloc sebagai fungsi $NP$ dan $D$ \\
 \hline

@@ -39,14 +39,15 @@
 \vspace{28.8pt}
 
 
+
 % ==================================================
 % TABEL SINGKATAN DAN LAMBANG
 % ==================================================
 
 \begin{longtable}{
     @{}
-    >{\raggedright\arraybackslash}p{2.5cm}
-    >{\raggedright\arraybackslash}p{8.0cm}
+    >{\raggedright\arraybackslash}p{3cm}
+    >{\raggedright\arraybackslash}p{7.5cm}
     >{\centering\arraybackslash}p{3.0cm}
     @{}
 }
@@ -71,7 +72,7 @@ SINGKATAN
 % HEADER JIKA TABEL BERLANJUT KE HALAMAN BERIKUTNYA
 % ==================================================
 
-LAMBANG
+SINGKATAN
 &
 \multicolumn{1}{>{\centering\arraybackslash}p{8.0cm}}{Nama}
 &
@@ -88,11 +89,14 @@ LAMBANG
 ABAC & \textit{Attribute-Based Access Control} & \pageref{first:abac} \\
 ACL & \textit{Access Control List} & \pageref{first:acl} \\
 ACO & \textit{Ant Colony Optimization} & \pageref{first:aco} \\
+ARM & Arsitektur/prosesor ARM & \pageref{first:arm} \\
 BIC & \textit{Bayesian Information Criterion} & \pageref{first:bic} \\
 BOA & \textit{Bayesian Optimization Algorithm} & \pageref{first:boa} \\
+CoAP & \textit{Constrained Application Protocol} & \pageref{first:coap} \\
 CoDA-EDA & \textit{Compact Dependency-Aware Estimation of Distribution Algorithm} & \pageref{first:coda-eda} \\
 compact-GA & \textit{Compact Genetic Algorithm} & \pageref{first:compact-ga} \\
 compact-PSO & \textit{Compact Particle Swarm Optimization} & \pageref{first:compact-pso} \\
+CPU & \textit{Central Processing Unit} & \pageref{first:cpu} \\
 DAC & \textit{Discretionary Access Control} & \pageref{first:dac} \\
 DSR & \textit{Design Science Research} & \pageref{first:dsr} \\
 DSRM & \textit{Design Science Research Methodology} & \pageref{first:dsrm} \\
@@ -104,19 +108,32 @@ H1 & Hipotesis Penelitian 1 & \pageref{first:h1} \\
 H2 & Hipotesis Penelitian 2 & \pageref{first:h2} \\
 H3 & Hipotesis Penelitian 3 & \pageref{first:h3} \\
 H4 & Hipotesis Penelitian 4 & \pageref{first:h4} \\
+HAT & \textit{Hardware Attached on Top} & \pageref{first:hat} \\
 iBOA & \textit{Incremental Bayesian Optimization Algorithm} & \pageref{first:iboa} \\
 IoT & \textit{Internet of Things} & \pageref{first:iot} \\
 JSD & \textit{Jensen-Shannon Divergence} & \pageref{first:jsd} \\
 LLM & \textit{Large Language Model} & \pageref{first:llm} \\
 MAC & \textit{Mandatory Access Control} & \pageref{first:mac} \\
+MGGO & \textit{Modified Greylag Goose Optimization} & \pageref{first:mggo} \\
+MQQT & \textit{Message Queuing Telemtry Transport} & \pageref{first:mqtt} \\
+NIST & \textit{National Institute of Standards and Technology} & \pageref{first:nist} \\
 NMI & \textit{Normalized Mutual Information} & \pageref{first:nmi} \\
-PMBGA & \textit{Probabilistic Model-Building Genetic Algorithm} & \pageref{first:pmbga} \\
+OS & \textit{Operating System} & \pageref{first:os} \\
+PCIe & \textit{Peripheral Component Interconnect Express} & \pageref{first:pcie} \\
+PEP & \textit{Policy Enforcement Point} & \pageref{first:pep} \\
+PMBGA & \textit{Probabilistic Model-Building Genetic Algorithm} & \pageref{first:pmbga} \\ 
 PV & \textit{Probability Vector} & \pageref{first:pv} \\
+RAM & \textit{Random Access Memory} & \pageref{first:ram} \\
 RBAC & \textit{Role-Based Access Control} & \pageref{first:rbac} \\
+rcGA & \textit{Real-Valued Compact Genetic Algorithm} & \pageref{first:rcga} \\
 RSS & \textit{Resident Set Size} & \pageref{first:rss} \\
+SDRAM & \textit{Synchronous Dynamic Random-Access Memory} & \pageref{first:sdram} \\
 SoC & \textit{System on Chip} & \pageref{first:soc} \\
+SPEA2 & \textit{Strength Pareto Evolutionary Algorithm 2} & \pageref{first:spea2} \\
+SSD & \textit{Solid-State Drive} & \pageref{first:ssd} \\
 TP & \textit{True Positive} & \pageref{first:tp} \\
 UBK & \textit{Upgraded Black-Winged Kite} & \pageref{first:ubk} \\
+UcGA & \textit{Uniform Compact Genetic Algorithm} & \pageref{first:ucga} \\
 VmHWM & \textit{Virtual Memory High Water Mark} & \pageref{first:vmhwm} \\
 WSC & \textit{Weighted Structural Complexity} & \pageref{first:wsc} \\
 
@@ -127,28 +144,101 @@ WSC & \textit{Weighted Structural Complexity} & \pageref{first:wsc} \\
 
 \noalign{\vskip 14.4pt}
 
+\end{longtable}
 
 % ==================================================
 % LAMBANG
 % ==================================================
 
-\multicolumn{3}{@{}l@{}}{LAMBANG}
+\vspace{1em}
+
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{3cm}
+    >{\raggedright\arraybackslash}p{7.5cm}
+    >{\centering\arraybackslash}p{3.0cm}
+    @{}
+}
+
+% ==================================================
+% HEADER HALAMAN PERTAMA
+% ==================================================
+
+LAMBANG
+&
+\multicolumn{1}{>{\centering\arraybackslash}p{8.0cm}}{}
+&
+\multicolumn{1}{>{\raggedright\arraybackslash}p{3.0cm}}{}
 \\
 
-% Jarak "LAMBANG" ke entri pertama = 1 spasi
-\noalign{\vskip 14.4pt}
+
+% Header untuk halaman pertama selesai
+\endfirsthead
+
+
+% ==================================================
+% HEADER JIKA TABEL BERLANJUT KE HALAMAN BERIKUTNYA
+% ==================================================
+
+LAMBANG
+&
+\multicolumn{1}{>{\centering\arraybackslash}p{8.0cm}}{Nama}
+&
+\multicolumn{1}{>{\raggedright\arraybackslash}p{3.0cm}}{Pemakaian pertama kali pada halaman}
+\\
+
+\endhead
 
 
 % ==================================================
 % DAFTAR LAMBANG
 % ==================================================
 
-$D$ & Dimensi ruang solusi (jumlah pasangan atribut-nilai) & \pageref{first:symbol-d} \\
+$\alpha$ & Parameter ACO; simbol ini kemudian juga digunakan sebagai parameter adaptif UBK dan taraf signifikansi statistik & \pageref{first:symbol-alpha} \\
+$\beta$ & Parameter/bobot heuristik ACO & \pageref{first:symbol-beta} \\
+$Coverage$ & Proporsi permintaan akses yang dicakup oleh setidaknya satu aturan & \pageref{first:coverage} \\
+$D$ & Dimensi ruang solusi, yaitu jumlah pasangan atribut-nilai & \pageref{first:symbol-d} \\
+$\delta$ & Margin non-inferioritas praktis & \pageref{first:symbol-deltagede} \\
+$\Delta$ & Besar pergeseran distribusi atau \textit{drift} antar-jendela & \pageref{first:symbol-delta} \\
+$\Delta\text{Quality}$ & Selisih kualitas antara \textit{warm-start} dan \textit{re-mining} penuh & \pageref{first:delta-quality} \\
+$f(x)$ & Nilai fungsi \textit{fitness} kandidat aturan x & \pageref{first:symbol-fx} \\
+$i$ & Indeks pasangan atribut-nilai atau variabel keputusan & \pageref{first:symbol-i} \\
+$k$ & Orde dependensi yang diizinkan pada model & \pageref{first:symbol-k} \\
+$L$ & Log akses yang menjadi masukan \textit{policy mining} & \pageref{first:symbol-l} \\
+$M$ & Ukuran populasi pada EDA kanonik & \pageref{first:label-m} \\
+$MemPeak$ & Nilai maksimum RSS selama eksekusi & \pageref{first:symbol-mempeak} \\
+$\mathrm{MemPeak\_alloc}$ & Puncak alokasi struktur data algoritma yang diukur dengan $tracemalloc$ & \pageref{first:mempeakalloc} \\
+$\mathrm{MemPeak\_sys}$ & Puncak penggunaan memori pada tingkat sistem operasi & \pageref{first:mempeaksys} \\
+$n$ & Banyaknya dimensi/variabel dalam formulasi umum; kemudian juga digunakan untuk jumlah pasangan/blok statistik & \pageref{first:symbolnn} \\
+$N$ & Jumlah individu terbaik yang dipilih pada tahap seleksi EDA & \pageref{first:symbol:n} \\
 $NP$ & Ukuran populasi virtual & \pageref{first:symbol-np} \\
-$O(D)$ & Kompleksitas memori linear terhadap D & \pageref{first:symbol-od} \\
-$\tau$ & Ambang divergensi Jensen-Shannon pemicu pembelajaran ulang & \pageref{first:symbol-tau} \\
+$O(D)$ & Kompleksitas memori linear terhadap dimensi D & \pageref{first:symbol-od} \\
+$O(D^2)$ & Kompleksitas perhitungan \textit{mutual information} seluruh pasangan variabel & \pageref{first:symbol-od2} \\
+$O(D^2 log D)$ & Kompleksitas yang dinyatakan untuk konstruksi pohon rentang maksimum & \pageref{first:symbol-od2logd} \\
+$O(n^k)$ & Kompleksitas jumlah tabel probabilitas marginal iBOA pada orde dependensi $k$ & \pageref{first:symbol-onk} \\
+$O(NP \times D)$ & Kompleksitas memori algoritma berpopulasi eksplisit terhadap ukuran populasi dan dimensi & \pageref{first:symbol-onpd} \\
+$p$ & Nilai-p pada pengujian statistik & \pageref{first:symbol-p} \\
+$p_\text{adj}$ & Nilai-p yang telah dikoreksi/di-\textit{adjust} dengan prosedur Holm-Bonferroni & \pageref{first:symbol-padj} \\
+$p_i$ & Probabilitas bit ke-i bernilai 1 pada PV & \pageref{first:symbol-pi} \\
+$p_0$ & Probabilitas awal/inisialisasi PV & \pageref{first:symbol-p0} \\
+$\pi$ & Kebijakan yang dihasilkan & \pageref{first:symbol-pi} \\
+$Precision$ & Presisi keputusan kebijakan, $TP/(TP+FP)$ & \pageref{first:precision} \\
+$r$ & Aturan yang menjadi anggota kebijakan $\pi$; simbol ini kemudian juga digunakan untuk ukuran efek dan korelasi Pearson & \pageref{first:symbol-r} \\
+$Recall$ & \textit{Recall} keputusan kebijakan, $TP/(TP+FN)$ & \pageref{first:recall} \\
+$R^2$ & Koefisien determinasi pada regresi linear & \pageref{first:symbol-r2} \\
+$RSS(t)$ & \textit{Resident Set Size} proses pada waktu \textit{sampling} $t$ & \pageref{first:symbol-rsst} \\
+$t$ & Indeks/waktu \textit{sampling}; kemudian juga digunakan sebagai indeks iterasi pada parameter adaptif UBK & \pageref{first:symbol-t} \\
+$T$ & Struktur dependensi berupa pohon Chow-Liu & \pageref{first:tgede} \\
+$T_\text{init}$ & Waktu pembelajaran/inisialisasi awal hingga elit pertama terbentuk & \pageref{first:tinit} \\
+$T_\text{param}$ & Waktu siklus yang hanya menjalankan pembaruan parameter & \pageref{first:tparam} \\
+$T_\text{reopt}$ & Waktu re-optimasi setelah \textit{drift} terdeteksi hingga konvergensi & \pageref{first:treopt} \\
+$T_\text{struct}$ & Waktu satu siklus yang turut melakukan pembelajaran ulang struktur & \pageref{first:tstruct} \\
+$\tau$ & Ambang divergensi Jensen-Shannon untuk memicu pembelajaran ulang struktur & \pageref{first:symbol-tau} \\
 $w_\text{fp}$ & Bobot penalti \textit{false positive} pada fungsi \textit{fitness} & \pageref{first:symbol-wfp} \\
-$w_\text{wsc}$ & Bobot penalti kompleksitas struktural pada fungsi \textit{fitness} & \pageref{first:symbol-wwsc} \\
+$w_\text{wsc}$ & Bobot penalti kompleksitas struktural WSC pada fungsi \textit{fitness} & \pageref{first:symbol-wwsc} \\
+$x$ & Vektor biner kandidat aturan ABAC & \pageref{first:symbol-x} \\
+$\lvert \operatorname{attr}(r) \rvert$ & Banyaknya pasangan atribut-nilai yang menjadi syarat pada aturan $r$ & \pageref{first:symbol-attrr} \\
+$\emptyset$ & Struktur/himpunan kosong pada inisialisasi & \pageref{first:symbol-empty} \\
 
 \end{longtable}
 
