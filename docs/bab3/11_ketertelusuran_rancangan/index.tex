@@ -4,7 +4,8 @@ Setelah seluruh variabel, rancangan algoritma, konstruksi dataset, desain eksper
 Tabel \ref{tab:pemetaan-kebutuhan} merangkum ketelusuran tersebut dari akar masalah, kebutuhan artefak, keputusan desian, hingga bukti evaluasi.
 Matriks ini memastikan tidak ada komponen CoDA-EDA yang ditetapkan tanpa justifikasi masalah, dan tidak ada klaim yang tidak memiliki rencana pembuktian.
 
-\begin{longtable}{@{} >{\centering\arraybackslash}p{1.5cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{3.5cm} @{}}
+{\small % <--- PERINTAH PENGECILAN FONT DITAMBAHKAN DI SINI
+\begin{longtable}{@{} >{\centering\arraybackslash}p{1cm} >{\raggedright\arraybackslash}p{3cm} >{\raggedright\arraybackslash}p{3cm} >{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{3cm} @{}}
 \caption{Desain artefak dan pemetaan kebutuhan}
 \label{tab:pemetaan-kebutuhan} \\
 \toprule
@@ -23,6 +24,7 @@ M3 & Pembaruan struktur berulang mahal & Struktur diperbarui hanya saat diperluk
 M4 & Kebijakan berubah setelah drift & Re-optimasi tanpa mining penuh & Warm-start dari model sebelumnya & Ablasi warm-start (warm vs cold); waktu menuju target kualitas + uji non-inferioritas (H4) \\
 M5 & Benchmark berpotensi tidak adil & Representasi, fitness, anggaran, operator setara & Kontrol eksperimen bersama (kesetaraan implementasi) & Tabel konfigurasi, sanity check, kontrol kesetaraan \\
 \end{longtable}
+} % <--- PENUTUP GRUP
 
 Dengan matriks tersebut, alur argumentasi dari Bab I, Bab II, Bab III, hingga Bab IV menjadi satu kesatuan yang dapat ditelusuri.
 Setiap baris menautkan satu masalah pada konteks \textit{edge-IoT} ke mekanisme desain yang menjawabnya dan ke pengujian yang menilainya.
