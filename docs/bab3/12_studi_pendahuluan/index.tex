@@ -44,14 +44,51 @@ Smart Building IoT* & 428* & 5.729 (rendah) & 0{,}75 & 0{,}0065 (layak) & berat-
 Tanda (*) menunjukkan dimensi efektif \textit{Smart Building IoT} setelah subsampel terstratifikasi 8.000 baris dan penyatuan nilai ber-\textit{support} rendah (berkas asalh 5,7 juta permintaan, \textit{permit} 4.273.814 dan \textit{deny} 1.429.088).
 Rasio \textit{permit} seragam 0,30 pada dataset ABAC Lab merupakan parameter konstruksi log, sedangkan 0,75 pada \textit{Smart Building IoT} adalah rasio bawaan datanya.
 
-Pembacaan Tabel \ref{tab:karakteristik-dataset} menghasilkan tiga implikasi rancangan yang memandu penggunaan dataset pada eksperimen.
-Pertama, untuk H1, hanya \textit{workforce} dan \textit{e-document} yang memiliki \textit{permit} unik memadai sehingga pembeda antar-algoritma tidak tumpul.
-Kedua, untuk H2, keenam dataset sama-sama layak karena kedataran memori terhadap ukuran populasi merupakan properti algoritma yang tidak bergantung pada karakteristik dataset.
-Ketiga, untuk H3, kelayakan justru terbalik dengan H1 karena \textit{e-document} tidak layak karena lantai derau JSD-nya (0,0325) melampaui ambang $\tau$ = 0,01 sehingga pemicu \textit{drift} menyala di setiap jendela, sedangkan ketiga dataset kecil maupun \textit{Smart Building IoT} berlantai derau rendah (0,0010-0,0065 < $\tau$) sehingga pemicu dapat diam saat data stabil.
-Perlu dicatat bahwa nilai absolut lantai derau ini bukan konstanta melainkan bergantung pada ukuran jendela pengukuran, karena bias sampel-hingga estimator informasi berbanding lurus dengan rasio jumlah sel kontingensi terhadap jumlah sampel per jendela.
-Pada jendela analisis ini (800 entri), lantai derau \textit{e-document} terukur 0,0325, sedangkan pada jendela eksperimen \textit{drift} yang lebih besar (2.000 entri) ia turun ke kisaran 0,013-0,016.
-Keduanya tetap di atas $\tau$ = 0,01, sehingga vonis ketidaklayakan H3 pada \textit{e-document} kokoh terhadap pilihan ukuran jendela.
-Implikasi pentingnya adalah dataset \textit{Smart Building IoT} menjadi sarana untuk menunjukkan mekanisme H3 yang tidak dapat diperlihatkan pada \textit{e-document}, sehingga penggunaan seluruh dataset untuk seluruh hipotesis (bukan hanya dua dataset utama) memperoleh justifikasi empiris jadi setiap dataset menyumbang pada hipotesis yang paling sesuai dengan karakteristiknya.
+Pembacaan Tabel~\ref{tab:karakteristik-dataset} menunjukkan bahwa keenam dataset memiliki karakteristik yang berbeda dan, karena itu, tidak seluruhnya memberikan kekuatan bukti yang sama untuk setiap hipotesis. 
+Perbedaan paling penting terdapat pada dimensi ruang solusi $D$, jumlah \textit{permit} unik, tingkat duplikasi efektif, rasio \textit{permit}, serta lantai derau Jensen--Shannon divergence (JSD) pada kondisi stasioner. 
+Karakteristik tersebut digunakan untuk menentukan peran masing-masing dataset dalam pengujian, sehingga interpretasi hasil tidak hanya didasarkan pada nilai metrik algoritma, tetapi juga mempertimbangkan tingkat kesulitan dan sifat statistik data yang dihadapi.
+
+Dataset \textit{healthcare}, \textit{project-management}, dan \textit{university} mewakili kelompok berdimensi rendah dengan $D$ masing-masing 46, 51, dan 54. 
+Ketiganya hanya memiliki 14, 17, dan 90 \textit{permit} unik sehingga pengulangan pola akses relatif tinggi ketika log dibangkitkan dalam jumlah besar. 
+Kondisi tersebut menyebabkan ruang pencarian cepat mengalami kejenuhan dan perbedaan kualitas antar-algoritma menjadi kurang tajam. 
+Oleh karena itu, ketiga dataset ini tidak digunakan sebagai tumpuan utama untuk menilai H1. 
+Meskipun demikian, ketiganya tetap relevan untuk H2 karena penskalaan memori merupakan properti algoritma, serta untuk H3 dan H4 karena lantai derau JSD-nya rendah, masing-masing sebesar 0,0022, 0,0010, dan 0,0026, sehingga mekanisme pemicu pembaruan struktur dapat diam ketika distribusi data memang stasioner.
+
+Dataset \textit{workforce} menempati kelompok dimensi menengah dengan $D=436$ dan memiliki 14.513 \textit{permit} unik. 
+Jumlah pola unik yang jauh lebih besar dibanding tiga dataset sebelumnya membuat \textit{workforce} layak dijadikan salah satu dataset utama untuk pengujian kualitas kebijakan. 
+Selain itu, rasio \textit{permit} sebesar 0,30 dan lantai derau JSD stasioner sebesar 0,0066, yang berada di bawah ambang $\tau=0,01$, menjadikannya lingkungan yang sesuai untuk menguji mekanisme pembaruan struktur berbasis \textit{drift}. 
+Pada kondisi stasioner, pergeseran distribusi akibat variasi sampel masih dapat dibedakan dari perubahan distribusi yang cukup besar untuk memicu pembelajaran ulang struktur. 
+Karena karakteristik tersebut, \textit{workforce} berperan penting baik pada evaluasi kualitas H1 maupun pada pengujian efisiensi pembaruan H3 dan H4.
+
+Dataset \textit{e-document} merupakan kasus berdimensi paling tinggi dengan $D=1.907$ dan 32.961 \textit{permit} unik. 
+Besarnya ruang atribut menjadikan dataset ini kasus paling menantang bagi proses pencarian kebijakan sekaligus memberikan kondisi yang paling informatif untuk menguji manfaat pemodelan dependensi pada H1. 
+Hasil eksperimen menunjukkan bahwa pada \textit{e-document}, CoDA-EDA memperoleh F-score 0,452, sedangkan \textit{compact-GA} dan \textit{compact-PSO} masing-masing memperoleh 0,329 dan 0,260. 
+Dengan demikian, keunggulan CoDA-EDA terhadap rerata kedua algoritma \textit{compact} mencapai sekitar 0,16 F-score, jauh lebih besar daripada pada dataset berdimensi rendah maupun \textit{workforce}. 
+Pola ini menunjukkan bahwa manfaat struktur dependensi menjadi lebih nyata ketika ruang pencarian membesar dan model univariat harus melakukan pencuplikan tanpa informasi keterkaitan antar-variabel.
+
+Namun, dimensi tinggi \textit{e-document} juga menimbulkan konsekuensi terhadap mekanisme deteksi \textit{drift}. 
+Pada jendela analisis berukuran 800 entri, lantai derau JSD stasionernya mencapai 0,0325, lebih tinggi daripada ambang $\tau=0,01$. 
+Ketika ukuran jendela diperbesar menjadi 2.000 entri, nilainya menurun ke kisaran 0,013--0,016, tetapi tetap berada di atas ambang. 
+Kondisi ini menunjukkan bahwa kenaikan jumlah sel kontingensi relatif terhadap jumlah sampel meningkatkan bias sampel-hingga estimator informasi. 
+Akibatnya, mekanisme pemicu pembaruan struktur tidak dapat membedakan kondisi stasioner dari \textit{drift} secara konsisten pada \textit{e-document}, sehingga dataset ini tetap kuat untuk H1, H2, dan H4, tetapi bukti H3 harus ditafsirkan secara terbatas.
+
+Dataset \textit{Smart Building IoT} digunakan secara khusus sebagai validasi eksternal dan bukan sebagai dataset utama. 
+Setelah subsampel terstratifikasi dan penyatuan nilai dengan \textit{support} rendah, dataset ini memiliki dimensi efektif sekitar $D=428$ dengan 5.729 \textit{permit} unik dan rasio \textit{permit} sekitar 0,75. 
+Berbeda dari lima dataset ABAC Lab, korelasi maupun \textit{drift} pada dataset ini tidak disuntikkan melalui generator penelitian. 
+Nilai validasinya terletak pada asal generator yang independen, sehingga dataset ini digunakan untuk memeriksa apakah pola temuan H1--H4 tetap muncul ketika CoDA-EDA diuji pada distribusi yang tidak dikendalikan oleh proses konstruksi dataset penelitian. 
+Lantai derau JSD sebesar 0,0065 yang berada di bawah $\tau$ juga memungkinkan mekanisme H3 diam pada kondisi stasioner dan aktif ketika distribusi benar-benar berubah.
+
+Secara keseluruhan, karakteristik keenam dataset memperlihatkan bahwa dimensi ruang solusi merupakan faktor penting dalam membaca hasil H1. 
+Pada tiga dataset berdimensi rendah ($D=46$--$54$), perbedaan CoDA-EDA terhadap keluarga \textit{compact} relatif kecil karena ruang pencarian sederhana dan tingginya duplikasi menumpulkan perbedaan antar-algoritma. 
+Pola serupa terlihat pada \textit{workforce} ($D=436$), tempat CoDA-EDA memperoleh F-score 0,889 dibanding 0,900 pada \textit{compact-GA} dan 0,893 pada \textit{compact-PSO}. 
+Sebaliknya, pada \textit{e-document} ($D=1.907$), CoDA-EDA mempertahankan F-score 0,452 ketika \textit{compact-GA} dan \textit{compact-PSO} turun menjadi 0,329 dan 0,260. 
+Dengan demikian, keunggulan pemodelan dependensi CoDA-EDA tidak muncul secara seragam pada seluruh dataset, tetapi terutama menjadi berarti pada ruang solusi berdimensi tinggi. 
+Temuan validasi eksternal pada \textit{Smart Building IoT} ($D\approx428$) juga konsisten dengan pola tersebut karena CoDA-EDA tidak menunjukkan dominasi kualitas atas keluarga \textit{compact} pada kelompok dimensi menengah.
+
+Karakteristik dataset juga menjelaskan mengapa kekuatan bukti H3 berbeda antar-dataset. 
+Mekanisme pembaruan struktur berbasis JSD dapat menunjukkan penghematan ketika lantai derau kondisi stasioner berada di bawah $\tau$, seperti pada \textit{workforce}, ketiga dataset berdimensi rendah, dan \textit{Smart Building IoT}. 
+Sebaliknya, pada \textit{e-document}, tingginya lantai derau menyebabkan pemicu pembaruan struktur aktif meskipun perubahan distribusi yang sebenarnya kecil. 
+Oleh karena itu, kegagalan menunjukkan penghematan H3 pada \textit{e-document} tidak ditafsirkan sebagai kegagalan mekanisme pemisahan pembaruan itu sendiri, melainkan sebagai keterbatasan penggunaan ambang JSD tetap pada dataset dengan rasio jumlah sel kontingensi terhadap ukuran jendela yang tinggi.
 
 Analisis ini dijalankan dengan instrumen tersendiri di luar rantai algoritma yang diuji, sehingga tidak memengaruhi anggaran evaluasi maupun kesetaraan algoritma.
 Instrumen ini berfungsi murni sebagai penyaring kecocokan pra-eksperimen.

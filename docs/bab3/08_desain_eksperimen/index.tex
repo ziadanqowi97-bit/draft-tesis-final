@@ -12,11 +12,48 @@ Eksperimen 2a menguji Hipotesis H2.
 Eksperimen ini memanfaatkan eksekusi yang sama dengan Eksperimen 1, namun berfokus pada variabel \textit{peak resident set size} yang dicatat sepanjang eksekusi.
 Dugaan awal adalah CoDa-EDA mempertahankan jejak memori O(D) yang secara konsisten lebih rendah dibanding keempat \textit{baseline} berpopulasi tersebut, khususnya pada dataset berdimensi lebih besar.
 
-Eksperimen 2b melengkapi Eksperimen 2a dengan menguji bentuk penskalaan, bukan sekadar selisih nilai.
-Ukuran populasi virtual NP divariasikan pada rentang 25 hingga 400 dan diterapkan pada kedua dataset utama yang berbeda dimensinya (D = 436 dan D = 1.907), lalu \text{MemPeak\_alloc}\label{first:mempeakalloc} dipetakan sebagai fungsi NP dan D.
-Hipotesis H2 memprediksi kurva CoDA-EDA, keluarga \textit{compact}, dan iBOA mendatar terhadap NP (jejak memori bergantung pada D, bukan NP), sedangkan algoritma berpopulasi eksplisit (BOA, ACO, UBK) tumbuh linear terhadap NP.
-iBOA dikelompokkan pada kurva datar karena bekerja atas statistik inkremental tanpa menyimpan populasi penuh.
-Pengujian berbasis bentuk kurva ini lebih kuat daripada perbandingan pada satu titik, karena klaim O(D) versus O(NP $\times$ D) bersifat asimtotik dan tidak bergantung pada \textit{offset baseline} interpreter yang sama besarnya bagi semua algoritma.
+Eksperimen 2b melengkapi Eksperimen 2a dengan menguji bentuk penskalaan jejak memori terhadap ukuran populasi, bukan hanya membandingkan nilai memori pada satu konfigurasi. 
+Ukuran populasi $NP$ divariasikan pada lima titik,
+\[
+NP \in \{25, 50, 100, 200, 400\},
+\]
+sehingga rentang pengujian mencakup kenaikan enam belas kali dari nilai terkecil ke nilai terbesar. 
+Pengujian diterapkan pada dataset dengan dimensi berbeda dan menggunakan
+\textit{MemPeak\_}\textit{alloc}
+sebagai metrik utama. 
+Faktor eksperimen lain, seperti representasi solusi, fungsi \textit{fitness}, dataset, dimensi $D$, dan prosedur pengukuran, dipertahankan sesuai protokol kesetaraan eksperimen. 
+Setiap konfigurasi pengukuran juga dijalankan secara terisolasi agar nilai puncak memori suatu konfigurasi tidak tercampur dengan konfigurasi sebelumnya.
+
+Makna $NP$ terhadap penggunaan memori berbeda menurut mekanisme internal algoritma. 
+Pada algoritma berpopulasi eksplisit seperti BOA, ACO, dan UBK, peningkatan $NP$ berarti semakin banyak kandidat solusi berdimensi $D$ yang harus dimaterialisasi selama proses optimasi. 
+Komponen penyimpanan kandidat tersebut secara konseptual berukuran sebanding dengan
+\[
+O(NP \times D),
+\]
+di samping struktur tambahan yang spesifik terhadap masing-masing algoritma. 
+Oleh karena itu, ketika $NP$ dinaikkan, jumlah struktur data yang hidup secara bersamaan juga meningkat dan puncak alokasi memori diperkirakan ikut bertambah.
+Sebaliknya, CoDA-EDA tidak mematerialisasi populasi kandidat berukuran $NP$. 
+Parameter $NP$ berperan sebagai ukuran populasi virtual yang menentukan besar langkah pembaruan \textit{Probability Vector}, yaitu sebesar $\pm 1/NP$. 
+Kandidat baru dibangkitkan dan dievaluasi secara terbatas, sedangkan informasi pencarian yang dipertahankan secara persisten terdiri atas \textit{Probability Vector} dan struktur dependensi orde satu berupa pohon Chow--Liu. 
+Kedua struktur tersebut bertumbuh terhadap jumlah variabel $D$, bukan terhadap $NP$. 
+Dengan demikian, peningkatan $NP$ mengubah granularitas pembaruan probabilistik, tetapi tidak menyebabkan penyimpanan $NP$ individu secara bersamaan. 
+Mekanisme serupa berlaku pada keluarga \textit{compact}, sedangkan iBOA mempertahankan statistik inkremental tanpa menyimpan populasi penuh.
+
+Atas dasar perbedaan mekanisme tersebut, Hipotesis H2 tidak hanya diuji melalui perbandingan nilai memori absolut, tetapi terutama melalui bentuk kurva penskalaan terhadap $NP$. 
+Untuk merangkum sensitivitas tersebut digunakan rasio pertumbuhan
+\begin{equation}
+R_{\mathrm{NP}}
+=
+\frac{
+\textit{MemPeak}_{\mathrm{alloc}}(NP=400)
+}{
+\textit{MemPeak}_{\mathrm{alloc}}(NP=25)
+}.
+\label{eq:rasio-memori-np}
+\end{equation}
+Nilai $R_{\mathrm{NP}}$ yang mendekati 1 menunjukkan bahwa jejak memori relatif tidak sensitif terhadap pertambahan ukuran populasi, sedangkan nilai yang jauh lebih besar dari 1 menunjukkan pertumbuhan memori ketika $NP$ diperbesar. 
+Oleh karena itu, H2 memprediksi kurva CoDA-EDA, keluarga \textit{compact}, dan iBOA relatif datar terhadap $NP$, sedangkan BOA, ACO, dan UBK menunjukkan pertumbuhan karena menyimpan populasi eksplisit. 
+Pengujian bentuk penskalaan ini memberikan bukti yang lebih langsung bagi perbedaan $O(D)$ dan $O(NP \times D)$ dibandingkan perbandingan memori pada satu nilai $NP$ saja.
 
 Eksperimen 3 menguji Hipotesis H3.
 CoDA-EDAA dan iBOA dijalankan pada kelima dataset ABAC Lab dalam skenario \textit{drift} rendah dan sedang dengan waktu komputasi per siklus pembaruan (dipisahkan antara siklus dengan pembaruan struktur dan siklus dengan pembaruan parameter saja) sebagai variabel yang diukur.
@@ -71,7 +108,7 @@ Keterkaitan antara keempat hipotesis, eksperimen yang mengujinya, perbandingan y
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{gambar_eksperimen.png}
+    \includegraphics[width=1\textwidth]{gambar_eksperimen.png}
     \caption{Peta Eksperimen: Pemetaan Hipotesis H1-H4 terhadap Perbandingan, Metrik, dan Uji Statistik}
     \label{fig:peta_eksperimen}
 \end{figure}

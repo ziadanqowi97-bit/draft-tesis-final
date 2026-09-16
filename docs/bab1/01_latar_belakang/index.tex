@@ -22,4 +22,18 @@ Di ranah optimasi metaheuristik untuk komputasi \textit{edge} secara umum, kebut
 Namun demikian, prinsip serupa belum diterapkan pada \textit{policy mining} ABAC.
 Algoritma metaheuristik ABAC yang ada saat ini, seperti ACO dan UBK, bersifat \textit{population-based} dan tidak dirancang untuk berjalan berulang secara ringan pada perangkat berdaya rendah.
 Sementara upaya menjadikan \textit{mining} kebijakan lebih efisien secara inkremental masih mengandalkan pendekatan berbasis aturan, bukan metaheuristik \parencite{batra_incremental_2021,bamberger_automated_2024}, sehingga kehilangan kemampuan eksplorasi kombinatorial yang justru menjadi kekuatan utama metaheuristik.
+
+Sebagai ilustrasi konkret, bayangkan sebuah \textit{edge gateway} di sebuah \textit{smart building} berbasis IoT yang harus memberlakukan kontrol akses ABAC untuk ratusan sumber daya, seperti sensor, aktuator, dan data, kepada berbagai pengguna serta perangkat.
+Selama ini, kebijakan akses pada sistem seperti itu biasanya dirancang manual oleh administrator.
+Cara tersebut mahal, lambat, subjektif, dan mudah menimbulkan kesalahan.
+Oleh karena itu, banyak organisasi lebih memilih bertahan dengan RBAC/DAC daripada menanggung biaya migrasi \parencite{diaz-rodriguez_abac_2025}.
+Mengabaikan kontrol akses juga berakibat nyata secara finansial.
+Studi IBM-Ponemon pada tahun 2024 yang dikutip oleh \textcite{diaz-rodriguez_abac_2025} memperkirakan rata-rata biaya satu pelanggaran data mencapai USD 4,88 juta.
+\textit{Policy mining} memang hadir untuk mengotomatisasi penyusunan kebijakan dari log akses, tetapi pendekatan yang ada masih menghadapi dua keterbatasan di konteks \textit{edge}.
+Pertama, dari segi skala, metode berbasis \textit{association rule} dan sejenisnya mengalami penurunan kinerja pada log berukuran besar serta lonjakan jumlah aturan ketika atribut banyak \parencite{xu_mining_2015,inproceedings}.
+Akibatnya, bahkan metode mutakhir dirancang dan diuji untuk dijalankan pada server dengan sumber daya yang memadai.
+Kedua, dari segi dinamika, penambangan umumnya dilakukan secara \textit{batch} atau sekali jalan.
+Padahal, lingkungan IoT terus berubah karena muncul perangkat, peran, dan pola akses baru, sehingga kebijakan menjadi cepat usang dan perlu diperbarui secara berkala.
+Menjalankan penambangan konvensional di server berarti log akses harus dikirim keluar perangkat yang mengakibatkan bertambahnya beban jaringan, latensi, dan risiko privasi.
+Sedangkan algoritma berpopulasi eksplisit yang jejak memorinya membesar tidak muat pada \textit{edge gateway} yang terbatas.
 Kesenjangan inilah yang mendasari adanya penelitian ini untuk merancang sebuah algoritma yang secara khusus ringan atau \textit{compact}, sadar terhadap korelasi antar-atribut ABAC, dan mampu memperbarui kebijakan secara inkremental, agar \textit{policy mining} ABAC dapat dijalankan langsung pada perangkat \textit{edge}-IoT tanpa mengorbankan kualitas kebijakan yang dihasilkan.

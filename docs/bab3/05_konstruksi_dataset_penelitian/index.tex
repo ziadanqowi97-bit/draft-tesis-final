@@ -10,6 +10,116 @@ Jadi, alih-alih men-\textit{sampling} nilai setiap atribut subjek dan objek seca
 Tiga tingkat korelasi ditetapkan sebagai variabel bebas (rendah, sedang, dan tinggi) dengan target NMI berturut-turut 0,05, 0,35, dan 0,65.
 Batas bawah sengaja ditetapkan 0,05 dan bukan 0,00 karena entri berstatus \textit{permit} secara inheren berkorelasi sehingga memaksa proporsi tertentu pada log akan selalu menyuntikkan korelasi dasar yang tidak dapat dihilangkan.
 
+Sebagai ilustrasi mengenai mekanisme penyuntikan korelasi, tinjau dua atribut pada domain \textit{workforce}, yaitu atribut subjek \texttt{position} dan atribut sumber daya \texttt{associatedContract}. 
+Misalkan untuk suatu pasangan nilai tertentu berlaku probabilitas marginal
+$P(\texttt{position}=p)=0{,}30$ dan
+$P(\texttt{associatedContract}=c)=0{,}20$.
+Apabila kedua atribut tersebut independen, probabilitas keduanya muncul secara bersamaan hanya sebesar
+$0{,}30 \times 0{,}20 = 0{,}06$.
+Dalam kondisi ini, mengetahui nilai \texttt{position} tidak memberikan informasi tambahan mengenai \texttt{associatedContract}, karena probabilitas bersyarat
+$P(\texttt{associatedContract}=c \mid \texttt{position}=p)$
+tetap sebesar 0,20. Pada proses penyuntikan korelasi, sebagian massa probabilitas dipindahkan menuju kombinasi nilai yang dibuat selaras tanpa mengubah distribusi marginal masing-masing atribut. 
+Sebagai contoh ilustratif, apabila probabilitas gabungan pasangan tersebut dinaikkan dari 0,060 menjadi 0,151, maka
+$P(\texttt{associatedContract}=c \mid \texttt{position}=p)$
+meningkat dari 0,20 menjadi sekitar 0,503. 
+Dengan demikian, frekuensi kemunculan masing-masing nilai atribut secara individual dapat tetap sama, tetapi pola kemunculan bersama keduanya menjadi tidak acak. 
+Perubahan pada distribusi bersama inilah yang dimaksud sebagai peningkatan korelasi antar-atribut dalam konstruksi dataset penelitian ini.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Ilustrasi distribusi bersama dua atribut sebelum injeksi korelasi}
+    \label{tab:ilustrasi-korelasi-sebelum}
+    \begin{tabular}{lccc}
+        \hline
+         & \texttt{associatedContract} $=c$
+         & \texttt{associatedContract} $\neq c$
+         & Total \\
+        \hline
+        \texttt{position} $=p$
+        & 0,060
+        & 0,240
+        & 0,300 \\
+        \texttt{position} $\neq p$
+        & 0,140
+        & 0,560
+        & 0,700 \\
+        \hline
+        Total
+        & 0,200
+        & 0,800
+        & 1,000 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Ilustrasi distribusi bersama dua atribut setelah injeksi korelasi}
+    \label{tab:ilustrasi-korelasi-sesudah}
+    \begin{tabular}{lccc}
+        \hline
+         & \texttt{associatedContract} $=c$
+         & \texttt{associatedContract} $\neq c$
+         & Total \\
+        \hline
+        \texttt{position} $=p$
+        & 0,151
+        & 0,149
+        & 0,300 \\
+        \texttt{position} $\neq p$
+        & 0,049
+        & 0,651
+        & 0,700 \\
+        \hline
+        Total
+        & 0,200
+        & 0,800
+        & 1,000 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Tabel~\ref{tab:ilustrasi-korelasi-sebelum} dan
+Tabel~\ref{tab:ilustrasi-korelasi-sesudah}
+memperlihatkan bahwa penyuntikan korelasi tidak mengubah probabilitas marginal kedua atribut. 
+Proporsi
+\texttt{position} $=p$ tetap 0,30 dan proporsi
+\texttt{associatedContract} $=c$ tetap 0,20.
+Perubahan hanya terjadi pada distribusi bersama keduanya. 
+Massa probabilitas pada kombinasi
+\texttt{position} $=p$ dan
+\texttt{associatedContract} $=c$
+meningkat dari 0,060 menjadi 0,151, sedangkan massa pada sel silang berkurang secara bersesuaian. 
+Akibatnya, probabilitas bersyarat berubah dari
+
+\begin{equation}
+P(\texttt{associatedContract}=c \mid \texttt{position}=p)
+=
+\frac{0{,}060}{0{,}300}
+=
+0{,}20
+\end{equation}
+
+menjadi
+
+\begin{equation}
+P(\texttt{associatedContract}=c \mid \texttt{position}=p)
+=
+\frac{0{,}151}{0{,}300}
+\approx
+0{,}503.
+\end{equation}
+
+Dengan kata lain, setelah korelasi disuntikkan, mengetahui nilai \texttt{position} memberikan informasi mengenai kemungkinan nilai \texttt{associatedContract}. 
+Karakteristik inilah yang kemudian diukur melalui \textit{Normalized Mutual Information} (NMI) dan dapat dimanfaatkan oleh model yang mempertahankan dependensi antar-variabel.
+
+Perbedaan tersebut penting bagi perbandingan algoritma dalam penelitian ini. 
+Model univariat seperti \textit{compact-GA} dan \textit{compact-PSO} hanya mempertahankan probabilitas marginal masing-masing variabel sehingga tidak merepresentasikan secara eksplisit bahwa kemunculan suatu nilai \texttt{position} dapat meningkatkan kemungkinan kemunculan nilai \texttt{associatedContract} tertentu. 
+Sebaliknya, CoDA-EDA mempelajari keterkaitan antar-variabel melalui \textit{mutual information} dan merepresentasikan dependensi terpilih sebagai sisi pada pohon Chow--Liu. 
+Oleh karena itu, penyuntikan korelasi tidak sekadar mengubah frekuensi nilai atribut secara individual, tetapi membentuk struktur dependensi pada distribusi bersama yang dapat dimanfaatkan oleh model \textit{dependency-aware}. 
+Nilai numerik pada ilustrasi ini hanya digunakan untuk memperjelas mekanisme. 
+Pada dataset eksperimen, tingkat korelasi tidak ditetapkan langsung berdasarkan probabilitas gabungan pada ilustrasi tersebut, melainkan melalui proses kalibrasi \textit{closed-loop} hingga NMI empiris mendekati target 0,05, 0,35, dan 0,65.
+
 Kalibrasi korelasi dilakukan secara \textit{closed-loop}.
 Parameter penggandeng distribusi bersama dicari melalui pencarian biner hingga NMI yang terukur pada log final mendekati target, bukan hingga NMI distribusi teoretis mencapai target.
 Prosedur ini diperlukan karena estimator NMI dan divergensi Jensen-Shannon sama-sama memiliki bias sampel-hingga yang membesar seiring rasio antara banyaknya sel kontingensi dan banyaknya sampel.

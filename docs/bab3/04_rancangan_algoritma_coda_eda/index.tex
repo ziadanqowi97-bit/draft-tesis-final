@@ -62,10 +62,10 @@ Pemisahan frekuensi pembaruan ini merupakan mekanisme inti yang membedakan CoDA-
 
 Arsitektur keseluruhan CoDA-EDA, mencakup model probabilistik dua komponen, jalur pembaruan parameter yang dijalankan setiap siklus, serta jalur pembaruan struktur yang hanya dipicu oleh \textit{drift}, diilustrasikan pada Gambar \ref{fig:arsitektur-codaeda}, sedangkan rincian langkah per-baris diberikan pada Algoritma \ref{alg:coda-eda}.
 
-\begin{figure}[H]
+\begin{figure}[H] 
     \centering
-    \includegraphics[width=0.9\textwidth]{gambar_arsitektur.png}
-    \caption{Arsitektur CoDA-EDA dan Pemisahan Jalur Pembaruan Parameter dan Struktur}
+    \includegraphics[width=1\textwidth]{flowchart-coda-eda.png}
+    \caption{Diagram Alir Arsitektur CoDA-EDA}
     \label{fig:arsitektur-codaeda}
 \end{figure}
 
@@ -109,3 +109,91 @@ Angka ini setara dengan varian \textit{compact} standar, tetapi jauh lebih renda
 Untuk waktu komputasi, pembaruan parameter memerlukan O(D) per siklus, sedangkan pembaruan struktur yang diaktifkan hanya saat terjadi \textit{drift} membutuhkan $O(D^2)$\label{first:symbol-od2} untuk perhitungan \textit{mutual information} antar seluruh pasangan variabel, ditambah $O(D^2 log D)$\label{first:symbol-od2logd} untuk konstruksi pohon rentang maksimum \parencite{chow_approximating_1968}.
 Biaya ini secara signifikan lebih ringan dibandingkan biaya struktur pada BOA yang tidak dibatasi ordenya.
 Karena pembaruan struktur tidak dilakukan pada setiap siklus, biaya rata-rata per siklus menjadi lebih rendah daripada iBOA konvensional yang justru berpotensi memperbarui struktur pada tiap iterasi.
+
+Untuk menurunkan kompleksitas waktu CoDA-EDA, tinjau notasi berikut terlebih dahulu.
+$D$ menyatakan dimensi ruang solusi atau banyaknya pasangan atribut-nilai, $n$ jumlah entri log per jendela, $E$ anggaran evaluasi \textit{fitness} per jendela, $W$ jumlah jendela, $\delta$ fraksi jendela yang memicu pembaruan struktur yang bernilai antara 0 dan 1 dan ditentukan oleh \textit{drift}, dan $k$ rata-rata jumlah kondisi aktif per aturan yang bernilai kecil $(k \approx 3)$ karena aturan ABAC bersifat jarang.
+Inti biaya algoritma terletak pada satu kali evaluasi kandidat, yang berlangsung dalam tiga langkah berurutan.
+Kandidat baru mula-mula disampel melalui \textit{ancestral sampling} pada pohon $T$ sehingga menelan waktu O(D).
+Kandidat itu kemudian dievaluasi \textit{fitness}-nya dengan memindai seluruh jendela untuk menghitung TP dan FP.
+Langkah ini berbiaya O(n.D) pada kasus terburuk, meski dalam praktik menyusut menjadi O(n.k) yang mendekati O(n) karena aturan hanya memuat sedikit kondisi aktif.
+Terakhir, PV diperbarui sebesar $\pm 1/NP$ dengan biaya O(D).
+Karena pemindaian jendela mendominasi dua langkah lainnya, biaya satu evaluasi secara keseluruhan adalah O(n.D).
+
+Biaya per-evaluasi ini terakumulasi secara berbeda pada dua jalur pembaruan CoDA-EDA.
+Pada jalur parameter yang dijalankan setiap siklus, seluruh anggaran $E$ evaluasi per jendela menghasilkan biaya O(E.n.D) per jendela.
+Pada jalur struktur, setiap jendela terlebih dahulu menjalani deteksi \textit{drift}.
+Distribusi frekuensi pasangan atribut-nilai dihitung lalu dibandingkan terhadap jendela referensi melalui $\Delta = \mathrm{JSD}$ dengan biaya O(n.D).
+Baru apabila $\Delta$ melampaui ambang $\tau$, pohon dependensi dipelajari ulang dengan menghitung \textit{mutual information} berpasangan atas $O(D^2)$ pasangan yang diakumulasi dari $n$ baris, lalu membentuk pohon rentang maksimum melalui algoritma Prim yang juga berorde $O(D^2)$, sehingga pembelajaran ulang berbiaya $O(n.D^2)$, namun tetap hemat memori O(D) karena perhitungan dilakukan baris demi baris.
+Dengan menjumlahkan kedua jalur lintas $W$ jendela, kompleksitas waktu total menjadi $T = O(W \cdot E \cdot n \cdot D) + O(W \cdot n \cdot D) + O(\delta \cdot W \cdot n \cdot D^2)$ yang dapat disederhanakan menjadi $O(W \cdot E \cdot n \cdot D + \delta \cdot W \cdot n \cdot D^2)$.
+Suku pertama, yang mewakili penambangan per siklus, berskala linear terhadap $D$, sedangkan suku kedua yang kuadratik terhadap $D$ hanya muncul sebanding dengan fraksi \textit{drift} $\delta$.
+Konsekuensinya, ketika data relatif stabil dan $\delta$ mengecil, operasi mahal $O(n \cdot D^2)$ jarang terpicu sehingga waktu total mendekati algoritma yang tidak memodelkan struktur sama sekali.
+Justru di sinilah dasar analitis Hipotesis H3 terletak.
+Pemisahan frekuensi pembaruan memindahkan operasi mahal $O(n \cdot D^2)$ keluar dari jalur panas per siklus dan menjadikannya bersyarat pada kemunculan \textit{drift}.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2.3cm}|>{\raggedright\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{1.6cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{1.5cm}|}
+\caption{Perbandingan kompleksitas waktu dan memori per siklus/generasi}
+\label{tab:perbandingan-kompleksitas} \\
+\hline
+\textbf{Algoritma} & \textbf{Sampling 1 kandidat} & \textbf{Evaluasi \textit{fitness}} & \textbf{Pembaruan model per siklus} & \textbf{Pembaruan struktur} & \textbf{Memori} \\
+\hline
+\endfirsthead
+
+\multicolumn{6}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\hline
+\textbf{Algoritma} & \textbf{Sampling 1 kandidat} & \textbf{Evaluasi \textit{fitness}} & \textbf{Pembaruan model per siklus} & \textbf{Pembaruan struktur} & \textbf{Memori} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{Lanjut ke halaman berikutnya} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+% ==================== DATA BARIS ====================
+compact-GA / compact-PSO 
+  & $O(D)$ 
+  & $O(n \cdot D)$ 
+  & $O(D)$ (PV) 
+  & --- (tanpa struktur) 
+  & $O(D)$ \\
+\hline
+
+CoDA-EDA 
+  & $O(D)$ (ancestral pd pohon) 
+  & $O(n \cdot D)$ 
+  & $O(D)$ (PV) 
+  & $O(n \cdot D^2)$ --- hanya saat \textit{drift} 
+  & $O(D)$ \\
+\hline
+
+iBOA 
+  & $O(D)$ 
+  & $O(n \cdot D)$ 
+  & $O(D)$ 
+  & $O(D^2)$ tiap langkah (kontinu) 
+  & $O(D)$ \\
+\hline
+
+BOA 
+  & $O(NP \cdot D)$ 
+  & $O(NP \cdot n \cdot D)$ 
+  & --- 
+  & $O(NP \cdot D^2)$ bangun ulang tiap generasi 
+  & $O(NP \cdot D)$ \\
+\hline
+
+ACO / UBK 
+  & $O(NP \cdot D)$ (konstruksi) 
+  & $O(NP \cdot n \cdot D)$ 
+  & $O(NP \cdot D)$ (feromon) 
+  & --- (tak inkremental) 
+  & $O(NP \cdot D)$ \\
+\hline
+
+\end{longtable}
+
+Terbaca bahwa jalur per siklus CoDA-EDA satu orde dengan keluarga \textit{compact} $(O(n \cdot D))$, sedangkan operasi struktur $O(n \cdot D^2)$-nya hanya dibayar saat \textit{drift}.
+Bandingkan dengan iBOA yang membayar biaya struktur $O(D^2)$ pada setiap langkah (kontinu) dan dengan BOA/ACO/UBK yang seluruh biayanya diperbesar faktor populasi NP.
+Perbedaan inilah yang membuat CoDA-EDA lebih efisien pada pembaruan berkala sekaligus tetap hemat memori.

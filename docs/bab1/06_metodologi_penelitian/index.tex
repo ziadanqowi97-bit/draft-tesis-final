@@ -1,12 +1,24 @@
 \section{Metodologi Penelitian}
 
-Penelitian ini mengikuti \textit{Design Science Research Methodology} (DSRM)\label{first:dsrm} yang dikembangkan oleh \textcite{peffers_design_2007} yang terdiri atas enam aktivitas berikut:
+Penelitian ini menggunakan pendekatan \textit{Design Science Research Methodology} (DSRM), yaitu paradigma yang berorientasi pada perancangan dan evaluasi artefak untuk menyelesaikan permasalahan yang teridentifikasi, alih-alih sekadar menjelaskan atau memprediksi fenomena yang telah berlangsung \parencite{peffers_design_2007}.
+Titik masuk yang diikuti adalah \textit{problem-centered initiation}, karena penelitian ini bermula dari kesenjangan yang teridentifikasi pada tinjauan pustaka.
+DSRM menjadi payung paradigma, sedangkan aktivitas \textit{Demonstration} dan \textit{Evaluation} dioperasionalkan melalui desain eksperimen kuantitatif terkontrol.
+Jadi artefak akan dibandingkan dengan enam algoritma \textit{baseline} pada dataset yang dikonstruksi, diukur dengan metrik yang ditetapkan, dan diuji signifikansinya secara statistik.
+Proses penelitian mengikuti enam aktivitas DSRM \parencite{peffers_design_2007} berikut, yang alurnya divisualisasikan pada Gambar \ref{fig:dsrm}:
 
 \begin{enumerate}
-    \item \textit{Problem Identification and Motivation}: Mengidentifikasi kesenjangan penelitian, belum tersedianya algoritma metaheuristik untuk \textit{policy mining} ABAC yang sekaligus ringan, sadar terhadap korelasi antar-atribut, dan mampu diperbarui secara inkremental pada perangkat \textit{edge}-IoT, beserta urgensinya.
-    \item \textit{Define the Objectives for a Solution}: Menetapkan tujuan solusi berdasarkan kesenjangan tersebut, yaitu merancang CoDA-EDA yang memenuhi empat tujuan khusus dari penelitian dengan kriteria keberhasilan terukur pada Hipotesis yang ada.
-    \item \textit{Design and Development}: Merancang dan mengimplementasikan artefak penelitian seperti algoritma CoDA-EDA serta mengonstruksi dataset \textit{benchmark} ABAC-IoT berkorelasi-terkontrol.
-    \item \textit{Demonstration}: Menjalankan CoDA-EDA beserta enam \textit{baseline} pada dataset yang dikonstruksi dan pada perangkat \textit{edge} Raspberry Pi 5 untuk menunjukkan artefak dapat menyelesaikan \textit{instance} nyata masalah \textit{policy mining} ABAC-IoT.
-    \item \textit{Evaluation}: Mengukur dan membandingkan hasil demonstrasi terhadap tujuan solusi dan hipotesis, seperti kualitas kebijakan, jejak memori, waktu komputasi, dan efisiensi pembaruan pada skenario \textit{drift}, disertai uji signifikasi statistik antar-algoritma.
-    \item \textit{Communication}: Mengomunikasikan permasalahan, artefak CoDA-EDA, dan hasil evaluasinya melalui buku tesis serta naskah publikasi ilmiah terkait.
+    \item \textit{Problem identification and motivation} -- Mengidentifikasi kesenjangan penelitian, yaitu belum tersedianya algoritma metaheuristik untuk \textit{policy mining} ABAC yang sekaligus ringan, sadar dependensi, dan dapat diperbarui inkremental pada perangkat \textit{edge-IoT} beserta urgensinya.
+    \item \textit{Define objectives of a solution} -- Menetapkan empat tujuan khusus beserta kriteria keberhasilan terukur yang dirumuskan sebagai Hipotesis H1-H4.
+    \item \textit{Design and development} -- Merancang dan mengimplementasikan artefak penelitian. Aktivitas ini paling ekstensif dan mencakup tiga komponen: (a) perancangan algoritma CoDA-EDA itu sendiri -- representasi model probabilistik, mekanisme pembaruan kompetitif tanpa populasi eksplisit, dan strategi pembaruan struktur dependensi berbasis delta; (b) implementasi enam algoritma pembanding secara setara agar perbandingan pada tahap \textit{Evaluation} tidak bias oleh perbedaan kualitas implementasi; dan (c) konstruksi dataset ABAC-Lab dengan tingkat korelasi atribut dan \textit{drift} terkontrol, mengingat dataset semacam ini belum tersedia sebagai sumber daya siap pakai.
+    \item \textit{Evaluation} -- Mengukur dan membandingkan hasil demonstrasi terhadap metrik (kualitas kebijakan/\textit{F-score} dan WSC, jejak memori, serta waktu komputasi), disertai uji signifikansi statistik perbandingan antar-algoritma terhadap H1-H4.
+    \item \textit{Communication} -- Mengomunikasikan permasalahan, artefak CoDA-EDA, dan hasil evaluasinya melalui buku tesis serta naskah publikasi ilmiah terkait.
 \end{enumerate}
+
+Meskipun keenam aktivitas disajikan berurutan, proses DSRM bersifat iteratif, sehingga penulis dimungkinkan kembali ke aktivitas \textit{Design and Development} apabila hasil \textit{Demonstration} dan \textit{Evaluation} menunjukkan kebutuhan penyempurnaan rancangan \parencite{peffers_design_2007}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{dsrm.png}
+    \caption{Enam Aktivitas DSRM dan Pemetaannya terhadap Struktur Penelitian}
+    \label{fig:dsrm}
+\end{figure}

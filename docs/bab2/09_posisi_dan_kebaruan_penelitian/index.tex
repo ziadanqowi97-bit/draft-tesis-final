@@ -18,6 +18,47 @@ Kebutuhan ini dijawab melalui rancangan yang memisahkan frekuensi pembaruan stru
 Pembaruan parameter dilakukan setiap siklus sebagaimana lazimnya EDA, sedangkan pembaruan struktur dependensi hanya dipicu ketika terdeteksi pergeseran \textit{drift} data yang signifikan.
 Pemisahan ini berbeda dari iBOA yang memperbarui struktur maupun parameter secara inkremental dalam skema yang sama \parencite{pelikan_iboa_2008}, dan menjadi dasar bagi pengujian efisiensi waktu komputasi serta kualitas \textit{warm-start} pada skenario pergeseran data.
 
+Pemicu pembaruan struktur pada CoDA-EDA memerlukan ukuran yang dapat membedakan perubahan distribusi antar-jendela secara stabil. 
+Penelitian ini menggunakan \textit{Jensen--Shannon divergence} (JSD) sebagai ukuran pergeseran distribusi. 
+Secara umum, untuk dua distribusi probabilitas $P$ dan $Q$ dengan bobot yang sama, JSD dapat dinyatakan sebagai
+\begin{equation}
+    \operatorname{JSD}(P \parallel Q)
+    =
+    \frac{1}{2}
+    \operatorname{KL}(P \parallel M)
+    +
+    \frac{1}{2}
+    \operatorname{KL}(Q \parallel M),
+    \qquad
+    M = \frac{1}{2}(P+Q),
+    \label{eq:jsd-drift}
+\end{equation}
+dengan $\operatorname{KL}$ menyatakan \textit{Kullback--Leibler divergence}. 
+Pemilihan JSD didasarkan pada sifat teoretisnya sebagai ukuran perbedaan distribusi. 
+\textcite{lin1991divergence} menunjukkan bahwa kelas divergensi berbasis entropi Shannon yang mencakup JSD tidak memerlukan syarat kontinuitas absolut sebagaimana divergensi Kullback. 
+Sifat ini relevan untuk distribusi diskret karena suatu nilai atribut dapat memiliki probabilitas nol pada satu distribusi tetapi muncul pada distribusi lain.
+Pada divergensi Kullback, keadaan tersebut dapat menyebabkan nilai divergensi tidak terdefinisi ketika distribusi pembanding bernilai nol, sedangkan konstruksi JSD melalui distribusi campuran $M$ tetap menghasilkan nilai yang terdefinisi dan berhingga.
+
+Selain itu, JSD bersifat non-negatif dan, untuk dua distribusi dengan bobot sama serta logaritma berbasis dua, memiliki rentang nilai yang terbatas antara 0 dan 1 \parencite{lin1991divergence}. 
+Nilai 0 menunjukkan bahwa kedua distribusi sama, sedangkan nilai yang semakin besar menunjukkan ketidakmiripan distribusi yang semakin tinggi. 
+Sifat berbatas tersebut memberikan skala numerik yang lebih mudah digunakan sebagai dasar penetapan ambang perubahan distribusi dibandingkan divergensi yang tidak berbatas. 
+JSD dengan bobot yang sama juga bersifat simetris, sehingga perbandingan antara distribusi jendela sebelumnya dan jendela berjalan tidak bergantung pada arah perbandingan. 
+\textcite{lin1991divergence} juga menunjukkan hubungan formal JSD dengan batas atas dan bawah probabilitas kesalahan klasifikasi Bayes. 
+Hubungan tersebut memberikan interpretasi bahwa JSD tidak hanya mengukur perbedaan numerik antar-distribusi, tetapi juga berkaitan dengan tingkat keterbedaan informasi yang dikandung distribusi tersebut.
+
+Penggunaan JSD sebagai dasar deteksi perubahan distribusi juga telah diterapkan secara langsung pada permasalahan \textit{concept drift}.
+\textcite{yang2022concept} mengusulkan CDJD (\textit{Concept Drift Detection based on Jensen--Shannon Divergence}) untuk klasifikasi trafik jaringan. 
+Pendekatan tersebut mempertahankan dua jendela yang mewakili distribusi lama dan distribusi berjalan, kemudian menghitung JSD antara distribusi fitur pada kedua jendela. 
+Perubahan dinyatakan sebagai \textit{concept drift} ketika nilai JSD melampaui ambang yang ditetapkan. 
+Mekanisme yang sama juga digunakan untuk membandingkan konsep yang baru terdeteksi dengan konsep terdahulu sehingga model yang telah tersedia dapat digunakan kembali ketika distribusinya serupa. 
+Hasil eksperimen \textcite{yang2022concept} menunjukkan bahwa pendekatan berbasis JSD tersebut mampu mendeteksi perubahan distribusi dan mempertahankan kinerja klasifikasi pada aliran data yang mengalami \textit{concept drift}.
+
+Prinsip tersebut sejalan dengan kebutuhan CoDA-EDA, meskipun objek yang dipantau berbeda. 
+CoDA-EDA tidak menggunakan JSD untuk menentukan perubahan model klasifikasi, tetapi untuk mengukur pergeseran distribusi pasangan atribut--nilai antar-jendela log akses. 
+Struktur dependensi Chow--Liu hanya perlu dipelajari ulang apabila pergeseran tersebut melampaui ambang $\tau$, sedangkan parameter probabilistik tetap dapat diperbarui pada setiap siklus. 
+Dengan demikian, JSD berperan sebagai mekanisme pemicu yang memisahkan perubahan distribusi yang cukup besar untuk memerlukan pembaruan struktur dari variasi antar-jendela yang masih dapat ditangani melalui pembaruan parameter. 
+Pemilihan ini sekaligus mendukung tujuan rancangan CoDA-EDA untuk menghindari pembelajaran ulang struktur yang tidak diperlukan pada perangkat \textit{edge} dengan sumber daya terbatas.
+
 Diposisikan terhadap Tabel \ref{tab:posisi-penelitian} secara baris per baris, CoDA-EDA berbeda dari \textcite{gaspar-cunha_evolutionary_2015,shang_abac_2024,li_attribute_2026} karena meninggalkan paradigma berbasis populasi secara keseluruhan demi kerangka EDA yang kompak.
 Perbedaan ini mendasari perbandingan jejak memori terhadap BOA, iBOA, ACO, dan UBK.
 CoDA-EDA juga berbeda dari \textcite{guo_--fly_2025}.

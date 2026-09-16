@@ -1,15 +1,62 @@
-\section{Pendekatan dan Jenis Penelitian}
+\section{Analisis Masalah}
 
-Penelitian ini menggunakan pendekatan \textit{Design Science Research} (DSR)\label{first:dsr}, yaitu paradigma penelitian yang berorientasi pada perancangan dan evaluasi artefak untuk menyelesaikan permasalahan yang teridentifikasi secara eksplisit, alih-alih semata-mata menjelaskan atau memprediksi fenomena yang telah berlangsung \parencite{peffers_design_2007}.
-Proses penelitian dijalankan dengan mengikuti DSRM yang terdiri atas enam aktivitas, yakni \textit{problem identification and motivation, define the objectives for a solution, design and development, demonstrations, evaluation}, dan \textit{communication}.
+Sebelum artefak dirancang, persoalan penambangan kebijakan ABAC pada \textit{edge-IoT} diuraikan menjadi sejumlah \textit{design tension} yang harus dijawab.
+Analisis ini menjadi dasar penurunan kebutuhan dan keputusan rancangan dari algoritma CoDA-EDA yang diusulkan.
 
-Pemilihan DSR didasarkan pada karakteristik tujuan penelitian ini sendiri.
-Keempat tujuan khusus seluruhnya berorientasi pada perancangan artefak baru beserta pengujian empiris terhadap kinerjanya, bukan sekadar mendeskripsikan atau menguji teori mengenai fenomena yang sudah berlangsung.
-Premis 1-4 dan Hipotesis H1-H4 yang menjadi acuan utama penelitian ini disusun secara deduktif dari kesenjangan rancangan pada literatur, sejalan dengan karakteristik permasalahan yang lazim diselesaikan melalui DSR, yakni permasalahan yang solusinya belum tersedia dan perlu dirancang, bukan sekadar diamati.
+\begin{enumerate}
+    \item Keterbatasan sumber daya perangkat \textit{edge} -- Perangkat \textit{edge-IoT} beroperasi dengan memori dan daya komputasi yang terbatas. Algoritma metaheuristik berpopulasi eksplisit, seperti BOA, ACO, dan UBK, memelihara sekumpulan kandidat solusi yang jejak memorinya tumbuh seiring ukuran populasi, sehingga tidak layak dijalankan langsung pada perangkat semacam itu. Dari masalah ini muncullah persoalan bagaimana mencari kebijakan berkualitas tanpa memelihara populasi solusi yang membengkak.
+    \item Ketegangan antara kesadaran dependensi dan hemat memori -- Atribut ABAC di dunia nyata itu saling berkorelasi (mis. peran-unit). Keluarga \textit{compact} univariat hemat memori tetapi mengasumsikan independensi penuh antar-atribut, sehingga kualitasnya menurun pada ruang berdimensi tinggi. Sebaliknya, algoritma yang memodelkan dependensi penuh (jaringan bayes pada BOA/iBOA) memerlukan representasi struktur yang mahal (hingga $O(D^2)$). Dari masalah ini muncullah persoalan bagaimana menangkap keterkaitan antar-atribut dengan biaya memori yang tetap hemat.
+    \item Dinamika kebijakan dan biaya pembaruan -- Lingkungan IoT bersifat dinamis sehingga kebijakan perlu diperbarui berkala mengikuti perubahan distribusi data (\textit{drift}). Menambang ulang dari nol, atau membangun ulang struktur dependensi pada setiap siklus sebagaimana pendekatan konvensional akan memakan waktu dan energi yang tidak efisien pada perangkat \textit{edge}, sehingga muncul suatu persoalan bagaimana memperbarui kebijakan secara berkala dengan biaya komputasi minimal tanpa menurunkan kualitas.
+    \item Kompromi kualitas yang proporsional -- Pada konteks \textit{edge}, sedikit kompromi kualitas penambangan statis dapat diterima asalkan memori stabil dan pembaruan dilakukan secara efisien. Namun, kualitas kebijakan yang dihasilkan harus tetap kompetitif terhadap algoritma sekelas agar artefak tetap bermanfaat. Dari situlah muncul persoalan yakni bagaimana menjaga kualitas tetap setara sambil memenuhi ketiga kendala di atas. 
+\end{enumerate}
 
-DSRM menyediakan empat kemungkinan titik masuk proses penelitian, antara lain \textit{problem-centered initiation, objection-centered solution, design and development-centered initiation}, serta \textit{client/context-initiated} \parencite{peffers_design_2007}.
-Penelitian ini mengikuti titik masuk \textit{problem-centered initiation}, karena proses penelitian ini dimulai dari kesenjangan yang diidentifikasi secara eksplisit pada tinjauan pustaka, bukan dari sebuah teknologi atau solusi yang telah ada dan dicari kesempatan penerapannya.
+Keempat persoalan di atas dapat ditelusuri secara konkret pada enam algoritma pembanding yang telah diidentifikasi, yang mana masing-masing memenuhi sebagian kebutuhan tetapi gagal pada sebagian lain, sehingga tidak ada satu pun yang sekaligus ringan, sadar-dependensi, dan inkremental untuk \textit{edge}.
+Pertama, pada keluarga algoritma \textit{compact}, seperti \textit{compact-GA} dan \textit{compact-PSO}.
+Keduanya memenuhi kebutuhan memori (jejak O(D) yang datar terhadap populasi), tetapi mengasumsikan independensi penuh antar-atribut.
+Pada ruang kebijakan berdimensi tinggi yang kaya dengan keterkaitan antar-atribut, asumsi ini dapat menurunkan kualitas karena kombinasi atribut yang selaras tidak terwakili.
+Masalah utama yang ada pada keluarga algoritma \textit{compact} ini selaras dengan peroalan kedua, yakni buta terhadap dependensi.
 
-Meskipun DSR menjadi payung paradigma penelitian secara keseluruhan, aktivitas \textit{Demonstration} dan \textit{Evaluation} pada DSRM dioperasionalkan secara spesifik melalui pendekatan eksperimental kuantitatif.
-Algoritma yang diusulkan dibandingkan secara terkontrol dengan enam algoritma \textit{baseline} pada dataset yang dikonstruksi, diukur melalui metrik yang telah ditetapkan, dan diuji signifikansinya secara statistik untuk menguji Hipotesis yang ada.
-Dengan demikian, penelitian ini menggabungkan DSR sebagai paradigma perancangan artefak dengan desain eksperimen kuantitatif sebagai instrumen operasional untuk menilai keberhasilan artefak tersebut.
+Yang kedua, pada kelompok algoritma EDA yang sadar dependensi, seperti BOA dan iBOA.
+Keduanya sadar dependensi, tetapi bermasalah pada sisi yang berbeda.
+BOA memelihara populasi eksplisit dan membangun ulang jaringan bayes pada setiap generasi, sehingga jejak memorinya tumbuh dan biaya pembaruannya menjadi tinggi, sehingga menjadikannya tidak layak untuk perangkat \textit{edge}.
+iBOA memperbaiki sisi memori (jejaknya datar melalui statistik inkremental) dan tetap sadar dependensi, sehingga menjadi pembanding terdekat dengan algoritma yang diusulkan.
+Namun ia memperbarui struktur secara terus-menerus pada setiap langkah pencarian, tidak dipicu oleh perubahan data atau \textit{drift}, dan tanpa mekanisme \textit{warm-start}.
+Akibatnya, pada pembaruan berkala, iBOA melakukan pembelajaran ulang struktur yang tidak perlu ketika data sebenarnya stabil.
+
+Yang ketiga adalah keluarga algoritma metaheuristik berpopulasi eksplisit, seperti ACO dan UBK.
+Keduanya mencapai kualitas tinggi pada penambangan statis, tetapi berbasis populasi eksplisit/feromon yang jejak memorinya membengkak seiring ukuran populasi, dan dirancang untuk eksekusi \textit{batch/offline} pada sumber daya yang memadai, bukan pembaruan inkremental di \textit{edge}.
+
+Dari ketiga keluarga algoritma tersebut, bisa disimpulkan bahwa tidak ada satu pun algoritma pembanding yang memenuhi ketiga kebutuhan inti secara serentak.
+iBOA sebenarnya adalah algoritma yang paling mendekati, tetapi gagal pada pembaruan berkala yang efisien.
+Kesenjangan inilah yang secara langsung memotivasi rancangan CoDA-EDA.
+Ringkasannya disajikan pada Tabel \ref{tab:analisis-masalah}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Analisis Masalah pada Algoritma Pembanding terhadap Kebutuhan Inti Edge-IoT}
+\label{tab:analisis-masalah}
+\begin{tabular}{@{} 
+  >{\raggedright\arraybackslash}p{3.2cm} 
+  >{\centering\arraybackslash}p{1.4cm} 
+  >{\centering\arraybackslash}p{1.8cm} 
+  >{\centering\arraybackslash}p{1.8cm} 
+  >{\raggedright\arraybackslash}p{5.5cm} 
+@{}}
+\toprule
+Algoritma (keluarga) & Sadar dependensi & Memori datar thd populasi & Pembaruan inkremental efisien & Masalah utama di edge-IoT \\
+\midrule
+compact-GA (compact) & tidak & ya & tidak & Buta dependensi $\rightarrow$ kualitas turun pada dimensi tinggi \\
+compact-PSO (compact) & tidak & ya & tidak & Independensi penuh antar-atribut, sama seperti compact-GA \\
+BOA (EDA penuh) & ya & tidak & tidak & Populasi eksplisit + bangun ulang struktur tiap generasi $\rightarrow$ boros \\
+iBOA (EDA inkremental) & ya & ya & tidak & Relearn struktur kontinu, tak sadar-drift, tanpa warm-start \\
+ACO (berpopulasi) & ya\textsuperscript{*} & tidak & tidak & Populasi/feromon tumbuh; batch/offline, bukan edge \\
+UBK (berpopulasi) & ya\textsuperscript{*} & tidak & tidak & Berpopulasi eksplisit $\rightarrow$ memori tumbuh; tidak inkremental \\
+CoDA-EDA (usulan) & ya (orde-1) & ya & ya & memenuhi ketiga kebutuhan inti \\
+\bottomrule
+\end{tabular}
+\par\vspace{0.5em}
+{\footnotesize ya\textsuperscript{*} = keterkaitan atribut ditangani secara implisit melalui jejak feromon/konstruksi solusi, bukan model dependensi eksplisit.}
+\end{table}

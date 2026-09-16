@@ -21,6 +21,19 @@ Pada pelaksanaan awal, lima belas konfigurasi berbeda melaporkan nilai VmHWM yan
 Karena itu setiap konfigurasi pengukuran VmHWM dijalankan pada proses sistem operasi yang terpisah.
 Pengukuran dilakukan pada proses yang terisolasi (satu kombinasi algoritma-dataset dieksekusi pada satu waktu, tanpa proses lain yang bersaing memperebutkan sumber daya) agar hasil pengukuran mencerminkan konsumsi memori algoritma itu sendiri, bukan artefak dari beban sistem lain.
 
+Pada setiap titik $NP$, jejak memori dicatat sebagai nilai puncak, bukan nilai rata-rata sepanjang eksekusi. 
+Dua instrumen digunakan secara saling melengkapi. 
+Metrik utama,
+\textit{MemPeak\_}\textit{alloc},
+merupakan puncak alokasi struktur data algoritma yang direkam menggunakan
+\texttt{tracemalloc}, sedangkan
+\textit{MemPeak\_}\textit{sys}
+diperoleh dari \texttt{VmHWM} pada
+\texttt{/proc/[pid]/status}
+sebagai konteks penggunaan memori pada tingkat sistem operasi. 
+Penggunaan nilai puncak dipilih karena kelayakan eksekusi pada perangkat \textit{edge} ditentukan oleh kebutuhan memori maksimum yang harus dapat ditampung selama algoritma berjalan. 
+Setiap konfigurasi dijalankan pada proses sistem operasi yang terpisah untuk mencegah sifat \textit{high-water mark} \texttt{VmHWM} pada eksekusi sebelumnya memengaruhi pengukuran berikutnya.
+
 Waktu komputasi diukur menggunakan \textit{wall-clock time} yang dicatat langsung pada perangkat target, dipisahkan antara waktu pembelajaran awal (\textit{initial training}) dan waktu satu siklus pembaruan inkremental.
 Untuk mengurangi variabilitas pengukuran akibat \textit{thermal throttling} dan \textit{dynamic frequency scaling} yang umum terjadi pada perangkat \textit{edge} seperti Raspberry Pi 5, \textit{CPU\label{first:cpu} governor} ditetapkan pada mode \textit{performance} yang konsisten sepanjang seluruh sesi pengujian, dan suhu perangkat dipantau agar tetap berada pada rentang suhu operasi resmi $0^\circ\mathrm{C}$--$70^\circ\mathrm{C}$ yang ditetapkan produsen \parencite{raspberry_pi_ltd_raspberry_2026}.
 

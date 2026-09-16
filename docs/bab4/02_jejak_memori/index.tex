@@ -43,6 +43,15 @@ UBK & 387 & 5.169 & 9{,}20$\times$ & Tumbuh --- populasi swarm \\
 
 \end{longtable}
 
+Pola pada Tabel~\ref{tab:skala-memori-np} sesuai dengan mekanisme penyimpanan masing-masing kelas algoritma. 
+Kenaikan $NP$ dari 25 menjadi 400 berarti peningkatan enam belas kali ukuran populasi, tetapi pada CoDA-EDA peningkatan tersebut tidak menghasilkan enam belas kali lebih banyak kandidat yang disimpan secara bersamaan karena $NP$ hanya mengatur granularitas pembaruan probabilistik. 
+Akibatnya,
+\textit{MemPeak\_}\textit{alloc}
+tetap sebesar 492 KB dan menghasilkan
+$R_{\mathrm{NP}}=1{,}00$.
+Sebaliknya, ACO, BOA, dan UBK harus mempertahankan struktur yang berkaitan dengan populasi eksplisit sehingga puncak alokasinya meningkat masing-masing sebesar 6,22, 7,68, dan 9,20 kali. 
+Dengan demikian, hasil H2 bukan sekadar menunjukkan bahwa CoDA-EDA menggunakan sejumlah memori tertentu, tetapi menunjukkan bahwa struktur memori yang dipertahankannya tidak bertambah ketika ukuran populasi virtual diperbesar.
+
 Vonis H2 terdukung kuat dan konsisten pada konfigurasi yang diuji.
 Rasio penskalaan $\text{alloc}(\text{NP}=400)/\text{alloc}(\text{NP}=25)$ CoDA-EDA tepat $1{,}00\times$. 
 Jejak memorinya sama sekali tidak tumbuh ketika ukuran populasi dinaikkan enam belas kali lipat, dan setara dengan keluarga \textit{compact} ($0{,}76$--$0{,}77\times$) serta iBOA ($0{,}82\times$). 

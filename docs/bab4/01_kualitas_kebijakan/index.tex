@@ -58,41 +58,41 @@ Perincian \textit{e-document} (Tabel \ref{tab:rincian-h1-edocument}) memperlihat
 Kelemahan CoDA-EDA bukan pada presisi melainkan pada cakupan/\textit{recall}.
 Dengan batas empat aturan, ACO, UBK, dan BOA menemukan aturan luas yang mencakup 47-62\% permintaan, sedangkan CoDA-EDA dan iBOA menghasilkan aturan berpresisi tinggi namun sempit yang hanya mencakup sekitar 25\%.
 
-\begin{longtable}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{4cm}|}
-\caption{Rincian Kualitas H1 pada e-document ($D=1.907$, rerata lintas korelasi; post-hoc vs CoDA-EDA)}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{1.4cm}|>{\raggedright\arraybackslash}p{1cm}|>{\raggedright\arraybackslash}p{3cm}|}
+\caption{Rincian Kualitas H1 pada e-document (D = 1.907; rerata lintas korelasi; post-hoc vs CoDA-EDA)}
 \label{tab:rincian-h1-edocument} \\
 \hline
-\textbf{Algoritma} & \textbf{F-score} & \textbf{Cakupan} & \textbf{WSC} & \textbf{Posisi terhadap CoDA-EDA (post-hoc Holm)} \\
+\textbf{Algoritma} & \textbf{F-score} & \textbf{$\Delta$F vs CoDA} & \textbf{Cakup-an} & \textbf{$\Delta$ cakup-an vs CoDA} & \textbf{WSC} & \textbf{Posisi terhadap CoDA-EDA (post-hoc Holm)} \\
 \hline
 \endfirsthead
 
-\multicolumn{5}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\multicolumn{7}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
 \hline
-\textbf{Algoritma} & \textbf{F-score} & \textbf{Cakupan} & \textbf{WSC} & \textbf{Posisi terhadap CoDA-EDA (post-hoc Holm)} \\
+\textbf{Algoritma} & \textbf{F-score} & \textbf{$\Delta$F vs CoDA} & \textbf{Cakup-an} & \textbf{$\Delta$ cakup-an vs CoDA} & \textbf{WSC} & \textbf{Posisi terhadap CoDA-EDA (post-hoc Holm)} \\
 \hline
 \endhead
 
 \hline
-\multicolumn{5}{r}{Lanjut ke halaman berikutnya} \\
+\multicolumn{7}{r}{Lanjut ke halaman berikutnya} \\
 \endfoot
 
 \hline
 \endlastfoot
 
 % ==================== DATA BARIS ====================
-ACO & 0{,}661 & 0{,}572 & 16{,}9 & Unggul signifikan ($r = -0{,}91$) \\
+ACO & 0{,}661 & $+$0{,}209 & 0{,}572 & $+$0{,}324 & 16{,}9 & Unggul signifikan ($r = -0{,}91$) \\
 \hline
-BOA & 0{,}633 & 0{,}624 & 11{,}2 & Unggul signifikan ($r = -0{,}87$) \\
+BOA & 0{,}633 & $+$0{,}181 & 0{,}624 & $+$0{,}376 & 11{,}2 & Unggul signifikan ($r = -0{,}87$) \\
 \hline
-UBK & 0{,}630 & 0{,}468 & 6{,}2 & Unggul signifikan ($r = -0{,}91$) \\
+UBK & 0{,}630 & $+$0{,}178 & 0{,}468 & $+$0{,}220 & 6{,}2 & Unggul signifikan ($r = -0{,}91$) \\
 \hline
-iBOA & 0{,}452 & 0{,}246 & 13{,}8 & Setara (n.s.) \\
+iBOA & 0{,}452 & 0{,}000 & 0{,}246 & $-0{,}002$ & 13{,}8 & Setara (n.s.) \\
 \hline
-CoDA-EDA & 0{,}452 & 0{,}248 & 11{,}8 & --- (acuan) \\
+CoDA-EDA & 0{,}452 & --- & 0{,}248 & --- & 11{,}8 & --- (acuan) \\
 \hline
-compact-GA & 0{,}329 & 0{,}156 & 10{,}2 & CoDA-EDA unggul ($r = +0{,}42$) \\
+compact-GA & 0{,}329 & $-0{,}123$ & 0{,}156 & $-0{,}092$ & 10{,}2 & CoDA-EDA unggul ($r = +0{,}42$) \\
 \hline
-compact-PSO & 0{,}260 & 0{,}116 & 11{,}0 & CoDA-EDA unggul ($r = +0{,}60$) \\
+compact-PSO & 0{,}260 & $-0{,}192$ & 0{,}116 & $-0{,}132$ & 11{,}0 & CoDA-EDA unggul ($r = +0{,}60$) \\
 \hline
 
 \end{longtable}
@@ -102,33 +102,33 @@ Tuas bobot \textit{false positive} $w_\text{fp}$ tidak berpengaruh (cakupan CoDA
 Sebaliknya, tuas anggaran jumlah aturan berdampak besar (Tabel \ref{tab:efek-aturan}).
 Dengan menaikkan dari empat ke delapan lalu dua belas aturan melonjakkan \textit{F-score} CoDA-EDA dari 0,362 ke 0,571 dan menyempitkan jaraknya terhadap ACO dari -0,301 menjadi -0,100.
 
-\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{4cm}|}
-\caption{Efek Anggaran Jumlah Aturan terhadap Kualitas CoDA-EDA pada e-document ($w_{fp}=1{,}0$; 12 replikasi per sel)}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1cm}|>{\raggedright\arraybackslash}p{1cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
+\caption{Efek Anggaran Jumlah Aturan terhadap Kualitas CoDA-EDA pada \textit{e-document}}
 \label{tab:efek-aturan} \\
 \hline
-\textbf{Jumlah aturan} & \textbf{F-score} & \textbf{Cakupan} & \textbf{WSC} & \textbf{Waktu} & \textbf{Posisi terhadap baseline (post-hoc Holm)} \\
+\textbf{Jumlah aturan} & \textbf{F-score} & \textbf{Cakup-an} & \textbf{$\Delta$ cakupan vs 4-aturan} & \textbf{WSC} & \textbf{Waktu} & \textbf{Posisi terhadap baseline (post-hoc Holm)} \\
 \hline
 \endfirsthead
 
-\multicolumn{6}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
+\multicolumn{7}{c}{{\bfseries \tablename\ \thetable{} -- lanjutan dari halaman sebelumnya}} \\
 \hline
-\textbf{Jumlah aturan} & \textbf{F-score} & \textbf{Cakupan} & \textbf{WSC} & \textbf{Waktu} & \textbf{Posisi terhadap baseline (post-hoc Holm)} \\
+\textbf{Jumlah aturan} & \textbf{F-score} & \textbf{Cakup-an} & \textbf{$\Delta$ cakupan vs 4-aturan} & \textbf{WSC} & \textbf{Waktu} & \textbf{Posisi terhadap baseline (post-hoc Holm)} \\
 \hline
 \endhead
 
 \hline
-\multicolumn{6}{r}{Lanjut ke halaman berikutnya} \\
+\multicolumn{7}{r}{Lanjut ke halaman berikutnya} \\
 \endfoot
 
 \hline
 \endlastfoot
 
 % ==================== DATA BARIS ====================
-4 (baku Tabel \ref{tab:rincian-h1-edocument}) & 0{,}362 & 0{,}186 & 9{,}6 & 97 s & Kalah dari ACO, UBK, BOA; setara iBOA \\
+4 (baku Tabel \ref{tab:rincian-h1-edocument}) & 0{,}362 & 0{,}186 & --- & 9{,}6 & 97 s & Kalah dari ACO, UBK, BOA; setara iBOA \\
 \hline
-8 & 0{,}571 & 0{,}391 & 18{,}8 & 117 s & Kalah dari ACO, UBK; setara BOA \& iBOA \\
+8 & 0{,}571 & 0{,}391 & $+$0{,}205 & 18{,}8 & 117 s & Kalah dari ACO, UBK; setara BOA \& iBOA \\
 \hline
-12 & 0{,}568 & 0{,}428 & 26{,}8 & 136 s & Kalah dari ACO, UBK; setara BOA \& iBOA \\
+12 & 0{,}568 & 0{,}428 & $+$0{,}242 & 26{,}8 & 136 s & Kalah dari ACO, UBK; setara BOA \& iBOA \\
 \hline
 
 \end{longtable}
@@ -136,18 +136,35 @@ Dengan menaikkan dari empat ke delapan lalu dua belas aturan melonjakkan \textit
 Pada dua belas aturan, post-hoc menempatkan CoDA-EDA setara iBOA ($p_{\text{adj}} = 0{,}52$), padahal pada empat aturan BOA mengungguli telak, sehingga CoDA-EDA hanya kalah moderat terhadap ACO dan UBK.
 Perbaikan ini memiliki harga pada waktu (97 menjadi 136 detik) dan kompleksitas (WSC 9,6 menjadi 26,8)
 
-Vonis H1: terdukung dalam bentuk terbatas.
-CoDA-EDA secara signifikan mengungguli keluarga \textit{compact} univariat (\textit{compact-GA, compact-PSO}) dan BOA pada \textit{workforce} dengan keunggulan atas \textit{compact} yang membesar dari \textit{workforce} ke \textit{e-document}.
-Sementara itu terhadap iBOA kualitasnya setara pada kedua dataset utama, dan terhadap BOA setara pada anggaran aturan memadai.
-Sedangkan terhadap ACO dan UBK ia tertinggal moderat pada penambangan statis berdimensi tinggi.
-Rumusan awal yang memprediksi dominasi menyeluruh tidak didukung.
-Klaim keunggulan yang bertahan adalah terhadap \textit{sampling} univariat dan bukan terhadap seluruh kelas metaheuristik.
+Vonis H1 adalah terdukung secara bersyarat. 
+Hasil eksperimen tidak mendukung dugaan awal bahwa keunggulan CoDA-EDA meningkat secara konsisten seiring bertambahnya tingkat korelasi, dan juga tidak menunjukkan dominasi CoDA-EDA terhadap seluruh kelas algoritma pembanding. 
+Sebaliknya, pola yang paling jelas adalah bahwa manfaat CoDA-EDA terhadap keluarga \textit{compact} univariat bergantung pada dimensi ruang solusi. 
+Pada \textit{workforce} ($D=436$), CoDA-EDA memperoleh F-score 0,889, yang secara praktis setara dengan \textit{compact-GA} (0,900) dan \textit{compact-PSO} (0,893). 
+Sebaliknya, pada \textit{e-document} ($D=1.907$), CoDA-EDA mempertahankan F-score 0,452, sedangkan \textit{compact-GA} dan \textit{compact-PSO} masing-masing turun menjadi 0,329 dan 0,260. 
+Dengan demikian, selisih CoDA-EDA terhadap rerata kedua algoritma \textit{compact} meningkat dari sekitar $-0{,}008$ pada \textit{workforce} menjadi sekitar $+0{,}158$ pada \textit{e-document}.
 
-Pola ini konsisten dengan teori EDA \parencite{larranaga_estimation_2024} yang menyatakan bahwa pada ruang berdimensi besar, \textit{sampling} yang diarahkan struktur dependensi mengungguli \textit{sampling} univariat.
-Itulah sebabnya CoDA-EDA selalu di atas keluarga \textit{compact} dan selisihnya membesar dari \textit{workforce} ke \textit{e-document}.
-Namun keunggulan itu tidak melampaui algoritma berpopulasi eksplisit pada penambangan statis, karena keputusan rancangan solusi tunggal yang membuat CoDA-EDA hemat memori sekaligus mempersempit eksplorasi sehingga cakupannya lebih rendah.
-Kelemahan H1 dan keunggulan H2 berasal dari satu keputusan rancangan yang sama dan ini adalah sebuah pertukaran yang koheren.
-Posisi CoDA-EDA bukanlah sebagai penambang kebijakan statis terbaik, melainkan sebagai algoritma ringan yang menawarkan kualitas memadai, dengan keunggulan utama pada efisiensi memori dan kecepatan pembaruan.
+Analisis menurut tingkat korelasi memperkuat interpretasi tersebut. 
+Pada \textit{e-document}, selisih F-score CoDA-EDA terhadap rerata \textit{compact-GA} dan \textit{compact-PSO} tetap berada pada kisaran sekitar $+0{,}15$ hingga $+0{,}17$ pada korelasi rendah, sedang, maupun tinggi. 
+Selisih yang relatif stabil tersebut menunjukkan bahwa keunggulan CoDA-EDA pada dataset ini tidak semakin besar hanya karena tingkat korelasi dinaikkan. 
+Faktor pembeda yang lebih konsisten adalah besarnya dimensi ruang solusi. 
+Pada ruang berdimensi tinggi, pencuplikan berdasarkan probabilitas marginal secara independen memiliki peluang lebih besar menghasilkan kombinasi pasangan atribut-nilai yang kurang sesuai dengan struktur data. 
+CoDA-EDA mengurangi keterbatasan tersebut dengan memanfaatkan dependensi orde satu yang dipelajari melalui \textit{mutual information} dan direpresentasikan dalam pohon Chow--Liu sebagai informasi tambahan ketika membangkitkan kandidat aturan.
+
+Temuan ini tidak berarti bahwa CoDA-EDA menjadi algoritma dengan kualitas penambangan statis terbaik pada dimensi tinggi. 
+Pada \textit{e-document}, CoDA-EDA tetap setara dengan iBOA, tetapi tertinggal dari BOA, ACO, dan UBK pada konfigurasi empat aturan. 
+Perincian hasil menunjukkan bahwa kelemahan tersebut terutama berasal dari cakupan aturan: CoDA-EDA menghasilkan aturan dengan presisi tinggi tetapi cakupan relatif sempit, sedangkan BOA, ACO, dan UBK mampu menemukan aturan yang mencakup bagian log lebih besar. 
+Ketika anggaran aturan ditingkatkan menjadi delapan dan dua belas aturan, jarak kualitas terhadap sebagian algoritma tersebut menyempit, tetapi dibayar dengan peningkatan waktu komputasi dan kompleksitas struktural. 
+Oleh sebab itu, dukungan H1 dibatasi pada keunggulan pemodelan dependensi terhadap pendekatan \textit{compact} univariat pada ruang solusi berdimensi tinggi, bukan pada dominasi terhadap seluruh metaheuristik.
+
+Pola pada validasi eksternal juga konsisten dengan batas klaim tersebut. 
+Dataset \textit{Smart Building IoT} memiliki dimensi efektif sekitar $D=428$, yang sebanding dengan \textit{workforce}, dan tidak menggunakan korelasi hasil injeksi generator penelitian. 
+Pada dataset ini CoDA-EDA memperoleh F-score 0,938, setara secara praktis dengan iBOA sebesar 0,943 dan sedikit di bawah \textit{compact-GA} dan \textit{compact-PSO} yang masing-masing memperoleh 0,961 dan 0,964. 
+Hasil tersebut tidak menunjukkan keunggulan CoDA-EDA terhadap keluarga \textit{compact} pada dimensi menengah, sehingga konsisten dengan temuan ABAC Lab bahwa manfaat pemodelan dependensi baru terlihat jelas pada kondisi berdimensi sangat tinggi.
+
+Secara keseluruhan, H1 menunjukkan adanya pertukaran yang terkait langsung dengan keputusan rancangan CoDA-EDA. 
+Representasi probabilistik yang diperkaya dengan pohon Chow--Liu memberikan informasi struktural yang tidak tersedia pada model \textit{compact} univariat dan memberikan keuntungan nyata ketika ruang solusi menjadi sangat besar. 
+Namun, penggunaan model ringkas tanpa populasi eksplisit juga membatasi keragaman eksplorasi dibanding algoritma berpopulasi seperti ACO dan UBK. 
+Dengan demikian, posisi CoDA-EDA bukan sebagai penambang kebijakan statis yang selalu menghasilkan F-score tertinggi, melainkan sebagai algoritma \textit{dependency-aware} yang mempertahankan kualitas kompetitif, menunjukkan keunggulan terhadap pendekatan \textit{compact} univariat pada dimensi tinggi, dan sekaligus menyediakan karakteristik efisiensi memori serta pembaruan yang menjadi fokus utama penelitian ini.
 
 Sebagai ilustrasi keluaran konkret proses penambangan, Tabel \ref{tab:contoh-kebijakan} menyajikan cuplikan aturan yang dihasilkan CoDA-EDA pada \textit{workforce} dan \textit{Smart Building IoT} beserta pembandingnya dari ACO.
 Semantik pencocokan mengikuti bahasa ABAC Lab yang menyatakan bahwa beberapa nilai pada atribut yang sama bersifat disjungtif dan antar-atribut bersifat konjungtif.
