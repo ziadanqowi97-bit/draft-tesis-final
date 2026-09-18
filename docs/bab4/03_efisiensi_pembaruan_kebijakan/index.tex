@@ -1,12 +1,13 @@
 \section{Efisiensi Pembaruan Kebijakan}
 
-Dua hipotesis diuji bersama pada subbab ini karena menyangkut siklus pembaruan yang sama.
-H3 menyatakan pemisahan frekuensi pembaruan (struktur hanya dipelajari ulang saat \textit{drift} terdeteksi sedangkan parameter tiap siklus) mengurangi waktu tanpa penurunan kualitas signifikan dan bersyarat pada tingkat \textit{drift}.
-H4 menyatakan strategi \textit{warm-start} mencapai kualitas sekurang-kurangnya setara \textit{re-mining} penuh dalam waktu jauh lebih singkat.
-Pengujian menyimulasikan siklus pembaruan dengan membagi log menjadi lima jendela.
-Struktur Chow-Liu hanya dipelajari ulang bila divergensi Jensen-Shannon melampaui $\tau = 0,01$.
-Empat kondisi dibandingkan: \textit{warm} (struktur dipicu \textit{drift}), \textit{always} (struktur tiap jendela), \textit{cold} (\textins{re-mining} penuh), dan iBOA \textit{cold}.
-Hasil ringkas pada Tabel \ref{tab:hasil-h3h4}.
+H3 dan H4 diuji bersama karena keduanya berkaitan dengan siklus pembaruan kebijakan. 
+H3 menguji apakah pemisahan pembaruan struktur dan parameter dapat mengurangi waktu komputasi tanpa menurunkan kualitas secara signifikan, dengan efek yang bergantung pada tingkat \textit{drift}. 
+H4 menguji apakah strategi \textit{warm-start} dapat mencapai kualitas yang sekurang-kurangnya setara dengan \textit{re-mining} penuh dalam waktu lebih singkat.
+
+Pengujian dilakukan dengan membagi \textit{log} menjadi lima jendela berurutan. 
+Struktur Chow–Liu dipelajari ulang hanya ketika \textit{Jensen–Shannon divergence} melampaui ambang $\tau=0{,}01$. 
+Empat kondisi dibandingkan, yaitu \textit{warm} (pembaruan struktur berbasis \textit{drift}), \textit{always} (struktur diperbarui pada setiap jendela), \textit{cold} (\textit{re-mining} penuh), dan iBOA \textit{cold}. 
+Ringkasan hasil disajikan pada Tabel \ref{tab:hasil-h3h4}.
 
 \begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
 \caption{Hasil Pengujian H3 dan H4 pada Lima Dataset (rerata; warm/always/cold)}
@@ -43,20 +44,19 @@ university / stasioner & 0 dari 4 & 0{,}08 & 0{,}11 & 3{,}76 & H4 $49\times$, F1
 
 \end{longtable}
 
-Vonis H3 terdukung secara bersyarat.
-Pada \textit{workforce} stasioner, pemicu \textit{drift} tidak menyala sama sekali sepanjang empat siklus sementara kondisi \textit{always} menyegarkan struktur tiap siklus.
-Akibatnya \textit{warm-start} lebih cepat (3,46 vs 4,58 detik) pada seluruh replikasi $(p = 6,1 \times 10^{-5})$ tanpa penurunan kualitas.
-Pada \textit{workforce drift} rendah/sedang, pemicu menyala tiap jendela sehingga \textit{warm} menjadi identik dengan \textit{always}, yang mana ini adalah perilaku yang memang dikehendaki dan bukan merupakan kegagalan.
-Pada \textit{e-document}, H3 tetap tidak dapat ditunjukkan karena lantai derau divergensi melampaui $\tau$ sehingga pemicu selalu menyala.
-Klaim H3 karenanya bersyarat pada tingkat \textit{drift} dan lantai derau dataset.
+H3 didukung secara bersyarat. 
+Pada \textit{workforce} stasioner, pemicu \textit{drift} tidak aktif selama empat siklus, sedangkan kondisi \textit{always} tetap mempelajari ulang struktur pada setiap siklus. 
+Akibatnya, \textit{warm-start} lebih cepat daripada \textit{always} (3,46 dibanding 4,58 detik; $p=6{,}1\times10^{-5}$) tanpa penurunan kualitas. 
+Pada \textit{drift} rendah dan sedang, pemicu aktif pada setiap jendela sehingga \textit{warm} berperilaku sama dengan \textit{always}, sesuai rancangan mekanisme. 
+Pada \textit{e-document}, lantai derau JSD melebihi $\tau$ sehingga pemicu terus aktif dan penghematan H3 tidak dapat ditunjukkan. 
+Dengan demikian, manfaat pemisahan pembaruan struktur bergantung pada intensitas \textit{drift} dan lantai derau distribusi dataset.
 
-Vonis H4 terdukung penuh dan pada banyak skenario melampaui rumusannya.
-\textit{Warm-start} menyelesaikan re-optimasi lebih cepat dari \textit{re-mining} penuh pada seluruh dataset: $2,0-2,6\times$ pada \textit{workforce}, $1,27\times$ pada \textit{e-document}, dan $21-52\times$ pada tiga dataset kecil, unggul pada seluruh replikasi.
-Rumusan awal hanya memprediksi kualitas setara, namun pada dua dataset utama kualitas \textit{warm-start} justru lebih tinggi (F1 +0,06 hingga +0,17), karena \textit{warm-start} hanya menambal \textit{permit} yang belum tercakup alih-alih membangun ulang seluruh kebijakan.
-Pada tiga dataset kecil, selisih kualitas \textit{warm-vs-cold} kecil dan bertanda campur (-0,057 hingga +0,031) akibat kejenuhan duplikasi sehingga vonis kualitas H4 bertumpu pada dua dataset utama.
+H4 memperoleh dukungan kuat. 
+\textit{Warm-start} mempercepat re-optimasi dibandingkan \textit{re-mining} penuh pada seluruh dataset, yaitu sekitar $2,0$–$2,6$ kali pada \textit{workforce}, $1,27$ kali pada \textit{e-document}, dan $21$–$52$ kali pada tiga dataset kecil. 
+Pada dua dataset utama, \textit{warm-start} juga menghasilkan F1 lebih tinggi sebesar $0,06$–$0,17$ karena proses pembaruan mempertahankan informasi kebijakan sebelumnya dan berfokus pada pola yang belum tercakup. 
+Pada tiga dataset kecil, perbedaan kualitas relatif kecil dan tidak konsisten ($-0{,}057$ hingga $+0{,}031$), sehingga bukti utama kualitas H4 berasal dari \textit{workforce} dan \textit{e-document}.
 
-Kedua hipotesis menjawab kebutuhan operasional yang memotivasi penelitian, yakni \textit{gateway edge} yang menyegarkan kebijakan berkala.
-Selisih satu siklus dari 9 ke 3,5 detik (\textit{workforce}) atau dari 28 ke 22 detik (\textit{e-document}) menentukan anggaran daya dan lamanya jendela pemeliharaan.
-H4 juga menuntaskan posisi kontekstual CoDA-EDA terhadap iBOA.
-Pada penambangan statis iBOA setara/sedikit unggul, tetapi pada pembaruan berkala \textit{warm-start} CoDA-EDA lebih cepat sekaligus berkualitas lebih tinggi.
-Bersama H2, temuan ini menegaskan keunggulan pembeda CoDA-EDA terletak pada efisiensi sumber daya dan pembaruan, bukan pada kualitas penambangan sekali jalan.
+Hasil H3 dan H4 menunjukkan manfaat CoDA-EDA pada pembaruan kebijakan berkala di \textit{edge}. 
+Pemicu berbasis \textit{drift} dapat menghindari pembelajaran ulang struktur ketika distribusi stabil, sedangkan \textit{warm-start} mengurangi waktu re-optimasi dibandingkan penambangan ulang dari awal. 
+Dibandingkan iBOA, yang memiliki kualitas kompetitif pada penambangan statis, keunggulan CoDA-EDA lebih terlihat pada skenario pembaruan berkala. 
+Bersama hasil H2, temuan ini menunjukkan bahwa kontribusi utama CoDA-EDA terletak pada efisiensi memori dan pembaruan kebijakan, bukan pada dominasi kualitas penambangan statis.

@@ -1,29 +1,21 @@
 \section{Konstruksi Dataset Penelitian}
 
-Sebagaimana yag sudah disinggung sebelumnya, dataset ABAC dengan tingkat korelasi antar-atribut yang bervariasi dan berdomain IoT belum tersedia sebagai sumber daya siap pakai.
-Penelusuran terhadap ABAC Lab \parencite{bui_abac_2025} menunjukkan bahwa lima dataset \textit{ground-truth} yang tersedia (\textit{healthcare, project-management, university, workforce, e-document}) seluruhnya berdomain organisasi/\textit{enterprise}, dan generator log sintetisnya belum mendukung kontrol eksplisit terhadap tingkat korelasi atribut.
-Subbab ini menguraikan rancangan konstruksi dataset yang dibutuhkan untuk menguji hipotesis sebagai bagian dari aktivitas \textit{Design and Development}.
+Dataset ABAC dengan tingkat dependensi antaratribut yang dapat dikendalikan belum tersedia sebagai sumber daya siap pakai untuk kebutuhan penelitian ini. 
+ABAC Lab menyediakan lima dataset \textit{ground-truth}, yaitu \textit{healthcare}, \textit{project-management}, \textit{university}, \textit{workforce}, dan \textit{e-document}, beserta \textit{generator log} sintetis yang mendukung pengaturan ukuran \textit{log}, rasio \textit{permit/deny}, dan injeksi \textit{noise}. 
+Namun, \textit{generator} tersebut belum menyediakan mekanisme untuk mengendalikan tingkat dependensi antaratribut. 
+Oleh karena itu, konstruksi dataset dilakukan sebagai bagian dari aktivitas \textit{Design and Development}.
 
-Konstruksi dataset dimulai dari dataset \textit{ground-truth} ABAC Lab beserta generator log sintetis \textit{open-source}-nya \parencite{bui_abac_2025} yang saat ini mendukung parameter ukuran log, rasio \textit{permit/deny}, dan ijeksi \textit{noise}.
-Generator tersebut diperluas dengan menambahkan mekanisme injeksi korelasi atribut terkontrol.
-Jadi, alih-alih men-\textit{sampling} nilai setiap atribut subjek dan objek secara independen, pasangan atribut yang relevan pada tiap domain (mis. departemen dan peran pengguna pada dataset \textit{workforce}) disampling dari distribusi bersama yang dikalibrasi untuk mencapai target \textit{Normalized Mutual Information} (NMI)\label{first:nmi} tertentu, sehingga tingkat korelasi yang di-\textit{inject} dapat dibandingkan langsung dengan struktur yang berhasil dipelajari algoritma.
-Tiga tingkat korelasi ditetapkan sebagai variabel bebas (rendah, sedang, dan tinggi) dengan target NMI berturut-turut 0,05, 0,35, dan 0,65.
-Batas bawah sengaja ditetapkan 0,05 dan bukan 0,00 karena entri berstatus \textit{permit} secara inheren berkorelasi sehingga memaksa proporsi tertentu pada log akan selalu menyuntikkan korelasi dasar yang tidak dapat dihilangkan.
+Generator ABAC Lab diperluas dengan mekanisme injeksi dependensi atribut secara terkontrol. 
+Alih-alih men-\textit{sampling} seluruh atribut secara independen, pasangan atribut yang relevan pada setiap domain di\textit{sampling} dari distribusi bersama yang dikalibrasi terhadap target \textit{Normalized Mutual Information} (NMI)\label{first:nmi}. 
+Tiga tingkat dependensi ditetapkan sebagai variabel bebas, yaitu rendah, sedang, dan tinggi, dengan target NMI masing-masing $0,05$, $0,35$, dan $0,65$. 
+Nilai terendah ditetapkan $0,05$ karena proses pembentukan \textit{log} berdasarkan kebijakan \textit{ground-truth} dapat menghasilkan dependensi dasar antaratribut sehingga kondisi independensi sempurna tidak selalu dapat dipertahankan.
 
-Sebagai ilustrasi mengenai mekanisme penyuntikan korelasi, tinjau dua atribut pada domain \textit{workforce}, yaitu atribut subjek \texttt{position} dan atribut sumber daya \texttt{associatedContract}. 
-Misalkan untuk suatu pasangan nilai tertentu berlaku probabilitas marginal
-$P(\texttt{position}=p)=0{,}30$ dan
-$P(\texttt{associatedContract}=c)=0{,}20$.
-Apabila kedua atribut tersebut independen, probabilitas keduanya muncul secara bersamaan hanya sebesar
-$0{,}30 \times 0{,}20 = 0{,}06$.
-Dalam kondisi ini, mengetahui nilai \texttt{position} tidak memberikan informasi tambahan mengenai \texttt{associatedContract}, karena probabilitas bersyarat
-$P(\texttt{associatedContract}=c \mid \texttt{position}=p)$
-tetap sebesar 0,20. Pada proses penyuntikan korelasi, sebagian massa probabilitas dipindahkan menuju kombinasi nilai yang dibuat selaras tanpa mengubah distribusi marginal masing-masing atribut. 
-Sebagai contoh ilustratif, apabila probabilitas gabungan pasangan tersebut dinaikkan dari 0,060 menjadi 0,151, maka
-$P(\texttt{associatedContract}=c \mid \texttt{position}=p)$
-meningkat dari 0,20 menjadi sekitar 0,503. 
-Dengan demikian, frekuensi kemunculan masing-masing nilai atribut secara individual dapat tetap sama, tetapi pola kemunculan bersama keduanya menjadi tidak acak. 
-Perubahan pada distribusi bersama inilah yang dimaksud sebagai peningkatan korelasi antar-atribut dalam konstruksi dataset penelitian ini.
+Sebagai ilustrasi, digunakan atribut $position$ dan $associatedContract$ pada domain \textit{workforce}. Misalkan $P(position=p)=0{,}30$ dan $P(associatedContract=c)=0{,}20$. 
+Jika keduanya independen, probabilitas kemunculan bersama adalah $0{,}30\times0{,}20=0{,}06$, sehingga $P(associatedContract=c\mid position=p)=0{,}20$. 
+Injeksi dependensi dilakukan dengan menggeser sebagian massa probabilitas ke kombinasi nilai tertentu tanpa mengubah distribusi marginal. 
+Sebagai contoh, peningkatan probabilitas gabungan dari $0,060$ menjadi $0,151$ akan meningkatkan probabilitas bersyarat menjadi sekitar $0,503$. 
+Dengan demikian, frekuensi marginal setiap nilai tetap dipertahankan, tetapi pola kemunculan bersama menjadi lebih terstruktur. 
+Perubahan distribusi bersama inilah yang digunakan untuk mengendalikan tingkat dependensi antaratribut pada dataset pengujian.
 
 \begin{table}[htbp]
     \centering
@@ -81,16 +73,9 @@ Perubahan pada distribusi bersama inilah yang dimaksud sebagai peningkatan korel
 
 Tabel~\ref{tab:ilustrasi-korelasi-sebelum} dan
 Tabel~\ref{tab:ilustrasi-korelasi-sesudah}
-memperlihatkan bahwa penyuntikan korelasi tidak mengubah probabilitas marginal kedua atribut. 
-Proporsi
-\texttt{position} $=p$ tetap 0,30 dan proporsi
-\texttt{associatedContract} $=c$ tetap 0,20.
-Perubahan hanya terjadi pada distribusi bersama keduanya. 
-Massa probabilitas pada kombinasi
-\texttt{position} $=p$ dan
-\texttt{associatedContract} $=c$
-meningkat dari 0,060 menjadi 0,151, sedangkan massa pada sel silang berkurang secara bersesuaian. 
-Akibatnya, probabilitas bersyarat berubah dari
+menunjukkan bahwa injeksi dependensi tidak mengubah distribusi marginal kedua atribut. 
+Proporsi $position=p$ tetap $0,30$ dan $associatedContract=c$ tetap $0,20$, sedangkan perubahan hanya terjadi pada distribusi bersama. 
+Probabilitas gabungan $P(position=p, associatedContract=c)$ meningkat dari $0,060$ menjadi $0,151$ sehingga probabilitas bersyarat berubah dari
 
 \begin{equation}
 P(\texttt{associatedContract}=c \mid \texttt{position}=p)
@@ -110,63 +95,44 @@ P(\texttt{associatedContract}=c \mid \texttt{position}=p)
 0{,}503.
 \end{equation}
 
-Dengan kata lain, setelah korelasi disuntikkan, mengetahui nilai \texttt{position} memberikan informasi mengenai kemungkinan nilai \texttt{associatedContract}. 
-Karakteristik inilah yang kemudian diukur melalui \textit{Normalized Mutual Information} (NMI) dan dapat dimanfaatkan oleh model yang mempertahankan dependensi antar-variabel.
+Dengan demikian, nilai $position$ menjadi informatif terhadap $associatedContract$ meskipun distribusi marginal keduanya tetap. 
+Dependensi ini diukur menggunakan \textit{Normalized Mutual Information} (NMI) dan dapat dimanfaatkan oleh model \textit{dependency-aware}. 
+Berbeda dengan \textit{compact-GA} dan \textit{compact-PSO} yang hanya mempertahankan probabilitas marginal, CoDA-EDA menggunakan \textit{mutual information} untuk memilih dependensi yang direpresentasikan pada pohon Chow–Liu. 
+Nilai di atas hanya bersifat ilustratif; pada eksperimen, tingkat dependensi dikalibrasi secara \textit{closed-loop} hingga NMI empiris mendekati target $0,05$, $0,35$, dan $0,65$.
 
-Perbedaan tersebut penting bagi perbandingan algoritma dalam penelitian ini. 
-Model univariat seperti \textit{compact-GA} dan \textit{compact-PSO} hanya mempertahankan probabilitas marginal masing-masing variabel sehingga tidak merepresentasikan secara eksplisit bahwa kemunculan suatu nilai \texttt{position} dapat meningkatkan kemungkinan kemunculan nilai \texttt{associatedContract} tertentu. 
-Sebaliknya, CoDA-EDA mempelajari keterkaitan antar-variabel melalui \textit{mutual information} dan merepresentasikan dependensi terpilih sebagai sisi pada pohon Chow--Liu. 
-Oleh karena itu, penyuntikan korelasi tidak sekadar mengubah frekuensi nilai atribut secara individual, tetapi membentuk struktur dependensi pada distribusi bersama yang dapat dimanfaatkan oleh model \textit{dependency-aware}. 
-Nilai numerik pada ilustrasi ini hanya digunakan untuk memperjelas mekanisme. 
-Pada dataset eksperimen, tingkat korelasi tidak ditetapkan langsung berdasarkan probabilitas gabungan pada ilustrasi tersebut, melainkan melalui proses kalibrasi \textit{closed-loop} hingga NMI empiris mendekati target 0,05, 0,35, dan 0,65.
+Kalibrasi dilakukan melalui pencarian biner terhadap parameter penggandeng distribusi bersama berdasarkan NMI pada \textit{log} yang benar-benar dihasilkan. 
+Ukuran \textit{log} kalibrasi disamakan dengan \textit{log} final karena estimasi NMI dipengaruhi ukuran sampel dan banyaknya sel kontingensi. 
+Pada pengujian awal, penggunaan 800 entri untuk mengkalibrasi \textit{log} final 10.000 entri menghasilkan galat NMI hingga $-0,11$ pada \textit{e-document} yang memiliki 379 sel kontingensi. 
+Ketika ukuran \textit{log} kalibrasi disamakan dengan \textit{log} final, galat tersebut turun menjadi sekitar $-0,005$.
 
-Kalibrasi korelasi dilakukan secara \textit{closed-loop}.
-Parameter penggandeng distribusi bersama dicari melalui pencarian biner hingga NMI yang terukur pada log final mendekati target, bukan hingga NMI distribusi teoretis mencapai target.
-Prosedur ini diperlukan karena estimator NMI dan divergensi Jensen-Shannon sama-sama memiliki bias sampel-hingga yang membesar seiring rasio antara banyaknya sel kontingensi dan banyaknya sampel.
-Pada pelaksanaan awal, kalibrasi yang memakai log rintisan berukuran kecil (800 entri) sementara log final berukuran 10.000 entri menghasilkan galat NMI sampai -0,11 pada dataset \textit{e-document} yang memiliki 379 sel kontingensi.
-Galat tersebut menyusut menjadi -0,005 ketika ukuran log rintisan disamakan dengan ukuran log final.
-Karena itu ukuran log kalibrasi ditetapkan sama dengan ukuran log final.
+Pengaruh ukuran sampel juga ditemukan pada pengukuran \textit{drift} menggunakan \textit{Jensen–Shannon divergence} (JSD). 
+Dalam kondisi stasioner, JSD tetap dapat menghasilkan nilai positif sebagai lantai derau yang berbeda antardataset. 
+Pada jendela awal berukuran kecil, lantai derau tercatat $0,017$ pada \textit{workforce} dengan 45 sel dan $0,132$–$0,145$ pada \textit{e-document} dengan 379 sel. 
+Setelah ukuran jendela diperbesar, nilai pada \textit{e-document} turun menjadi sekitar $0,014$–$0,0333$, tetapi masih dapat melampaui ambang $\tau=0,01$. 
+Oleh karena itu, besaran \textit{drift} dilaporkan sebagai JSD bersih, yaitu JSD terukur dikurangi lantai derau dari kondisi stasioner. 
+Dengan koreksi tersebut, galat terhadap target \textit{drift} berada pada kisaran -$0,006$ hingga -$0,022$. 
+Kondisi stasioner karenanya digunakan sebagai bagian dari prosedur kalibrasi, bukan hanya sebagai kondisi pembanding.
 
-Bias serupa juga memengaruhi pengukuran \textit{drift} dan menuntut penyesuaian cara pelaporan.
-Lantai derau divergensi Jensen-Shannon, yakni nilai yang terukur antar-jendela ketika distribusi sesungguhnya tidak berubah, bergantung pada rasio sel/sampel dan berbeda tajam antar-dataset.
-Pada jendela rintisan berukuran kecil yang dipakai diagnostik awal, lantai derau terukur 0,017 pada \textit{workforce} (45 sel) tetapi mencapai 0,132-0,145 pada \textit{e-document} (379 sel).
-Inilah yang memaksa pembesaran ukuran jendela.
-Nilai ini bergantung ukuran jendela.
-Pada ukuran jendela final yang lebih besar lantai derau \textit{e-document} menyusut ke kisaran 0,014-0,0333, namun tetap taktrivial (di atas $\tau = 0,01$) sehingga pelaporan \textit{drift} bersih tetap diperlukan.
-Sifat sebagai properti struktural data ditegaskan oleh replikasinya yang konsisten pada dua lingkungan komputasi yang berbeda.
-Konsekuensinya, target \textit{drift} 0,10 tidak mungkin tercapai dalam nilai mentah pada \textit{e-document}.
-Tingkat \textit{drift} karena itu dilaporkan sebagai nilai bersih, yaitu divergensi terukur dikurangi lantai derau yang diperoleh dari kondisi stasioner.
-Dengan koreksi ini, \textit{drift} terukur mendekati target pada kedua dataset (galat -0,006 hingga -0,022).
-Implikasi metodologisnya, kondisi stasioner naik status.
-Ia bukan sekadar kondisi pembanding dalam desain eksperimen, melainkan instrumen kalibrasi yang wajib dijalankan agar angka \textit{drift} dapat ditafsirkan.
+Untuk menguji H3 dan H4, \textit{log} akses dibagi menjadi jendela berurutan yang merepresentasikan siklus pembaruan kebijakan. 
+Distribusi antarjendela kemudian diubah secara terkontrol dan besarnya pergeseran, $\Delta$, diukur menggunakan JSD terhadap jendela referensi. 
+Sebelum digunakan pada aktivitas \textit{Demonstration}, setiap varian dataset diverifikasi berdasarkan NMI aktual, tingkat \textit{drift}, serta proporsi \textit{permit/deny}. 
+Alur konstruksi dan validasi dataset dirangkum pada Gambar \ref{fig:konstruksi_dataset}.
 
-Untuk menguji Hipotesis H3 dan H4 mengenai efisiensi dan kualitas pembaruan pada skenario \textit{drift}, log akses yang dihasilkan generator dibagi menjadi rangkaian jendela berurutan yang mensimulasikan siklus pembaruan kebijakan.
-Antar-jendela, distribusi bersama atribut disesuaikan dengan besaran perubahan ($\Delta$) tertentu, yang diukur melalui divergensi Jensen-Shannon antara distribusi jendela berjalan dan jendela referensi sebelumnya, konsisten dengan definisi delta pada mekanisme deteksi \textit{drift} CoDA-EDA.
+Pelaksanaan awal konstruksi dataset menghasilkan tiga temuan yang memengaruhi rancangan eksperimen. 
+Pertama, enumerasi ruang subjek–objek–aksi menunjukkan bahwa proporsi \textit{permit} pada dataset ABAC Lab relatif rendah, yaitu 1,99\% pada \textit{workforce}, 2,50\% pada \textit{university}, 3,32\% pada \textit{project-management}, 4,27\% pada \textit{healthcare}, dan 5,34\% pada \textit{e-document}. 
+Oleh karena itu, \textit{log} tidak dibangkitkan melalui \textit{sampling} seragam, tetapi menggunakan stratifikasi \textit{permit/deny} dengan himpunan \textit{permit} yang diprakomputasi.
 
-Sebelum digunakan pada aktivitas \textit{Demonstration}, setiap varian dataset yang dikonstruksi akan diverifikasi kesesuaiannya dengan target rancangan: tingkat korelasi aktual (diukur via NMI pada data yang dihasilkan) dibandingkan terhadap target yang ditetapkan, dan proporsi keputusan \textit{permit/deny} diperiksa agar tetap berada pada rentang wajar (tidak timpang secara ekstrem) sebagaimana disyaratkan oleh parameter rasio \textit{permit/deny} bawaan ABAC Lab.
-Keseluruhan alur konstruksi dataset, dari sumber dasar hingga dataset penelitian akhir, dirangkum pada Gambar \ref{fig:konstruksi_dataset}.
+Kedua, seluruh dataset merupakan data sintetis yang dihasilkan dari \textit{generator} ABAC Lab yang diperluas, sehingga karakteristik yang dilaporkan merupakan properti hasil konstruksi, bukan data operasional nyata. 
+Setelah dibatasi pada entitas dengan pasangan atribut yang dapat dikorelasikan, jumlah \textit{permit} unik adalah 14 pada \textit{healthcare}, 17 pada \textit{project-management}, 90 pada \textit{university}, 14.513 pada \textit{workforce}, dan 32.961 pada \textit{e-document}. 
+Tiga dataset pertama menghasilkan duplikasi sekitar 48–93\% ketika \textit{log} diperbesar sehingga keragaman pola menjadi terbatas. 
+Karena itu, \textit{workforce} dan \textit{e-document} dijadikan dataset utama untuk H1, sedangkan tiga dataset lainnya digunakan sebagai konteks pelengkap. 
+Untuk H2–H4, seluruh dataset tetap digunakan sesuai karakteristik masing-masing. 
+Dimensi ruang solusi masing-masing adalah (D=46), 51, 54, 436, dan 1.907 untuk \textit{healthcare}, \textit{project-management}, \textit{university}, \textit{workforce}, dan \textit{e-document}.
 
-Pelaksanaan awal konstruksi dataset pada perangkat target menghasilkan tiga temuan yang mengubah rancangan pada subbab ini, dan karenanya dicatat secara eksplisit demi keterulangan.
-Temuan pertama menyangkut kelangkaan \textit{permit}.
-Enumerasi penuh ruang $(subjek \times objek \times aksi)$ menunjukkan bahwa proporsi permintaan berstatus \textit{permit} hanya berkisar 2-5\% pada seluruh dataset ABAC Lab (\textit{workforce} 1,99\%; \textit{university} 2,50\%; \textit{project-management} 3,32\%; \textit{healthcare} 4,27\%; \textit{e-document} 5,34\%).
-Konsekuensinya, log tidak dapat dibangkitkan melalui sampling seragam atas ruang permintaan, melainkan harus melalui stratifikasi \textit{permit/deny} dengan himpunan \textit{permit} dipra-komputasi terlebih dahulu.
-
-Temuan kedua menyangkut kelayakan dataset.
-Seluruh dataset ABAC Lab yang digunakan bersifat sintetis yang dibangkitkan oleh generator log ABAC Lab \parencite{bui_abac_2025} yang diperluas sehingga karakteristik yang dilaporkan berikut merupakan properti konstruksi, bukan properti data operasional.
-Setelah dibatasi pada entitas yang memiliki pasangan atribut terkorelasi, jumlah \textit{triple permit} unik yang tersedia berbeda tajam antar-dataset (\textit{healthcare} hanya 14, \textit{project-management} 17, dan \textit{university} 90, dibandingkan \textit{workforce} 14.513 dan \textit{e-document} 32.961).
-Pada ketiga dataset kecil, pembangkitkan log berukuran memadai menghasilkan tingkat duplikasi entri 48-93\%, sehingga tugas \textit{mining} menjadi \textit{degenerate}, yakni algoritma dihadapkan pada pengulangan pola yang sama alih-alih keragaman pola yang wajar.
-Karena itu penelitian ini menetapkan \textit{workforce} dan \textit{e-document} sebagai dataset utama untuk pengujian Hipotesis H1, sebab \textit{permit} uniknya memberi keragaman pola yang memadai.
-Ketiga dataset kecil tetap disertakan pada pengujian seluruh hipotesis, namun dengan peran yang disesuaikan menurut karakteristiknya.
-Untuk H1, hasil pada ketiganya diperlakukan sebagai konteks pelengkap dan bukan tumpuan vonis, karena tingginya duplikasi entri menumpulkan pembeda antar-algoritma.
-Sedangkan untuk H2 serta H3 dan H4, ketiganya sepenuhnya sahih, bahkan lantai derau divergensi informasinya yang rendah menjadikannya lingkungan yang justru layak untuk menunjukkan mekanisme H3.
-Dimensi ruang solusi, yaitu banyaknya pasangan atribut-nilai yang membentuk vektor keputusan adalah D = 436 untuk \textit{workforce} dan D = 1.907 untuk \textit{e-document}, serta D = 46, 51, dan 54 untuk \textit{healthcare, project-management}, dan \textit{university}.
-
-Temuan ketiga menyangkut hubungan antara korelasi dan duplikasi.
-Tingkat duplikasi entri meningkat seiring naiknya target korelasi (\textit{workforce} $17\% \to 37\% \to 51\%$; \textit{e-document} $4\% \to 14\% \to 30\%$ untuk korelasi rendah $\to$ sedang $\to$ tinggi).
-Peningkatan ini bersifat struktural, bukan cacat implementasi.
-Korelasi tinggi secara matematis memusatkan sampling pada sedikit sel distribusi bersama, sehingga entri yang sama lebih sering terpilih.
-Duplikasi semacam ini juga tidak menyalahi realisme, karena log akses nyata memang memuat permintaan berulang.
-Meskipun demikian, tingkat duplikasi tetap dilaporkan pada setiap konfigurasi agar pembaca dapat menilai keragaman efektif data yang dihadapi algoritma.
+Ketiga, tingkat duplikasi meningkat seiring target dependensi. 
+Pada \textit{workforce}, duplikasi meningkat dari 17\% menjadi 37\% dan 51\%, sedangkan pada \textit{e-document} meningkat dari 4\% menjadi 14\% dan 30\% untuk tingkat rendah, sedang, dan tinggi. 
+Peningkatan ini merupakan konsekuensi dari pemusatan massa probabilitas pada sejumlah kombinasi atribut ketika dependensi diperkuat. 
+Karena permintaan berulang juga dapat muncul pada \textit{log} akses, duplikasi tidak dihilangkan, tetapi tingkatnya dilaporkan pada setiap konfigurasi untuk menunjukkan keragaman efektif data yang digunakan.
 
 \begin{figure}[H]
     \centering
@@ -175,14 +141,14 @@ Meskipun demikian, tingkat duplikasi tetap dilaporkan pada setiap konfigurasi ag
     \label{fig:konstruksi_dataset}
 \end{figure}
 
-Gambar \ref{fig:konstruksi_dataset} menegaskan satu keputusan rancang yang penting, yakni metrik yang dipakai untuk menyuntikkan korelasi dan \textit{drift} ke dataset sengaja dipilih identik dengan metrik yang dipakai CoDA-EDA untuk mempelajari struktur dependensi dan mendeteksi \textit{drift}.
-Dengan demikian, kadar korelasi dan \textit{drift} yang tertanam pada dataset dapat dibandingkan langsung dengan yang berhasil ditangkap algoritma, sehingga evaluasi H1, H3, dan H4 memiliki acuan \textit{ground-truth} yang jelas.
+Gambar \ref{fig:konstruksi_dataset} menegaskan bahwa metrik konstruksi dataset diselaraskan dengan mekanisme internal CoDA-EDA. 
+Dependensi antaratribut dikendalikan menggunakan NMI, yang berbasis \textit{mutual information} sebagaimana pembelajaran struktur Chow–Liu, sedangkan \textit{drift} diukur menggunakan JSD yang juga digunakan sebagai pemicu pembaruan struktur. 
+Dengan demikian, tingkat dependensi dan \textit{drift} pada dataset dapat dibandingkan dengan respons algoritma sehingga pengujian H1, H3, dan H4 memiliki acuan \textit{ground-truth} yang terukur.
 
-Di luar dataset yang dikonstruksi sendiri, penelitian ini turut memakai dataset \textit{Smart Building IoT} \parencite{diaz-rodriguez_abac_2025} sebagai validasi eksternal, yakni memeriksa apakah temuan bertahan pada data yang dibangkitkan pihak lain dengan generator, kebijakan, dan distribusi yang berbeda.
-Dataset ini digunakan apa adanya tanpa injeksi korelasi atau \textit{drift} buatan.
-Karena berukuran 5,7 juta permintaan akses dengan rasio \textit{permit} 0,75 dan dimensi penuh sekitar 1.164, ia disubsampel secara terstratifikasi (mempertahankan rasio \textit{permit} asli) dan nilai atribut ber-\textit{support} rendah disatukan, menghasilkan dimensi efektif sekitar 428.
-Perlu ditegaskan bahwa dataset tersebut bersifat sintetis sebagaimana dinyatakan penulisnya.
-Nilai validasinya terletak pada asal generatornya yang independen, bukan pada keasliannya sebagai data operasional.
+Selain dataset hasil konstruksi, penelitian ini menggunakan \textit{Smart Building IoT} dari \textcite{diaz-rodriguez_abac_2025} sebagai validasi eksternal untuk menilai apakah temuan tetap berlaku pada data yang dihasilkan melalui \textit{generator}, kebijakan, dan distribusi berbeda. 
+Dataset digunakan tanpa injeksi dependensi maupun \textit{drift} tambahan. 
+Dari sekitar 5,7 juta permintaan akses dengan rasio \textit{permit} 0,75 dan dimensi awal sekitar 1.164, data disubsampel secara terstratifikasi dengan mempertahankan rasio \textit{permit}, sedangkan nilai atribut dengan \textit{support} rendah digabungkan sehingga dimensi efektif menjadi sekitar 428. 
+Dataset ini juga bersifat sintetis; nilai validasinya terletak pada sumber dan proses pembangkitan yang independen dari konstruksi dataset penelitian, bukan pada representasinya sebagai data operasional nyata.
 
 \begin{longtable}{|c|>{\raggedright\arraybackslash}p{2.2cm}|p{1.5cm}|p{1.5cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|}
 \caption{Skema Dataset Penelitian}

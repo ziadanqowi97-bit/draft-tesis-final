@@ -1,19 +1,19 @@
 \section{Variabel Penelitian}
 
-Penetapan variabel penelitian secara eksplisit diperlukan agar aktivitas \textit{Demonstration} dan \textit{Evaluation} dapat dioperasionalkan secara tidak ambigu, serta agar pengujian hipotesis dapat dilakukan secara terkontrol.
-Penelitian ini melibatkan tiga kelompok variabel, antara lain variabel bebas, variabel terikat, dan variable kontrol.
+Penetapan variabel penelitian dilakukan agar aktivitas \textit{Demonstration} dan \textit{Evaluation} dapat dioperasionalkan secara jelas serta pengujian hipotesis berlangsung secara terkontrol. 
+Variabel penelitian dibagi menjadi variabel bebas, terikat, dan kontrol.
 
-Variabel bebas pada penelitian ini terdiri atas tiga hal.
-Pertama, jenis algoritma yang dibandingkan, mecakup tujuh kondisi antara lain CoDA EDA, \textit{compact-GA} dan \textit{compact-PSO}, BOA dan iBOA, serta \textit{Ant Colony Optimization} dan \textit{Upgraded Black-winged Kite} sebagai \textit{baseline population-based}.
-Kedua, tingkat korealsi antar-atribut pada dataset pengujian, yang dikendalikan secara eksplisit pada tingkat (rendah, sedang, dan tinggi) melalui perluasan generator ABAC Lab.
-Ketiga, skenario \textit{drift} data akses, yaitu besaran perubahan (delta) pada log akses antar-siklus pembaruan kebijakan, yang menentukan kapan pembaruan struktur dependensi dipicu pada CoDA-EDA.
+Variabel bebas mencakup tiga faktor. 
+Pertama, jenis algoritma yang terdiri atas tujuh kondisi, yaitu CoDA-EDA, \textit{compact-GA}, \textit{compact-PSO}, BOA, iBOA, \textit{Ant Colony Optimization} (ACO), dan \textit{Upgraded Black-winged Kite} (UBK). 
+Kedua, tingkat korelasi antaratribut pada dataset pengujian, yang dikendalikan pada kategori rendah, sedang, dan tinggi melalui perluasan generator ABAC Lab. 
+Ketiga, skenario \textit{drift} data akses, yaitu besarnya perubahan antarsiklus yang memengaruhi pemicu pembaruan struktur dependensi pada CoDA-EDA.
 
-Variabel terikat pada penelitian ini mencakup empat kelompok ukuran kinerja, antara lain (1) kualitas kebijakan hasil \textit{policy mining}, terdiri atas akurasi/\textit{f-score, Weighted Structural Complexity} (WSC), dan cakupan (\textit{coverage}) aturan terhadap log akses, (2) jejak memori, yaitu konsumsi memori puncak selama algoritma berjalan pada perangkat target, (3) waktu komputasi, mencakup waktu pembelajaran awal dan waktu satu siklus pembaruan inkremental, dan (4) efisiensi serta kualitas re-optimasi pada skenario \textit{drift}, yaitu perbandingan waktu dan kualitas kebijakan antara strategi \textit{warm-start} dan \textit{re-mining} penuh dari awal.
+Variabel terikat mencakup empat kelompok metrik: (1) kualitas kebijakan, meliputi akurasi/\textit{F1-score}, \textit{Weighted Structural Complexity} (WSC), dan \textit{coverage}; (2) jejak memori, yang diukur melalui konsumsi memori puncak; (3) waktu komputasi, mencakup waktu pembelajaran awal dan satu siklus pembaruan inkremental; serta (4) kinerja re-optimasi pada skenario \textit{drift}, yang membandingkan waktu dan kualitas kebijakan antara strategi \textit{warm-start} dan \textit{re-mining} penuh.
 
-Agar perbandingan antar-algoritma pada aktivitas \textit{Evaluation} tetap adil, sejumlah variable dikendalikan.
-Variabel kontrolnya antara lain adalah seluruh algoritma dijalankan pada perangkat keras yang sama (Raspberry Pi 5), Seluruh algoritma diiuji pada dataset yang identik dalam satu skenario pengujian, kriteria pemberhentian disetarakan antar-algoritma, dan setiap kombinasi algoritma-skenario dijalankan dengan replikasi berulang menggunakan \textit{random seed} yang berbeda.
+Untuk menjaga keadilan perbandingan, seluruh algoritma dijalankan pada perangkat keras yang sama, yaitu Raspberry Pi 5, menggunakan dataset identik untuk setiap skenario. 
+Kriteria pemberhentian disetarakan antaralgoritma, sedangkan setiap kombinasi algoritma dan skenario dieksekusi berulang dengan \textit{random seed} yang berbeda.
 
-Ringkasan definisi operasional atas seluruh variabel di atas, beserta keterkaitannya dengan hipotesis disajikan pada Tabel \ref{tab:definisi-operasional}.
+Definisi operasional seluruh variabel beserta keterkaitannya dengan hipotesis dirangkum pada \ref{tab:definisi-operasional}.
 
 \begin{longtable}{|c|>{\raggedright\arraybackslash}p{3cm}|c|>{\raggedright\arraybackslash}p{5cm}|>{\centering\arraybackslash}p{3cm}|}
 \caption{Definisi Operasional Variabel Penelitian}

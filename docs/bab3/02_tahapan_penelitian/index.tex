@@ -1,12 +1,12 @@
 \section{Analisis Kebutuhan}
 
-Dari analisis masalah di atas, diturunkan kebutuhan rancangan yang harus dipenuhi artefak yang dibedakan menjadi kebutuhan fungsional dan kebutuhan non-fungsional.
+Berdasarkan analisis masalah, kebutuhan artefak CoDA-EDA dibagi menjadi kebutuhan fungsional dan non-fungsional.
 
 Kebutuhan fungsional (KF):
 \begin{enumerate}[label=\textbf{KF\arabic*.}, leftmargin=*]
-    \item Menambang himpunan aturan ABAC berbentuk konjungsi kondisi atribut dari log akses, yang merekonstruksi keputusan izin/tolak.
-    \item Menangkap keterkaitan berpasangan antar-atribut saat membangkitkan kandidat aturan.
-    \item Memperbarui kebijakan secara inkremental ketika distribusi data berubah, termasuk mendeteksi kapan perubahan (\textit{drift}) tersebut terjadi.
+    \item Menambang aturan ABAC berbentuk konjungsi kondisi atribut dari log akses untuk merekonstruksi keputusan izin dan tolak.
+    \item Memodelkan dependensi berpasangan antaratribut dalam proses pembangkitan kandidat aturan.
+    \item Memperbarui kebijakan secara inkremental ketika terjadi perubahan distribusi data, termasuk mendeteksi terjadinya \textit{drift}.
 \end{enumerate}
 
 Kebutuhan non-fungsional (KNF):
@@ -40,7 +40,7 @@ Persoalan & Kebutuhan & Keputusan rancangan \\
 
 2. Dependensi vs.\ hemat memori 
   & KF2 + KNF1 
-  & Pohon Chow-Liu orde-1 ($O(D)$), bukan jaringan dependensi penuh ($O(D^2)$) \\[2pt]
+  & Pohon Chow-Liu orde-1 ($O(D)$), bukan jaringan dependensi penuh ($O(D^2)$)\label{first:symbol-od2} \\[2pt]
 
 3. Dinamika \& biaya pembaruan 
   & KF3 + KNF2 

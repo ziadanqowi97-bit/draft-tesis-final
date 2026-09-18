@@ -1,26 +1,21 @@
 \section{\textit{Estimation of Distribution Algorithm}}
 
-\textit{Estimation of Distribution Algorithm} (EDA) merupakan kelas algoritma evolusioner yang berbeda secara mendasar dari algoritma genetika maupun algoritma kecerdasan kawanan seperti ACO dan UBK.
-Alih-alih menggunakan operator pindah silang (\textit{crossover}) dan mutasi untuk menghasilkan generasi baru, EDA, atau juga dikenal sebagai \textit{probabilistic model-building genetic algorithm} (PMBGA)\label{first:pmbga}, membangun model probabilistik eksplisit dari individu-individu terbaik pada setiap generasi, kemudian men-\textit{sampling} model tersebut untuk menghasilkan populasi generasi berikutnya \parencite{larranaga_estimation_2024,lemtenneche_estimation_2023}.
-Dengan demikian, proses eksplorasi ruang solusi dipandu langsung oleh distribusi probabilitas yang dipelajari dari data, bukan oleh operator variasi yang bersifat implisit.
+\textit{Estimation of Distribution Algorithm} (EDA) merupakan kelas algoritma evolusioner yang menghasilkan solusi baru melalui model probabilistik, bukan operator \textit{crossover} dan mutasi seperti pada \textit{Genetic Algorithm}.
+EDA, yang juga dikenal sebagai \textit{Probabilistic Model-Building Genetic Algorithm} (PMBGA)\label{first:pmbga}, mempelajari distribusi probabilitas dari individu-individu terbaik, kemudian melakukan \textit{sampling} dari distribusi tersebut untuk membentuk generasi berikutnya \parencite{larranaga_estimation_2024,lemtenneche_estimation_2023}.
+Dengan demikian, pencarian solusi dipandu secara eksplisit oleh pola probabilistik yang dipelajari dari solusi berkualitas.
 
-Secara umum, EDA bekerja melalui tiga langkah yang diulang pada setiap generasi \parencite{larranaga_estimation_2024}.
-Pertama seleksi, yaitu memilih sejumlah \textit{N}\label{first:symbol:n} individu terbaik dari populasi berukuran \textit{M}\label{first:label-m} berdasarkan nilai \textit{fitness}.
-Kedua estimasi, yaitu membangun distribusi probabilitas yang merepresentasikan individu-individu terpilih tersebut.
-Pada persoalan kombinatorial/diskret, distribusi ini umumnya direpresentasikan melalui jaringan Bayes (\textit{Bayesian network}), yakni graf asiklik berarah yang merepresentasikan struktur (in)dependensi bersyarat antar-variabel secara ringkas dan dengan jumlah parameter yang jauh lebih sedikit dibanding tabel probabilitas gabungan penuh.
-Dan ketiga adalah \textit{sampling}, yaitu membangkitkan \textit{M} individu populasi baru dengan men-\textit{sampling} dari distribusi yang telah diestimasi.
-Ketiga langkah ini diulang hingga kriteria pemberhentian terpenuhi.
+Secara umum, EDA menjalankan tiga tahap berulang, yaitu seleksi, estimasi, dan \textit{sampling} \parencite{larranaga_estimation_2024}.
+Seleksi memilih individu terbaik berdasarkan nilai \textit{fitness}, estimasi membangun model probabilistik dari individu terpilih, sedangkan \textit{sampling} menghasilkan populasi baru dari model tersebut.
+Pada persoalan diskret, distribusi dapat direpresentasikan menggunakan \textit{Bayesian network} yang memodelkan dependensi bersyarat antar-variabel secara lebih ringkas dibandingkan tabel probabilitas gabungan penuh.
+Proses tersebut diulang hingga kriteria penghentian tercapai.
 
-Berdasarkan derajat dependensi antar-variabel yang diperbolehkan dalam pemodelan probabilistiknya, \textcite{larranaga_estimation_2024} mengkalsifikasikan EDA ke dalam tiga kategori.
-Yang pertama adalah EDA univariat yang mengasumsikan seluruh variabel saling independen.
-Yang kedua adalah EDA bivariat, yang hanya memperhitungkan dependensi berpasangan antar-variabel.
-Dan yang terakhir adalah EDA multivariat, yang tidak membatasi derajat dependensi antar-variabel dan umumnya mempelajari struktu jaringan Bayes secara penuh.
+Berdasarkan tingkat dependensi yang dimodelkan, EDA dibedakan menjadi tiga kategori, yaitu univariat, bivariat, dan multivariat.
+Eda univariat mengasumsikan seluruh variabel independen, EDA bivariat memodelkan dependensi berpasangan, sedangkan EDA multivariat memungkinkan dependensi yang lebih kompleks melalui struktur probabilistik multivariat \parencite{larranaga_estimation_2024}.
 
-EDA telah banyak diterapkan pada persoalan optimasi kombinatorial, termasuk persoalan berbasis permutasi yang menghadirkan tantangan tersendiri akibat besarnya ruang solusi dan batasan \textit{mutual exclusivity} antar-elemen \parencite{lemtenneche_estimation_2023}.
-Meskipun ruang kebijakan ABAC yang menjadi objek penelitian ini tidak berbasis permutasi, karakteristiknya tetap tergolong kombinatorial.
-Setiap kandidat kebijakan merupakan kombinasi diskret dari nilai-nilai atribut subjek, objek, aksi, dan lingkungan.
-Prinsip yang sama yakni dengan memodelkan distribusi probabilitas atas konfigurasi-konfigurasi yang menjanjikan, sebagaimana EDA memodelkan distribusi solusi permutasi yang menjanikan pada persoalan penjadwalan \textit{flow-shop} pada \textcite{lemtenneche_estimation_2023}, berpotensi diadaptasi untuk memandu pencarian aturan ABAC secara terarah.
+EDA telah diterapkan pada berbagai persoalan optimasi kombinatorial, termasuk masalah berbasis permutasi dengan ruang solusi besar dan kednala \textit{mutual exclusivity} antar-elemen \parencite{lemtenneche_estimation_2023}.
+Meskipun ruang kebijakan ABAC bukan masalah permutasi, pembentukan kebijakan tetap bersifat kombinatorial karena setiap kandidat merupakan kombinasi diskret atribut subjek, objek, aksi, dan lingkungan.
+Oleh karena itu, prinsip EDA dalam mempelajari distribusi konfigurasi yang menjanjikan berpotensi digunakan untuk mengarahkan pencarian aturan ABAC.
 
-Namun demikian, skema umum EDA di atas tetap mensyaratkan penyimpanan populasi sebanyak \textit{M} individu secara eksplisit pada setiap generasi sehingga EDA dalam bentuk kanoniknya belum secara otomatis menjawab persoalan keterbatasan memori pada perangkat \textit{edge-IoT}.
-Perbedaan mendasarnya terletak pada apa yang direpresentasikan sebagai keadaan pencarian, yakni bukan pada operator variasi implisit, melainkan parameter model probabilistik itu sendiri.
-Karakteristik inilah yang membuka peluang bagi varian EDA ringan untuk menggantikan penyimpanan populasi eksplisit dengan sebuah vektor probabilitas tunggal yang diperbarui secara inkremental, sehingga jejak memori algoritma dapat ditekan di bawah kebutuhan populasi penuh.
+Namun, EDA kanonik masih menyimpan populasi berukuran $M$\label{first:label-m} secara eksplisit pada setiap generasi sehingga belum secara langsung menyelesaikan keterbatasan memori pada perangkat \textit{edge-IoT}.
+Karena informasi pencarian pada EDA direpresentasikan dalam parameter model probabilistik, populasi eksplisit berpotensi digantikan oleh representasi probabilistik yang diperbarui secara inkremental.
+Karakteristik ini menjadi dasar pengembangan varian EDA yang lebih \textit{compact} dengan kebutuhan memori lebih rendah.

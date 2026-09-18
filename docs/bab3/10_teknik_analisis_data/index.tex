@@ -1,37 +1,35 @@
 \section{Teknik Analisis Data}
 
-Data hasil pengukuran sembilan metrik pada Tabel \ref{tab:definisi-operasional-metrik} yang dikumpulkan dari 30 replikasi ber-\textit{seed} berbeda per kombinasi algoritma-dataset-skenario dianalisis secara statistik untuk menguji Hipotesis H1-H4 secara objektif.
-Subbab ini merancang teknik analisis data yang akan digunakan pada aktivitas \textit{Evaluation}.
+Data sembilan metrik pada Tabel \ref{tab:definisi-operasional-metrik} yang diperoleh dari 30 replikasi setiap kombinasi algoritma–dataset–skenario dianalisis secara statistik untuk menguji H1–H4. 
+Uji Shapiro–Wilk digunakan sebagai pemeriksaan awal distribusi data. 
+Namun, karena kinerja metaheuristik bersifat stokastik dan tidak selalu berdistribusi normal, analisis utama menggunakan prosedur non-parametrik, sesuai praktik evaluasi metaheuristik \parencite{omran_permutation_2022}.
 
-Kinerja algoritma metaheuristik pada replikasi berulang lazimnya tidak berdistribusi normal, mengingat sifat stokastik proses pencarian dan potensi hasil yang terpolarisasi (mis. sebagian replikasi konvergen cepat, sebagian lambat).
-Uji normalitas (Shapiro-Wilk) akan tetap dilakukan pada setiap kumpulan data sebagai langkah pemeriksaan awal, namun penelitian ini menetapkan uji statistik non-parametrik sebagai pendekatan baku, konsisten dengan konvensi umum pada literatur \textit{benchmark} metaheuristik \parencite{omran_permutation_2022} agar tidak bergantung pada asumsi normalitas yang berisiko dilanggar.
+Untuk Eksperimen 1 dan 2 yang membandingkan tujuh algoritma, digunakan uji Friedman sebagai uji omnibus. 
+Jika diperoleh perbedaan signifikan pada $\alpha=0{,}05$, analisis dilanjutkan dengan uji Wilcoxon \textit{signed-rank} antara CoDA-EDA dan setiap \textit{baseline}, disertai koreksi Holm–Bonferroni. 
+Perbandingan dilakukan pada blok yang sama berdasarkan konfigurasi dataset, tingkat dependensi, dan replikasi yang berpasangan. 
+Koreksi diterapkan per keluarga pengujian dalam satu dataset, yaitu enam perbandingan CoDA-EDA terhadap enam \textit{baseline}, dan tidak digabungkan lintas dataset.
 
-Untuk Eksperimen 1 dan 2 yang melibatkan perbandingan ketujuh kondisi algoritma sekaligus, digunakan uji Friedman sebagai uji omnibus non-parametrik untuk mendeteksi ada-tidaknya perbedaan signifikan di antara algoritma pada tiap kombinasi dataset-skenario.
-Apabila uji Friedman menunjukkan perbedaan signifikan (p < alpha)\label{first:symbol-p}, dilanjutkan dengan uji post-hoc berpasangan, yakni uji Wilcoxon signed-rank antara CoDA-EDA dan tiap \textit{baseline} yang relevan, dengan koreksi Holm-Bonferroni untuk mengendalikan inflasi galat Tipe I akibat perbandingan ganda.
-Unit blok pada uji Friedman/Wilcoxon adalah satu kombinasi (tingkat korelasi $\times$ \textit{seed} pembangkitan dataset $\times$ replikasi algoritma) pada dataset tertentu untuk H1. Ketujuh kondisi algoritma dibandingkan berpasangan di dalam blok yang sama, sehingga variabilitas antar-blok tidak mencemari perbandingan antar-algoritma.
-Koreksi Holm-Bonferroni diterapkan per keluarga perbandingan, yakni satu keluarga = enam perbandingan post-hoc (CoDA-EDA vs tiap \textit{baseline}) dalam satu dataset.
-Koreksi tidak dicampur lintas dataset agar keluarga uji tetap terdefinisi dan daya uji tidak terkuras berlebihan.
+Jumlah replikasi juga menentukan resolusi uji statistik. 
+Pada uji Wilcoxon \textit{signed-rank} dua sisi tanpa \textit{tie} atau selisih nol, nilai-$p$\label{first:symbol-p} minimum untuk $n$ pasangan adalah $2/2^n$. Dengan lima pasangan, nilai minimum tersebut adalah $0,0625$ sehingga tidak dapat mencapai $\alpha=0{,}05$, sedangkan enam pasangan secara prinsip sudah memungkinkan. 
+Oleh karena itu, 30 replikasi digunakan untuk menyediakan jumlah pengamatan yang memadai sekaligus menangkap variabilitas stokastik. 
+\textit{Seed} pembangkitan dataset dan \textit{seed} algoritma dipisahkan agar variasi data tidak tercampur dengan variasi proses optimasi.
 
-Perlu dicatat bahwa banyaknya replikasi bukan sekadar soal ketelitian, melainkan menentukan apakah pengujian dapat dilakukan sama sekali.
-Pada uji Wilcoxon signed-rank dua sisi, nilai p terkecil yang mungkin diperoleh dengan n pasangan adalah $\frac{2}{2^n}$, sehingga dengan lima replikasi nilai p tidak akan pernah turun di bawah 0,0625 dan taraf signifikansi 0,05 mustahil tercapai berapa pun besar perbedaannya.
-Diperlukan sekurang-kurangnya enam pasangan agar taraf tersebut dapat dicapai secara prinsip, dan ketetapan 30 replikasi memberi ruang daya uji yang memadai.
-Replikasi juga harus memisahkan dua sumber keacakan, yakni \textit{seed} pembangkitan dataset dan \textit{seed} algoritma.
-Bila keduanya digerakkan bersama, ragam yang terukur mencampur variabilitas data dengan variabilitas algoritma, padahal yang hendak diuji adalah yang kedua.
-Karena itu replikasi disusun sebagai sejumlah pengulangan algoritma di atas setiap dataset yang tetap.
+Eksperimen 3 dan 4 masing-masing membandingkan dua kondisi, yaitu CoDA-EDA terhadap iBOA serta \textit{warm-start} terhadap \textit{re-mining} penuh. 
+Karena hanya terdapat dua kondisi, keduanya dianalisis langsung menggunakan uji Wilcoxon \textit{signed-rank} berpasangan tanpa uji omnibus.
 
-Untuk Eksperimen 3 dan 4 yang masing-masing membandingkan tepat dua kondisi, yakni CoDA-EDA terhadap iBOA dan strategi \textit{warm-start} terhadap \textit{re-mining} penuh pada CoDA-EDA sendiri, digunakan uji Wilcoxon signed-rank berpasangan secara langsung, tanpa memerlukan uji omnibus terlebih dahulu, mengingat hanya dua kondisi yang dibandingkan.
+Taraf signifikansi ditetapkan sebesar $\alpha=0{,}05$. Selain nilai-$p$, hasil dilengkapi ukuran efek non-parametrik, yaitu \textit{rank-biserial correlation} untuk uji Wilcoxon \parencite{peres_effect_2026}. 
+Seluruh analisis dilakukan menggunakan pustaka SciPy pada Python.
 
-Tingkat signifikansi ditetapkan pada alpha = 0,05 untuk seluruh uji.
-Mengingat nilai-p semata tidak merepresentasikan besaran praktis suatu perbedaan, hasil uji dilengkapi dengan ukuran efek yang sesuai untuk data non-parametrik, seperti \textit{rank-biserial correlation} untuk uji Wilcoxon \parencite{peres_effect_2026}.
-Seluruh analisis statistik dilaksanakan menggunakan pustaka SciPy pada bahasa Python.
-Kualitas kebijakan dihitung terhadap keseluruhan log tempat kebijakan ditambang.
-Dengan demikian metrik dimaknai sebagai fidelitas rekonstruksi kebijakan, yakni sejauh mana himpunan aturan hasil penambangan mereproduksi keputusan izin/tolak yang tercatat pada log, dan bukan sebagai generalisasi prediktif ke permintaan yang belum pernah dilihat.
-Pemaknaan ini konsisten dengan tujuan \textit{policy mining} ABAC, yaitu menyimpulkan kebijakan yang menjelaskan log akses yang tersedia.
-Selain ukuran efek, penelitian ini membedakan uji superioritas dari uji 'tidak lebih buruk'.
-Untuk klaim yang bersifat kesetaraan/non-inferioritas pada kualitas, ditetapkan margin non-inferioritas praktis $\delta = 0,02$\label{first:symbol-delta} pada \textit{F-score} (dan margin setara pada WSC) sebelum pengujian dilakukan.
-Suatu kondisi dinyatakan non-inferior bila batas atas selang kepercayaan 95/% dari selisih (pembanding - CoDA-EDA) berada di bawah $\delta$.
+Kualitas kebijakan dihitung terhadap \textit{log} yang digunakan dalam proses \textit{mining} sehingga F1, WSC, dan \textit{coverage} diinterpretasikan sebagai fidelitas rekonstruksi kebijakan, bukan kemampuan generalisasi prediktif terhadap permintaan yang belum diamati. 
+Interpretasi ini sesuai dengan tujuan \textit{ABAC policy mining}, yaitu memperoleh kebijakan yang merepresentasikan pola keputusan pada \textit{log} akses.
 
-Rancangan uji statistik untuk keempat hipotesis dirngkum pada Tabel \ref{tab:uji-statistik} yang memetakan tiap hipotesis terhadap eksperimen sumber datanya, kondisi yang dibandingkan, prosedur uji, dan ukuran efek pelengkapnya.
+Untuk hipotesis yang menyatakan kualitas sebanding atau non-inferior, pengujian tidak hanya didasarkan pada ketidakberhasilan menolak hipotesis nol. 
+Margin non-inferioritas ditetapkan sebelum analisis, yaitu $\delta=0{,}02$ untuk F1 serta margin praktis yang ditetapkan untuk WSC. 
+Non-inferioritas dievaluasi menggunakan selang kepercayaan 95\% terhadap selisih antarkondisi. 
+Untuk F1, CoDA-EDA dinyatakan non-inferior apabila batas bawah selisih $F1_{\text{CoDA}}$-$F1_{\text{baseline}}$ berada di atas $-\delta$. 
+Untuk WSC, karena nilai yang lebih rendah lebih baik, arah kriteria disesuaikan dengan definisi selisih yang digunakan.
+
+Rancangan analisis statistik H1–H4 dirangkum pada Tabel \ref{tab:uji-statistik} berdasarkan eksperimen sumber data, kondisi yang dibandingkan, prosedur pengujian, dan ukuran efek yang digunakan.
 
 \begin{longtable}{|>{\raggedright\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}p{2.1cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{1.8cm}|}
 \caption{Rancangan Uji Statistik per Hipotesis}

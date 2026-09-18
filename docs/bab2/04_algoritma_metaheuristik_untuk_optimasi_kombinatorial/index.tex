@@ -1,23 +1,19 @@
 \section{Algoritma Metaheuristik untuk Optimasi Kombinatorial}
 
-Optimasi kombinatorial merujuk pada persoalan pencarian solusi terbaik dari ruang solusi berukuran diskret dan sangat besar, yang pada umumnya tergolong \textit{NP-hard} sehingga tidak dapat diselesaikan secara eksak dalam waktu yang wajar untuk instansi berskala besar.
-Algoritma metaheuristik hadir sebagai pendekatan pencarian heuristik tingkat tinggi yang mampu mendekati solusi optimal tanpa jaminan optimalitas formal, dengan biaya komputasi yang jauh lebih rendah dibanding pendekatan eksak.
-\textcite{rajwar_exhaustive_2023} mencatat bahwa lebih dari 500 algoritma metaheuristik baru telah dikembangkan hingga saat studi mereka dilakukan, dengan lebih dari 350 di antaranya muncul dalam dekade terakhir.
-Angka tersebut menandakan betapa pesatnya pertumbuhan di bidang ini.
+Optimasi kombinatorial merupakan proses mencari solusi terbaik dari ruang solusi diskret yang sangat besar dan umumnya bersifat \textit{NP-hard}, sehingga penyelesaian eksak menjadi tidak praktis untuk instansi berskala besar.
+Metaheuristik menawarkan pendekatan pencarian tingkat tinggi untuk memperoleh solusi mendekati optimal dengan biaya komputasi yang lebih rendah, meskipun tanpa jaminan optimalitas formal.
+Perkembangan bidang ini sangat pesat; \textcite{rajwar_exhaustive_2023} mencatat lebih dari 500 algoritma metaheuristik telah dikembangkan, dengan lebih dari 350 di antaranya muncul dalam satu dekade terakhir.
 
-Berdasarkan sumber inspirasinya, \textcite{rajwar_exhaustive_2023} mengklasifikasikan algoritma metaheuristik ke dalam empat kategori utama.
-Kategori pertama adalah algoritma evolusioner (\textit{evolutionary algorithms}) yang terinspirasi oleh seleksi alam Darwin, misal \textit{Genetic Algorithm} dan \textit{Differential Evolution}.
-Kategori kedua adalah algoritma kecerdasan (\textit{swarm intelligence}) yang terinspirasi oleh perilaku kolektif kelompok organisme, misal \textit{Particle Swarm Optimization} dan \textit{Ant Colony Optimization}.
-Kategori yang ketiga adalah algoritma berbasis hukum fisika atau kimia, seperti \textit{Simulated Annealing} dan \textit{Gravitational Search Algorithm}.
-Kategori terakhir adalah kategori lain-lain yang mencakup algoritma yang terinspirasi dari perilaku manusia, strategi permainan, maupun teorema matematis.
-\textcite{jaksic_comprehensive_2023} menegaskan bahwa klasifikasi semacam ini penting namun relatif jarang dan kerap tidak konsisten antar-penulis, sehingga kajian taksonomi seperti ini tetap perlu terus diperbarui seiring pesatnya publikasi metode baru.
+Berdasarkan sumber inspirasinya, metaheuristik dapat dikelompokkan menjadi algoritma evolusioner, seperti \textit{Genetic Algorithm} dan \textit{Differential Evolution}; \textit{swarm intelligence}, seperti \textit{Particle Swarm Optimization} dan \textit{Ant Colony Optimization}; algoritma berbasis fenomena fisika atau kimia, seperti \textit{Simulated Annealing} dan \textit{Gravitational Search Algorithm}; serta kategori lain yang terinspirasi perilaku manusia, permainan, atau konsep matematis \parencite{rajwar_exhaustive_2023}.
+Namun, klasifikasi metaheuristik belum sepenuhnya konsisten antar-penulis dan perlu terus diperbarui seiring munculnya metode baru \parencite{jaksic_comprehensive_2023}.
 
-Selain berdasarkan sumber inspirasi, \textcite{rajwar_exhaustive_2023} turut mengklasifikasikan algoritma metaheuristik berdasarkan ukuran populasi pencarian menjadi dua kategori, yakni algoritma berbasis lintasan (\textit{trajectory-based}) yang menggunakan satu agen pencarian tunggal yang bergerak secara bertahap melalui ruang solusi (mis. \textit{Simulated Annealing} dan \textit{Tabu Search}), dan algoritma berbasis populasi (\textit{population-based}) yang menggunakan banyak agen pencarian secara simultan sehingga memungkinkan eksplorasi ruang solusi yang jauh lebih luas (mis. \textit{Genetic Algorithm, Particle Swarm Optimization, Ant Colony Optimization}).
+Dari sisi mekanisme pencarian, metaheuristik juga dapat dibedakan menjadi \textit{trajectory-based} dan \textit{population-based}.
+Algoritma \textit{trajectory-based}, seperti \textit{Simulated Annealing} dan \textit{Tabu Search}, menggunakan satu agen yang bergerak melalui ruang solusi, sedangkan algoritma \textit{population-based}, seperti \textit{Genetic Algorithm, Particle Swarm Optimization}, dan \textit{Ant Colony Optimization}, menggunakan banyak agen secara simultan untuk memperluas eksplorasi ruang solusi \parencite{rajwar_exhaustive_2023}.
 
-Kedua algoritma metaheuristik yang menjadi \textit{baseline population-based} penelitian ini, yakni ACO dan UBK, tergolong dalam kategori algoritma kecerdasan kawanan berbasis populasi menurut taksonomi di atas.
-ACO terinspirasi oleh perilaku koloni semut dalam mencari jalur makanan terpendek, sementara UBK terinspirasi oleh strategi berburu burung \textit{black-winged kite}.
-Keduanya memanfaatkan banyak agen pencarian yang berinteraksi untuk mengeksplorasi ruang kebijakan ABAC secara paralel, sebagaimana ciri umum algoritma \textit{population-based} yang diuraikan \textcite{rajwar_exhaustive_2023}.
+ACO dan UBK yang digunakan sebagai \textit{baseline} dalam penelitian ini termasuk metaheuristik \textit{population-based}.
+ACO meniru perilaku koloni semut dalam menemukan jalur, sedangkan UBK terinspirasi strategi berburu \textit{black-winged kite}.
+Keduanya menggunakan sekumpulan kandidat solusi untuk mengeksplorasi ruang kebijakan ABAC secara simultan.
 
-Namun demikian, kemampuan eksplorasi luas melalui banyak agen pencarian yang menjadi kekuatan utama algotima \textit{population-based} ini juga menjadi sumber utama kebutuhan memori.
-Jadi setiap agen dalam populasi umumnya perlu direpresentasikan dan disimpan secara eksplisit sepanjang proses optimasi, sehingga jejak memori bertumbuh sebanding dengan ukuran populasi.
-Pada perangkat \textit{edge}-IoT dengan keterbatasan memori, karakteristik ini menjadi kendala tersendiri.
+Meskipun meningkatkan kemampuan eksplorasi, pendekatan \textit{population-based} membutuhkan penyimpanan banyak kandidat solusi secara eksplisit selama proses optimasi.
+Akibatnya, kebutuhan memori meningkat seiring ukuran populasi.
+Karakteristik ini menjadi kendala pada perangkat \textit{edge-IoT} dengan kapasitas memori terbatas dan menjadi dasar kebutuhan terhadap pendekatan optimasi yang lebih \textit{compact}.

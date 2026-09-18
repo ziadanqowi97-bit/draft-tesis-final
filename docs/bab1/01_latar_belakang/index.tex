@@ -1,39 +1,34 @@
 \section{Latar Belakang}
 
-Perkembangan \textit{Internet of Things} (IoT)\label{first:iot} telah mengubah cara perangkat, sensor, dan sistem saling terhubung dalam skala yang belum pernah terjadi sebelumnya.
-\textcite{ahsan_comprehensive_2025} mencatat bahwa jumlah perangkat IoT yang saling terhubung diproyeksikan melampaui 60 miliar unit pada tahun 2030, mencakup perangkat dengan karakteristik yang sangat heterogen baik dari sisi kapabilitas komputasi, sumber daya energi, maupun konteks penggunaannya.
-Pertumbuhan ini membawa konsekuensi serius pada aspek keamanan.
-\textcite{dritsas_survey_2025} mengidentifikasi bahwa kerentanan pada lapisan autentikasi, integritas data, dan kontrol akses menjadi titik lemah utama ekosistem IoT, yang mana sebagian besar disebabkan oleh keterbatasan sumber daya perangkat yang tidak memungkinkan penerapan mekanisme keamanan konvensional secara langsung.
+Perkembangan \textit{Internet of Things} (IoT)\label{first:iot} mendorong konektivitas perangkat, sensor, dan sistem dalam skala yang sangat besar.
+Jumlah perangkat IoT diproyeksikan melampaui 60 miliar unit pada 2030 dengan karakteristik yang heterogen dari sisi kemampuan komputasi, energi, dan konteks penggunaan \parencite{ahsan_comprehensive_2025}.
+Pertumbuhan ini meningkatkan tantangan keamanan, terutama pada autentikasi, integritas data, dan kontrol akses.
+Keterbatasan sumber daya perangkat juga menyulitkan penerapan mekanisme keamanan konvensional secara langsung \parencite{dritsas_survey_2025}.
 
-Salah satu aspek keamanan yang paling krusial dalam ekosistem IoT adalah kontrol akses, yaitu mekanisme yang menentukan entitas mana yang berhak mengakses sumber daya tertentu dalam kondisi apa.
-Model kontrol akses konvensional seperti \textit{Role-Based Access Control} (RBAC)\label{first:rbac} dan \textit{Discretionary Access Control} (DAC)\label{first:dac} terbukti kurang memadai untuk lingkungan IoT yang bersifat dinamis, berskala besar, dan melibatkan konteks yang terus berubah \parencite{ragothaman_access_2023}.
-Sebagai responnya, \textit{Attribute-Based Access Control} (ABAC)\label{first:abac} banyak diadopsi karena kemampuannya membuat keputusan akses berdasarkan kombinasi atribut subjek, objek, dan lingkungan secara fleksibel, sehingga lebih sesuai dengan karakteristik IoT yang heterogen dan dinamis \parencite{ahsan_comprehensive_2025}.
+Kontrol akses menjadi salah satu komponen penting dalam keamanan IoT karena menentukan entitas yang dapat mengakses sumber daya pada kondisi tertentu.
+Model konvensional seperti \textit{Role-Based Access Control} (RBAC)\label{first:rbac} dan \textit{Discretionary Access Control} (DAC)\label{first:dac} kurang sesuai untuk lingkungan IoT yang dinamis, berskala besar, dan kaya konteks \parencite{ragothaman_access_2023}.
+Sebaliknya, \textit{Attribute-Based Access Control} (ABAC)\label{first:abac} memungkinkan keputusan akses berdasarkan kombinasi atribut subjek, objek, dan lingkungan sehingga lebih sesuai dengan heterogenitas dan dinamika IoT \parencite{ahsan_comprehensive_2025}.
 
-Meskipun demikian, penerapan ABAC menghadapi tantangan tersendiri.
-Perancangan kebijakan (\textit{policy}) ABAC secara manual merupakan proses yang kompleks dan mahal, sehingga banyak organisasi memilih bertahan dengan mekanisme kontrol akses lama meskipun kurang optimal, alih-alih menanggung biaya migrasi \parencite{diaz-rodriguez_abac_2025}.
-Untuk mengatasi hal ini, \textit{policy mining}, proses ekstraksi kebijakan ABAC dari \textit{log} akses dan data atribut yang sudah ada, menjadi pendekatan yang banyak diteliti.
-Dalam beberapa tahun terakhir, algoritma metaheuristik terbukti efektif untuk tugas ini.
-\textcite{siyuan_abac_2025} mengusulkan pendekatan berbasis \textit{Ant Colony Optimization} (ACO)\label{first:aco} untuk memigrasikan kebijakan lintas sistem heterogen, sementara \textcite{li_attribute_2026} mengusulkan algoritma \textit{Upgrade Black-Winged Kite} (UBK)\label{first:ubk} yang mengungguli sejumlah metaheuristik lain dalam mengoptimalkan kebijakan ABAC pada konteks berbagi data.
-Namun, kedua pendekatan tersebut dirancang untuk dijalankan secara \textit{batch/offline} pada lingkungan komputasi dengan sumber daya memadai (\textit{server}), bukan pada perangkat \textit{edge}-IoT yang terbatas.
+Namun, perancangan kebijakan ABAC secara manual kompleks dan mahal sehingga organisasi sering mempertahankan mekanisme kontrol akses lama daripada menanggung biaya migrasi \parencite{diaz-rodriguez_abac_2025}.
+\textit{Policy mining} kemudian dikembangkan untuk mengekstraksi kebijakan ABAC secara otomatis dari log akses dan data atribut.
+Pendekatan metaheuristik telah digunakan untuk tujuan ini, antara lain \textit{Ant Colony Optimization} (ACO)\label{first:aco} untuk migrasi kebijakan lintas sistem heterogen \parencite{siyuan_abac_2025} dan \textit{Upgrade Black-Winged Kite} (UBK)\label{first:ubk} untuk optimasi kebijakan ABAC pada berbagai data \parencite{li_attribute_2026}.
+Namun, keduanya ditujukan untuk pemrosesan \textit{batch/offline} pada \textit{server} dengan sumber daya memadai, bukan perangkat \textit{edge-IoT} yang terbatas.
 
-Keterbatasan sumber daya pada perangkat \textit{edge}-IoT bukanlah persoalan sepele. \textcite{canavese_security_2024} menegaskan bahwa mayoritas perangkat IoT beroperasi dengan keterbatasan memori, daya komputasi, dan energi yang signifikan, sehingga mekanisme keamanan, termasuk kontrol akses, harus dirancang secara ringan agar dapat dijalankan langsung pada perangkat tersebut tanpa bergantung sepenuhnya pada komputasi awan.
-Di ranah optimasi metaheuristik untuk komputasi \textit{edge} secara umum, kebutuhan akan algoritma yang ringan dan adaptif ini sudah mulai direspons, misalnya melalui algoritma \textit{Modified Greylag Goose Optimization} (MGGO)\label{first:mggo} yang dirancang khusus untuk alokasi layanan IoT pada \textit{edge computing} dengan mekanisme adaptif tanpa memerlukan pelatihan atau pemodelan eksplisit yang berat \parencite{khosrowshahi_refined_2025}.
+Keterbatasan memori, komputasi, dan energi pada perangkat IoT menuntut mekanisme keamanan yang ringan agar dapat dijalankan langsung pada \textit{edge} tanpa bergantung sepenuhnya pada komputasi awan \parencite{canavese_security_2024}.
+Pada optimasi metaheuristik untuk \textit{edge computing}, kebutuhan ini mulai dijawab melalui algoritma ringan dan adaptif, seperti \textit{Modified Greylag Goose Optimization} (MGGO)\label{first:mggo} untuk alokasi layanan IoT yang tidak memerlukan pelatihan atau pemodelan eksplisit yang berat \parencite{khosrowshahi_refined_2025}.
 
-Namun demikian, prinsip serupa belum diterapkan pada \textit{policy mining} ABAC.
-Algoritma metaheuristik ABAC yang ada saat ini, seperti ACO dan UBK, bersifat \textit{population-based} dan tidak dirancang untuk berjalan berulang secara ringan pada perangkat berdaya rendah.
-Sementara upaya menjadikan \textit{mining} kebijakan lebih efisien secara inkremental masih mengandalkan pendekatan berbasis aturan, bukan metaheuristik \parencite{batra_incremental_2021,bamberger_automated_2024}, sehingga kehilangan kemampuan eksplorasi kombinatorial yang justru menjadi kekuatan utama metaheuristik.
+Prinsip tersebut belum banyak diterapkan pada \textit{policy mining} ABAC.
+Metaheuristik seperti ACO dan UBK menggunakan pendekatan berbasis populasi sehingga tidak dirancang untuk eksekusi ringan dan berulang pada perangkat berdaya rendah.
+Di sisi lain, pendekatan \textit{policy mining} inkremental yang lebih efisien masih didominasi metode berbasis aturan \parencite{batra_incremental_2021,bamberger_automated_2024}, sehingga tidak memanfaatkan kemampuan eksplorasi kombinatorial yang menjadi keunggulan metaheuristik.
 
-Sebagai ilustrasi konkret, bayangkan sebuah \textit{edge gateway} di sebuah \textit{smart building} berbasis IoT yang harus memberlakukan kontrol akses ABAC untuk ratusan sumber daya, seperti sensor, aktuator, dan data, kepada berbagai pengguna serta perangkat.
-Selama ini, kebijakan akses pada sistem seperti itu biasanya dirancang manual oleh administrator.
-Cara tersebut mahal, lambat, subjektif, dan mudah menimbulkan kesalahan.
-Oleh karena itu, banyak organisasi lebih memilih bertahan dengan RBAC/DAC daripada menanggung biaya migrasi \parencite{diaz-rodriguez_abac_2025}.
-Mengabaikan kontrol akses juga berakibat nyata secara finansial.
-Studi IBM-Ponemon pada tahun 2024 yang dikutip oleh \textcite{diaz-rodriguez_abac_2025} memperkirakan rata-rata biaya satu pelanggaran data mencapai USD 4,88 juta.
-\textit{Policy mining} memang hadir untuk mengotomatisasi penyusunan kebijakan dari log akses, tetapi pendekatan yang ada masih menghadapi dua keterbatasan di konteks \textit{edge}.
-Pertama, dari segi skala, metode berbasis \textit{association rule} dan sejenisnya mengalami penurunan kinerja pada log berukuran besar serta lonjakan jumlah aturan ketika atribut banyak \parencite{xu_mining_2015,inproceedings}.
-Akibatnya, bahkan metode mutakhir dirancang dan diuji untuk dijalankan pada server dengan sumber daya yang memadai.
-Kedua, dari segi dinamika, penambangan umumnya dilakukan secara \textit{batch} atau sekali jalan.
-Padahal, lingkungan IoT terus berubah karena muncul perangkat, peran, dan pola akses baru, sehingga kebijakan menjadi cepat usang dan perlu diperbarui secara berkala.
-Menjalankan penambangan konvensional di server berarti log akses harus dikirim keluar perangkat yang mengakibatkan bertambahnya beban jaringan, latensi, dan risiko privasi.
-Sedangkan algoritma berpopulasi eksplisit yang jejak memorinya membesar tidak muat pada \textit{edge gateway} yang terbatas.
-Kesenjangan inilah yang mendasari adanya penelitian ini untuk merancang sebuah algoritma yang secara khusus ringan atau \textit{compact}, sadar terhadap korelasi antar-atribut ABAC, dan mampu memperbarui kebijakan secara inkremental, agar \textit{policy mining} ABAC dapat dijalankan langsung pada perangkat \textit{edge}-IoT tanpa mengorbankan kualitas kebijakan yang dihasilkan.
+Kesenjangan ini semakin terlihat pada \textit{edge gateway} di lingkungan seperti \textit{smart building} yang harus mengelola akses terhadap ratusan sensor, aktuator, dan data untuk berbagai pengguna dan perangkat.
+Perancangan kebijakan secara manual bersifat mahal, lambat, subjektif, dan rentan kesalahan sehingga organisasi cenderung mempertahankan RBAC/DAC daripada melakukan migrasi \parencite{diaz-rodriguez_abac_2025}.
+Padahal, kelemahan kontrol akses ini dapat menimbulkan dampak yang signifikan.
+Pada studi IBM-Ponemon tahun 2024 yang dikutip oleh \textcite{diaz-rodriguez_abac_2025}, memperkirakan rata-rata biaya satu pelanggaran data dapat mencapai USD 4,88 juta.
+
+\textit{Policy mining} dapat mengotomatisasi pembentukan kebijakan, tetapi masih menghadapi dua keterbatasan utama pada \textit{edge-IoT}.
+Pertama, metode berbasis \textit{association rule} dan sejenisnya mengalami penurunan kinerja pada log berukuran besar serta peningkatan jumlah aturan ketika jumlah atribut bertambah \parencite{xu_mining_2015,inproceedings}.
+Karena itu, metode mutakhir umumnya masih dirancang untuk \textit{server} dengan sumber daya yang memadai.
+Kedua, \textit{policy mining} umumnya dilakukan secara \textit{batch}, sedangkan lingkungan IoT terus berubah akibat munculnya perangkat, peran, dan pola akses baru sehingga kebijakan perlu diperbarui secara berkala.
+Pemrosesan di \textit{server} juga mengharuskan pengiriman log keluar perangkat, yang menambah beban jaringan, latensi, dan risiko privasi, sementara algoritma berbasis populasi dengan jejak memori besar sulit dijalankan pada \textit{edge gateway} terbatas.
+Atas dasar tersebut, penelitian ini merancang algoritma \textit{policy mining} ABAC yang \textit{compact}, mempertimbangkan dependensi antar-atribut, dan mampu memperbarui kebijakan secara inkremental sehingga dapat dijalankan langsung pada perangkat \textit{edge-IoT} tanpa mengorbankan kualitas kebijakan.

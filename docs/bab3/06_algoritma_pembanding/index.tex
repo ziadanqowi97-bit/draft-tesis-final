@@ -1,32 +1,26 @@
 \section{Algoritma Pembanding}
 
-Sebagaimana ditetapkan pada variabel bebas jenis algoritma dan aktivitas \textit{Design and Development}, CoDA-EDAA dibandingkan terhadap enam algoritma \textit{baseline} yang telah dibahas landasan teoretisnya pada Bab II, yakni \textit{compact-GA} dan \textit{compact-PSO}, BOA dan iBOA, serta ACO dan UBK.
-Subbab ini menguraikan bagaimana keenam algoritma tersebut diimplementasikan dan dikonfigurasi agar perbandingan pada aktivitas \textit{Evaluation} bersifat adil dan tidak bias oleh perbedaan kualitas implementasi antar-algoritma.
+Sebagaimana ditetapkan pada variabel bebas jenis algoritma, CoDA-EDA dibandingkan dengan enam \textit{baseline}, yaitu \textit{compact-GA}, \textit{compact-PSO}, BOA, iBOA, ACO, dan UBK. 
+Seluruh algoritma diimplementasikan dan dikonfigurasi dengan prinsip perbandingan yang setara agar hasil \textit{Evaluation} tidak dipengaruhi perbedaan representasi, anggaran komputasi, maupun kualitas implementasi.
 
-\textit{Compact-GA} dan \textit{compact-PSO} diimplementasikan mengikuti \textit{template} algoritma \textit{compact} umum \parencite{khalfi_metaheuristics_2023}: satu PV univariat, skema kompetisi pemenang/pecundang, dan ukuran populasi virtual NP sebagai parameter utama.
-Representasi solusi menggunakan vektor biner yang identik dengan CoDA-EDA, sehingga perbedaan hasil semata-mata mencerminkan ada-tidaknya pemodelan dependensi dan bukan perbedaan \textit{encoding}.
-Untuk \textit{compact-PSO}, yang pada rancangan aslinya beroperasi pada ruang kontinu, representasi posisi-kecepatan diadaptasi ke ruang kebijakan ABAC yang diskret mengikuti pendekatan probabilistik yang sama dengan \textit{compact-GA} sehingga sejalan dengan praktik pembineran algoritma metaheuristik berbasis kontinu yang lazim didokumentasikan pada literatur \parencite{pan_survey_2023}, agar kedua \textit{baseline compact} tetap dapat dibandingkan langsung pada representasi biner yang sama.
+\textit{Compact-GA} dan \textit{compact-PSO} mengikuti \textit{template} algoritma \textit{compact} dengan PV univariat, kompetisi pemenang–pecundang, dan ukuran populasi virtual (NP) sebagai parameter utama. 
+Keduanya menggunakan representasi biner yang sama dengan CoDA-EDA agar perbedaan hasil terutama mencerminkan mekanisme pencarian dan pemodelan dependensi. 
+\textit{Compact-PSO}, yang berasal dari ruang kontinu, diadaptasi ke representasi biner menggunakan pendekatan probabilistik yang sejalan dengan praktik pembineran metaheuristik kontinu \parencite{pan_survey_2023}.
 
-BOA dan iBOA diimplementasikan mengikuti mekanisme pembelajaran struktur berbasis BIC dan estimasi parameter kemungkinan maksimum \parencite{pelikan_iboa_2008} tanpa pembatasan orde dependensi, berbeda dari struktur Chow-Liu orde-1 pada CoDA-EDA.
-BOA mempertahankan populasi eksplisit dan mempelajari ulang struktur secara penuh pada setiap generasi, sedangkan iBOA memperbarui struktur dan parameter secara inkremental melalui skema turnamen yang sama dengan \textit{compact-GA}.
-Hal inilah yang menjadikan iBOA sebagai pembanding langsung yang paling relevan untuk menguji Hipotesis H3.
+BOA dan iBOA diimplementasikan menggunakan pembelajaran struktur berbasis BIC dan estimasi parameter kemungkinan maksimum tanpa pembatasan orde dependensi. 
+BOA mempertahankan populasi eksplisit dan mempelajari ulang struktur pada setiap generasi, sedangkan iBOA memperbarui struktur dan parameter secara inkremental melalui skema turnamen. 
+Karena karakteristik tersebut, iBOA menjadi pembanding terdekat untuk mengevaluasi mekanisme pembaruan CoDA-EDA pada H3.
 
-ACO \parencite{shang_abac_2024} dan UBK \parencite{li_attribute_2026} diimplementasikan sebagai algoritma \textit{population-based} murni tanpa model probabilistik eksplisit ala EDA.
-ACO menggunakan matriks feromon dengan parameter evaporasi dan bobot heuristik $(\alpha, \beta)$, sedangkan UBK menggunakan mekanisme strategi berburu berbasis populasi sebagaimana diuraikan pada publikasi aslinya.
-Parameter kedua algoritma ini mengikuti rekomendasi/nilai \textit{default} pada publikasi asli sebagai titik awal, dan dikalibrasi lebih lanjut pada dataset yang dikonstruksi apabila diperlukan agar kinerja \textit{baseline} tetap representatif, bukan sengaja dilemahkan.
+ACO dan UBK digunakan sebagai \textit{baseline} metaheuristik berbasis populasi. 
+ACO menggunakan mekanisme feromon dengan parameter evaporasi serta bobot heuristik $(\alpha,\beta)$, sedangkan UBK mengikuti mekanisme pencarian berbasis populasi sebagaimana publikasi aslinya. 
+Parameter awal mengikuti rekomendasi sumber asli dan dapat dikalibrasi pada dataset penelitian agar kinerja \textit{baseline} tetap representatif.
 
-Meskipun mekanisme internal keenam algoritma berbeda, kesetaraan perbandingan tetap terjamin melalui empat kontrol yang telah ditetapkan.
-Kontrol pertama adalah representasi solusi dan fungsi \textit{fitness} yang identik bagi seluruh algoritma.
-Kontrol kedua adalah penyetaraan anggaran evaluasi \textit{fitness} maksimum sebagai pengganti penyetaraan jumlah iterasi.
-Hal ini diperlukan karena algoritma berbasis populasi dan \textit{compact} memiliki definisi iterasi yang berbeda.
-Pendekatan ini mengikuti konvensi perbandingan metaheuristik pada anggaran evaluasi fungsi yang setara, sebagaimana dikemukakan oleh \textcite{rajwar_exhaustive_2023} dan \textcite{omran_permutation_2022}.
-Anggaran tersebut ditetapkan sebagai fungsi dari dimensi soal D dan bukan sebagai konstanta.
-Sebab, dimensi D berbeda 4,4 kali lipat antara dua dataset utama, yaitu 436 untuk \textit{workforce} dan 1.907 untuk \textit{e-document}.
-Jika anggaran berupa konstanta, maka dataset berdimensi kecil akan diuntungkan secara tidak adil.
-Kontrol ketiga adalah perhitungan anggaran untuk keseluruhan proses \textit{separate-and-conquer}, bukan per aturan.
-Dengan demikian, algoritma yang menghasilkan lebih banyak aturan tidak akan memperoleh total evaluasi yang lebih besar.
-Kontrol keempat mencakup penggunaan perangkat keras dan dataset yang identik dalam satu skenario pengujian.
-Selain itu, replikasi berulang dilakukan dengan \textit{random seed} yang berbeda untuk memperhitungkan variabilitas stokastik dari setiap algoritma.
+Kesetaraan perbandingan dijaga melalui empat kontrol. 
+Pertama, seluruh algoritma menggunakan representasi solusi dan fungsi \textit{fitness} yang sama. 
+Kedua, anggaran komputasi disetarakan berdasarkan jumlah maksimum evaluasi \textit{fitness}, bukan jumlah iterasi, karena definisi iterasi berbeda antaralgoritma \parencite{rajwar_exhaustive_2023,omran_permutation_2022}. 
+Anggaran ditetapkan sebagai fungsi dimensi $D$, mengingat dua dataset utama memiliki dimensi berbeda, yaitu 436 pada \textit{workforce} dan 1.907 pada \textit{e-document}. 
+Ketiga, anggaran dihitung untuk keseluruhan proses \textit{separate-and-conquer}, bukan per aturan. 
+Keempat, seluruh algoritma dijalankan pada perangkat keras dan dataset yang sama untuk setiap skenario, dengan replikasi menggunakan \textit{random seed} berbeda untuk mengakomodasi variabilitas stokastik.
 
 \begin{longtable}{|c|>{\raggedright\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{3.2cm}|}
 \caption{Algoritma Pembanding dan Perlakuan Kesetaraan Implementasi}
@@ -65,12 +59,12 @@ Selain itu, replikasi berulang dilakukan dengan \textit{random seed} yang berbed
 
 \end{longtable}
 
-Selain keempat kontrol di atas, kesetaraan juga dijaga para tataran operator bantu yang bersifat lintas algoritma.
-Operator perbaikan (\textit{repair}) yang menjamin validitas aturan (sekurang-kurangnya satu aksi dan satu kondisi atribut terpilih) serta prosedur pembenihan dari contoh \textit{permit} diterapkan secara identik pada ketujuh kondisi algoritma.
-Demikian pula seluruh solusi direpresentasikan memakai tipe wadah data yang sama, sebab perbedaan wadah dapat mengubah jejak memori terukur hingga satu orde besaran tanpa mencerminkan perbedaan algoritmik apa pun.
-Hal tersebut merupakan sebuah risiko yang secara langsung mengancam kesahihan pengujian H2.
+Selain kontrol eksperimen, kesetaraan juga dijaga pada operator bantu yang digunakan lintas algoritma. 
+Operator \textit{repair} untuk memastikan aturan valid, yaitu memiliki sekurang-kurangnya satu aksi dan satu kondisi atribut aktif, serta prosedur pembenihan dari contoh \textit{permit} diterapkan identik pada seluruh tujuh kondisi algoritma. 
+Seluruh solusi juga menggunakan tipe struktur data yang sama agar perbedaan konsumsi memori merefleksikan karakteristik algoritma, bukan \textit{overhead} implementasi. 
+Kontrol ini penting terutama untuk menjaga kesahihan pengujian H2.
 
-Sebelum eksperimen penuh dijalankan, setiap implementasi wajib melewati uji monotonisitas.
-Kualitas kebijakan yang dihasilkan tidak boleh menurun ketika anggaran evaluasi dinaikkan.
-Uji ini diadopsi sebagai prosedur validasi baku karena terbukti mampu menyingkap ketidakselarasan antara fungsi objektif dan metrik evaluasi yang menjadi persoalan yang tidak terdeteksi pada anggaran tunggal, tetapi tampak jelas ketika anggaran divariasikan.
-Implementasi yang gagal melewati uji ini mengindikasikan fungsi \textit{fitness} yang salah spesifikasi dan harus diperbaiki sebelum hasilnya dipakai untuk menguji hipotesis.
+Sebelum eksperimen utama, setiap implementasi menjalani uji monotonisitas terhadap anggaran evaluasi. 
+Peningkatan anggaran tidak seharusnya menghasilkan penurunan kualitas kebijakan secara sistematis. 
+Uji ini digunakan untuk mendeteksi ketidakselarasan antara fungsi \textit{fitness} dan metrik evaluasi yang mungkin tidak terlihat pada satu tingkat anggaran. 
+Implementasi yang menunjukkan pola penurunan konsisten akan diperiksa dan diperbaiki sebelum digunakan dalam pengujian hipotesis.

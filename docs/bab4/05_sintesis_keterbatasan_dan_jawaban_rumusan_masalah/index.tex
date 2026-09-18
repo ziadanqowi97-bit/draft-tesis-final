@@ -36,42 +36,13 @@ H4 --- Warm-start & Terdukung penuh ($2{,}0$--$2{,}6\times$, kualitas naik) & Te
 
 \end{longtable}
 
-Dua pola menonjol dan menjadi tumpuan kontribusi.
-Pertama, H2 (memori datar terhadap NP) terkonfirmasi menyeluruh.
-CoDA-EDA datar $1,00\times$ sementara algoritma berpopulasi eksplisit (BOA, ACO, UBK) tumbuh 6,2 hingga 9,2 kali lipat.
-Kedua, H4 \textit{warm-start} terkonfirmasi konsisten lintas lima dataset dan pada data eksternal.
-Sebaliknya, H1 (kualitas statis) bersifat terbatas yang bergantung pada dimensi dan anggaran aturan, dan H3 bersyarat pada tingkat \textit{drift} serta lantai derau.
-\textit{Trade-off} inti menjadi jelas.
-CoDA-EDA menukar \textit{recall} penambangan statis pada dimensi besar demi jejak memori yang tidak tumbuh dengan ukuran populasi dan pembaruan berkala yang jauh lebih cepat.
-Untuk \textit{gateway edge} bersumber daya terbatas yang menyegarkan kebijakan berkala, pertukaran itu menguntungkan.
-Pusat kontribusi bertumpu pada H2 dan H4, bukan pada klaim keunggulan penambangan sekali jalan.
+Dua temuan utama penelitian adalah efisiensi memori dan pembaruan kebijakan. 
+H2 menunjukkan bahwa memori CoDA-EDA tetap stabil terhadap $NP$, sedangkan BOA, ACO, dan UBK meningkat $6,2$–$9,2$ kali. 
+H4 juga menunjukkan bahwa \textit{warm-start} mempercepat pembaruan kebijakan dengan kualitas yang tetap kompetitif. 
+Sementara itu, H1 bergantung pada dimensi dan anggaran aturan, sedangkan H3 dipengaruhi tingkat \textit{drift} dan lantai derau JSD.
 
-Terhadap tida unsur kebaruan, hasil memberi dukungan yang terukur.
-Kebaruan pertama, yakni EDA \textit{compact} yang sadar dependensi pada \textit{ABAC policy mining} terkonfirmasi bekerja.
-CoDA-EDA menghasilkan kebijakan bermakna pada seluruh dataset sambil mempertahankan memori datar.
-Kebaruan kedua, yakni pembatasan dependensi orde satu juga didukung.
-BOA yang tak membatasi orde tidak unggul kualitas pada ruang ABAC jarang dan jauh lebih boros memori, sementara pada anggaran aturan memadai CoDA-EDA setara BOA namun dengan memori tak tumbuh.
-Orde satu memadai untuk keuntungan struktur tanpa ongkos penuh.
-Kebaruan ketiga, yakni pemisahan frekuensi pembaruan juga terbukti pada H3 dan menjadi fondasi keunggulan \textit{warm-start} H4.
-Posisi CoDA-EDA terhadap iBOA yang bergantung konteks memperjelas posisi yang diisi.
+Hasil tersebut mendukung tiga unsur utama CoDA-EDA, yaitu pembaruan tanpa populasi eksplisit, pemodelan dependensi orde satu melalui Chow–Liu, dan pemisahan pembaruan parameter dari struktur. 
+CoDA-EDA mampu mempertahankan pemodelan dependensi tanpa kehilangan sifat \textit{compact} serta mengurangi pembelajaran ulang struktur ketika distribusi stabil.
 
-Dengan demikian rumusan masalah terjawab.
-Masalah pertama tentang bagaimana merancang algoritma \textit{compact} yang memodelkan dependensi tanpa membengkakkan memori dijawab rancangan CoDA-EDA dan dikonfirmasi H2.
-Masalah kedua tentang kualitas kebijakan dijawab pada H1 yang menunjukkan bahwa algoritma yang dirancang kompetitif dan hemat, mengungguli keluarga \textit{compact} serta setara iBOA/BOA pada anggaran memadai, dengan keterbatasan jujur pada dimensi besar terhadap ACO/UBK.
-Masalah yang ketiga tentang pembaruan inkremental mengurangi biaya dijawab pada H3-H4.
-Pemicu \textit{drift} menghemat pada data stabil, \textit{warm-start} 2-2,6 kali lebih cepat dengan kualitas sekurang-kurangnya setara.
-Masalah keempat tentang jejak memori dan waktu pada \textit{edge} dijawab pengukuran langsung pada Raspberry Pi 5, sehingga semua tujuan penelitian tercapai.
-
-Keterbatasan hasil dinyatakan secara terbuka.
-Untuk validitas internal, kesetaraan antar kondisi tetap dijaga.
-Meskipun demikian, implementasi BOA membatasi kandidat induk pada skala besar sebagai bentuk aproksimasi yang lazim.
-Mengenai validitas eksternal, generalisasi diuji hanya pada satu dataset pihak lain.
-Penetapan ukuran subsampel dan ambang batas dukungan minimum turut memengaruhi dimensi efektif yang teramati.
-Pada validitas konstruk, kualitas diringkas dengan \textit{F-score}, WSC, dan \textit{coverage}.
-Metrik ini tidak menangkap seluruh aspek keterbacaan kebijakan bagi administrator.
-Hal ini terlihat pada aturan CoDA-EDA berpengenal-banyak di \textit{Smart Building IoT} yang WSC-nya membengkak akibat enumerasi disjungtif.
-Terkait validitas simpulan, uji non-parametrik dipilih untuk menghindari asumsi normalitas.
-Perbandingan utama memiliki daya uji yang memadai (45 blok).
-Sementara itu, beberapa perbandingan pada dataset kecil dan validasi eksternal dengan jumlah ulangan kecil (5 \textit{seed}) hanya dilaporkan secara deksriptif.
-
-Secara keseluruhan, Bab IV menegaskan kontribusi CoDA-EDA terletak pada efisiensi sumber daya dan efisiensi pembaruan, bukan pada dominasi kualitas penambangan statis, dan bahwa temuan tersebut bertahan pada data yang dibangkitkan pihak lain.
+Dengan demikian, kontribusi utama CoDA-EDA terletak pada efisiensi memori dan pembaruan inkremental, bukan pada dominasi kualitas penambangan statis. 
+Pengujian langsung pada Raspberry Pi 5 dan validasi lintas-\textit{generator} mendukung temuan tersebut, meskipun generalisasi masih terbatas oleh penggunaan satu dataset eksternal, data sintetis, serta beberapa hasil dengan jumlah replikasi terbatas.

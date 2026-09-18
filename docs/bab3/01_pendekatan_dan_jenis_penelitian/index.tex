@@ -1,35 +1,29 @@
 \section{Analisis Masalah}
 
-Sebelum artefak dirancang, persoalan penambangan kebijakan ABAC pada \textit{edge-IoT} diuraikan menjadi sejumlah \textit{design tension} yang harus dijawab.
-Analisis ini menjadi dasar penurunan kebutuhan dan keputusan rancangan dari algoritma CoDA-EDA yang diusulkan.
+Sebelum artefak dirancang, persoalan \textit{ABAC policy mining} pada \textit{edge-IoT} diuraikan menjadi empat \textit{design tension} yang menjadi dasar penurunan kebutuhan dan keputusan rancangan CoDA-EDA.
 
 \begin{enumerate}
-    \item Keterbatasan sumber daya perangkat \textit{edge} -- Perangkat \textit{edge-IoT} beroperasi dengan memori dan daya komputasi yang terbatas. Algoritma metaheuristik berpopulasi eksplisit, seperti BOA, ACO, dan UBK, memelihara sekumpulan kandidat solusi yang jejak memorinya tumbuh seiring ukuran populasi, sehingga tidak layak dijalankan langsung pada perangkat semacam itu. Dari masalah ini muncullah persoalan bagaimana mencari kebijakan berkualitas tanpa memelihara populasi solusi yang membengkak.
-    \item Ketegangan antara kesadaran dependensi dan hemat memori -- Atribut ABAC di dunia nyata itu saling berkorelasi (mis. peran-unit). Keluarga \textit{compact} univariat hemat memori tetapi mengasumsikan independensi penuh antar-atribut, sehingga kualitasnya menurun pada ruang berdimensi tinggi. Sebaliknya, algoritma yang memodelkan dependensi penuh (jaringan bayes pada BOA/iBOA) memerlukan representasi struktur yang mahal (hingga $O(D^2)$). Dari masalah ini muncullah persoalan bagaimana menangkap keterkaitan antar-atribut dengan biaya memori yang tetap hemat.
-    \item Dinamika kebijakan dan biaya pembaruan -- Lingkungan IoT bersifat dinamis sehingga kebijakan perlu diperbarui berkala mengikuti perubahan distribusi data (\textit{drift}). Menambang ulang dari nol, atau membangun ulang struktur dependensi pada setiap siklus sebagaimana pendekatan konvensional akan memakan waktu dan energi yang tidak efisien pada perangkat \textit{edge}, sehingga muncul suatu persoalan bagaimana memperbarui kebijakan secara berkala dengan biaya komputasi minimal tanpa menurunkan kualitas.
-    \item Kompromi kualitas yang proporsional -- Pada konteks \textit{edge}, sedikit kompromi kualitas penambangan statis dapat diterima asalkan memori stabil dan pembaruan dilakukan secara efisien. Namun, kualitas kebijakan yang dihasilkan harus tetap kompetitif terhadap algoritma sekelas agar artefak tetap bermanfaat. Dari situlah muncul persoalan yakni bagaimana menjaga kualitas tetap setara sambil memenuhi ketiga kendala di atas. 
+    \item Keterbatasan sumber daya \textit{edge}. Perangkat \textit{edge-IoT} memiliki memori dan daya komputasi terbatas, sedangkan algoritma berbasis populasi seperti BOA, ACO, dan UBK menyimpan banyak kandidat solusi sehingga kebutuhan memorinya meningkat seiring ukuran populasi. Tantangannya adalah memperoleh kebijakan berkualitas tanpa mempertahankan populasi eksplisit.
+    \item Dependensi versus efisiensi memori. Algoritma \textit{compact} univariat hemat memori, tetapi mengasumsikan independensi antarvariabel. Sebaliknya, BOA/iBOA mampu memodelkan dependensi yang lebih kompleks dengan biaya representasi dan komputasi lebih tinggi. Tantangannya adalah mempertahankan informasi dependensi dengan biaya sumber daya yang tetap rendah.
+    \item Dinamika data versus biaya pembaruan. Lingkungan IoT yang berubah menyebabkan kebijakan perlu diperbarui secara berkala. Penambangan ulang atau pembelajaran struktur dependensi pada setiap siklus dapat meningkatkan biaya komputasi dan energi. Oleh karena itu, diperlukan mekanisme pembaruan yang adaptif tanpa selalu membangun model dari awal.
+    \item Kualitas versus efisiensi. Efisiensi sumber daya tidak boleh menyebabkan penurunan kualitas kebijakan yang berlebihan. Algoritma perlu mempertahankan kualitas yang kompetitif sekaligus memenuhi batasan memori dan biaya pembaruan pada perangkat \textit{edge}. 
 \end{enumerate}
 
-Keempat persoalan di atas dapat ditelusuri secara konkret pada enam algoritma pembanding yang telah diidentifikasi, yang mana masing-masing memenuhi sebagian kebutuhan tetapi gagal pada sebagian lain, sehingga tidak ada satu pun yang sekaligus ringan, sadar-dependensi, dan inkremental untuk \textit{edge}.
-Pertama, pada keluarga algoritma \textit{compact}, seperti \textit{compact-GA} dan \textit{compact-PSO}.
-Keduanya memenuhi kebutuhan memori (jejak O(D) yang datar terhadap populasi), tetapi mengasumsikan independensi penuh antar-atribut.
-Pada ruang kebijakan berdimensi tinggi yang kaya dengan keterkaitan antar-atribut, asumsi ini dapat menurunkan kualitas karena kombinasi atribut yang selaras tidak terwakili.
-Masalah utama yang ada pada keluarga algoritma \textit{compact} ini selaras dengan peroalan kedua, yakni buta terhadap dependensi.
+Keempat persoalan tersebut terlihat pada tiga kelompok algoritma pembanding. 
+Keluarga \textit{compact}, seperti \textit{compact-GA} dan \textit{compact-PSO}, memiliki kebutuhan memori $O(D)$ yang tidak bergantung pada ukuran populasi virtual, tetapi menggunakan model univariat sehingga tidak merepresentasikan dependensi antarvariabel. 
+Keterbatasan utamanya adalah kompromi antara efisiensi memori dan kemampuan memodelkan struktur hubungan dalam ruang solusi.
 
-Yang kedua, pada kelompok algoritma EDA yang sadar dependensi, seperti BOA dan iBOA.
-Keduanya sadar dependensi, tetapi bermasalah pada sisi yang berbeda.
-BOA memelihara populasi eksplisit dan membangun ulang jaringan bayes pada setiap generasi, sehingga jejak memorinya tumbuh dan biaya pembaruannya menjadi tinggi, sehingga menjadikannya tidak layak untuk perangkat \textit{edge}.
-iBOA memperbaiki sisi memori (jejaknya datar melalui statistik inkremental) dan tetap sadar dependensi, sehingga menjadi pembanding terdekat dengan algoritma yang diusulkan.
-Namun ia memperbarui struktur secara terus-menerus pada setiap langkah pencarian, tidak dipicu oleh perubahan data atau \textit{drift}, dan tanpa mekanisme \textit{warm-start}.
-Akibatnya, pada pembaruan berkala, iBOA melakukan pembelajaran ulang struktur yang tidak perlu ketika data sebenarnya stabil.
+Kelompok kedua adalah EDA yang memodelkan dependensi, yaitu BOA dan iBOA. 
+BOA memerlukan populasi eksplisit serta pembelajaran struktur \textit{Bayesian network} sehingga relatif mahal dari sisi memori dan komputasi. 
+iBOA menghilangkan populasi eksplisit melalui pembaruan statistik secara inkremental dan menjadi pembanding yang lebih dekat dengan CoDA-EDA. 
+Namun, struktur dan parameter model diperbarui dalam proses inkremental yang sama, tanpa mekanisme berbasis \textit{drift} untuk membedakan kapan struktur benar-benar perlu dipelajari ulang.
 
-Yang ketiga adalah keluarga algoritma metaheuristik berpopulasi eksplisit, seperti ACO dan UBK.
-Keduanya mencapai kualitas tinggi pada penambangan statis, tetapi berbasis populasi eksplisit/feromon yang jejak memorinya membengkak seiring ukuran populasi, dan dirancang untuk eksekusi \textit{batch/offline} pada sumber daya yang memadai, bukan pembaruan inkremental di \textit{edge}.
+Kelompok ketiga adalah metaheuristik berbasis populasi seperti ACO dan UBK. 
+Keduanya menyediakan kemampuan eksplorasi yang luas dan menjadi pembanding kualitas kebijakan, tetapi memerlukan representasi populasi atau informasi pencarian yang bertambah seiring konfigurasi algoritma serta tidak dirancang secara khusus untuk pembaruan kebijakan inkremental pada perangkat \textit{edge}.
 
-Dari ketiga keluarga algoritma tersebut, bisa disimpulkan bahwa tidak ada satu pun algoritma pembanding yang memenuhi ketiga kebutuhan inti secara serentak.
-iBOA sebenarnya adalah algoritma yang paling mendekati, tetapi gagal pada pembaruan berkala yang efisien.
-Kesenjangan inilah yang secara langsung memotivasi rancangan CoDA-EDA.
-Ringkasannya disajikan pada Tabel \ref{tab:analisis-masalah}
+Dengan demikian, algoritma pembanding memenuhi sebagian kebutuhan, tetapi belum secara bersamaan menyediakan efisiensi memori, pemodelan dependensi, dan pembaruan adaptif untuk lingkungan \textit{edge-IoT}. 
+Kesenjangan tersebut menjadi dasar rancangan CoDA-EDA, yang menggabungkan representasi \textit{compact}, pemodelan dependensi berorde terbatas, dan pembaruan struktur berbasis \textit{drift}. 
+Ringkasan analisis ini disajikan pada Tabel \ref{tab:analisis-masalah}
 
 \begin{table}[htbp]
 \centering

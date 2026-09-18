@@ -1,10 +1,10 @@
 \section{Validasi Eksternal}
 
-Seluruh pengujian di atas memakai dataset dari generator ABAC Lab yang diperluas sendiri.
-Validasi eksternal menguji apakah temuan bertahan pada data yang dibangkitkan oleh pihak lain \parencite{diaz-rodriguez_abac_2025} dengan generator, kebijakan, dan distribusi yang tidak dikendalikan penelitian ini.
-Dua sifat dataset ini menuntut penyesuaian, antara lain rasio \textit{permit}nya berat (0,75) sehingga kebijakan sepele yang mengizinkan semua permintaan sudah beroleh \textit{F-score} 0,858.
-Pembanding sahih adalah garis dasar sepele itu dan berkas aslinya juga besar (5,7 juta permintaan) sehingga disubsampel terstratifikasi menjadi 8.000 barus berdimensi efektif 428.
-Hasil kualitas (H1) disajikan pada Tabel \ref{tab:validasi-iot}.
+Seluruh pengujian utama menggunakan dataset hasil perluasan generator ABAC Lab. 
+Validasi eksternal dilakukan menggunakan \textit{Smart Building IoT} dari \textcite{diaz-rodriguez_abac_2025} untuk menilai apakah temuan tetap konsisten pada data yang dibangkitkan dengan generator, kebijakan, dan distribusi yang independen dari penelitian ini.
+Dataset tersebut memiliki rasio \textit{permit} sekitar $0,75$, sehingga kebijakan trivial yang mengizinkan seluruh permintaan sudah menghasilkan \textit{F1-score} $0,858$ dan digunakan sebagai \textit{baseline} minimum yang relevan. 
+Karena dataset asli berukuran sekitar 5,7 juta permintaan, data disubsampel secara terstratifikasi menjadi 8.000 entri dengan dimensi efektif 428. 
+Hasil pengujian kualitas H1 disajikan pada Tabel \ref{tab:validasi-iot}.
 
 \begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
 \caption{Validasi Eksternal Smart Building IoT --- Kualitas ($D=428$; garis sepele F1=0{,}858; 5 seed)}
@@ -45,22 +45,22 @@ UBK & 0{,}834 & 1{,}000 & 0{,}539 & 2/5 seed & Satu-satunya yang tak konsisten \
 
 \end{longtable}
 
-Validasi eksternal H1 berhasil.
-CoDA-EDA melampaui garis dasar sepele pada seluruh lima \textit{seed} (\textit{F-score} 0,938 berbanding 0,858), demikian pula lima algoritma lain, hanya UBK yang tidak konsisten (2 dari 5 \textit{seed}).
-Uji Friedman signifikan $(p = 1,6 \times 10^{-3})$.
-Presisi seluruh algoritma 1,000 sehingga pembedanya semata cakupan dan posisi CoDA-EDA setara iBOA serta sedikit di bawah keluarga \textit{compact}/BOA/ACO.
-Hal ini konsisten dengan pola dimensi dan anggaran aturan yang ada.
+Validasi eksternal H1 menunjukkan bahwa CoDA-EDA melampaui \textit{baseline} trivial pada seluruh lima \textit{seed}, dengan \textit{F1-score} rata-rata $0,938$ dibandingkan $0,858$. 
+Lima algoritma lain menunjukkan pola serupa, sedangkan UBK hanya melampaui \textit{baseline} pada dua dari lima \textit{seed}. 
+Uji Friedman menunjukkan perbedaan signifikan antarkondisi $(p=1{,}6\times10^{-3})$. 
+Seluruh algoritma mencapai presisi $1,000$ sehingga perbedaan kualitas terutama ditentukan oleh \textit{coverage}. 
+CoDA-EDA berada pada tingkat yang sebanding dengan iBOA dan sedikit di bawah keluarga \textit{compact}, BOA, serta ACO, konsisten dengan pola yang sebelumnya ditemukan pada dataset berdimensi menengah.
 
-Keempat hipotesis turut diuji pada dataset ini.
-H2 (memori) menyatakan urutan jejak memori antar-algoritma konsisten dengan temuan ABAC Lab.
-H3 dan H4 (pembaruan) menyatakan siklus pembaruan lima jendela dijalankan pada dua mode pembentukan jendela.
-Pada model jendela sepadan (stasioner), lantai derau IoT yang rendah $(0,0065 < \tau)$ membuat pemicu \textit{drift} CoDA-EDA menyala hanya 1 dari 5 jendela, sehingga \textit{warm-start} lebih cepat dari \textit{always} (6,7 vs 7,9 detik) dengan kualitas setara (F1 0,977 vs 0,973).
-H3 yang gagal ditunjukkan pada \textit{e-document} justru dapat diperlihatkan di sini.
-Pada mode jendela ber-\textit{drift} (diurut menurut atribut lokasi), pemicu menyala 5 dari 5 jendela sesuai rancangan.
-H4 terkonfirmasi pada kedua mode.
-\textit{warm-start} 2,1-2,5 kali lebih cepat dari \textit{re-mining} penuh (6,7 vs 16,9 detik) dengan kualitas lebih tinggi (F1 0,977 vs 0,914).
+H2–H4 juga diuji pada dataset ini. 
+Untuk H2, pola jejak memori antaralgoritma konsisten dengan hasil ABAC Lab. 
+Untuk H3 dan H4, lima jendela diuji pada kondisi stasioner dan kondisi \textit{drift}. 
+Pada kondisi stasioner, lantai derau JSD sebesar $0,0065$ berada di bawah $\tau=0{,}01$, sehingga pemicu pembaruan struktur hanya aktif pada satu dari lima jendela. 
+Akibatnya, \textit{warm-start} lebih cepat daripada strategi \textit{always} (6,7 dibanding 7,9 detik) dengan kualitas yang serupa (F1 $0,977$ dibanding $0,973$). 
+Hasil ini memberikan dukungan tambahan terhadap H3, yang sebelumnya tidak dapat ditunjukkan pada \textit{e-document} akibat lantai derau yang lebih tinggi.
 
-Dengan demikian, temuan menunjukkan pola yang konsisten dengan keempat hipotesis pada satu dataset sintetis lintas-generator.
-Hal ini menunjukkan ketahanan lintas-generator teruji, bukan generalisasi ke data operasional \textit{edge-IoT.}
-Kerangka penambangan bekerja, CoDA-EDA menghasilkan kebijakan bermakna jauh di atas garis sepele, jejak memorinya berperilaku sesuai H2, dan mekanisme H3/H4 terlihat.
-Bahkan H3 yang terbatas pada \textit{e-document} dapat ditunjukkan pada IoT berkat lantai derau yang lebih rendah, memberi bukti bahwa keterbatasan H3 bersifat sepsifik dataset (bias sampel-hingga), bukan cacat mekanisme.
+Pada kondisi \textit{drift} yang dibentuk melalui pengurutan berdasarkan atribut lokasi, pemicu struktur aktif pada seluruh lima jendela sebagaimana diharapkan. 
+H4 juga konsisten pada kedua kondisi: \textit{warm-start} sekitar 2$,1$–$2,5$ kali lebih cepat daripada \textit{re-mining} penuh (6,7 dibanding 16,9 detik pada salah satu konfigurasi) serta menghasilkan F1 lebih tinggi, yaitu $0,977$ dibanding $0,914$.
+
+Secara keseluruhan, validasi eksternal menunjukkan bahwa pola H1–H4 tetap muncul pada dataset sintetis yang dibangkitkan oleh \textit{generator} independen. 
+Hasil ini mendukung ketahanan lintas-\textit{generator}, tetapi tidak dapat ditafsirkan sebagai bukti generalisasi terhadap data operasional \textit{edge-IoT}. 
+Khusus H3, keberhasilan mekanisme pada \textit{Smart Building IoT} dengan lantai derau rendah menunjukkan bahwa keterbatasan yang ditemukan pada \textit{e-document} lebih berkaitan dengan karakteristik estimasi distribusi dataset daripada kegagalan mekanisme pembaruan struktur itu sendiri.

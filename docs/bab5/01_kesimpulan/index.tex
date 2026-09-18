@@ -1,33 +1,22 @@
 \section{Kesimpulan}
 
-Penelitian ini merancang dan menguji CoDA-EDA, sebuah \textit{Estimation of Distribution Algorithm compact} yang sadar dependensi untuk penambangan kebijakan ABAC pada perangkat \textit{edge-IoT} bersumber daya terbatas.
-Berdasarkan hasil pengujian yang telah dilakukan, ditarik kesimpulan berikut sesuai tujuan penelitian, rumusan masalah, dan hipotesis H1-H4 yang diajukan.
+Penelitian ini merancang dan menguji CoDA-EDA, yaitu EDA \textit{compact} yang mempertahankan dependensi antaratribut untuk \textit{ABAC policy mining} pada perangkat \textit{edge-IoT}.
 
-Pertama, terkait rancangan artefak yang menjawab rumusan masalah 1, sekaligus mendasari hipotesis H2.
-Algoritma CoDA-EDA berhasil dirancang dengan menggabungkan \textit{Probability Vector} univariat, struktur dependensi pohon Chow-Liu berorde satu, dan pemisahan frekuensi pembaruan struktur dari parameter.
-Rancangan ini menjawab bagaimana dependensi antar-atribut dapat dimodelkan tanpa membengkakkan memori, sifat yang selanjutnya diuji secara empiris pada Hipotesis H2.
+Pertama, CoDA-EDA menggabungkan \textit{Probability Vector}, struktur dependensi Chow–Liu orde satu, serta pemisahan pembaruan parameter dan struktur. 
+Rancangan ini memungkinkan pemodelan dependensi tanpa menyimpan populasi eksplisit.
 
-Kedua, terkait kualitas kebijakan yang menjadi hipotesis H1.
-CoDA-EDA menghasilkan kebijakan yang kompetitif namun dengan keunggulan yang terbatas.
-CoDA-EDA secara signifikan mengungguli keluarga \textit{compact} univariat, dengan keunggulan yang menguat seiring dimensi, setara dengan iBOA dan BOA pada anggaran yang memadai, tetapi tertinggal moderat dari ACO dan UBK pada penambangan statis berdimensi besar.
-Sebagian besar defisit pada dimensi besar terbukti merupakan artefak anggaran jumlah aturan yang tidak proporsional, dan ini bukan merupakan kelemahan struktural mutlak.
-Dengan demikian H1 didukung secara bersyarat.
+Kedua, H1 didukung secara bersyarat. 
+CoDA-EDA memberikan kualitas yang kompetitif dan menunjukkan keunggulan terhadap keluarga \textit{compact} univariat terutama pada ruang solusi berdimensi tinggi. 
+Pada anggaran aturan yang memadai, kualitasnya sebanding dengan iBOA/BOA, tetapi masih dapat tertinggal dari ACO dan UBK pada penambangan statis.
 
-Ketiga, terkait jejak memori (Hipotesis H2).
-CoDA-EDA terkonfirmasi mempertahankan memori yang datar terhadap ukuran populasi (rasio 1,00), sementara algoritma berpopulasi eksplisit (BOA, ACO, dan UBK) tumbuh 6,2 hingga 9,2 kali lipat ketika populasi virtual dinaikkan enam belas kali lipat.
-Hasil ini konsisten pada kelima dataset.
-Kedataran serupa juga dimiliki iBOA dan keluarga \textit{compact}, sehingga keunggulan memori CoDA-EDA berlaku terhadap ketiga algoritma berpopulasi eksplisit.
-H2 terkonfirmasi menyeluruh.
+Ketiga, H2 didukung kuat. 
+Jejak memori CoDA-EDA tetap stabil terhadap ukuran populasi virtual dengan rasio $1,00$, sedangkan BOA, ACO, dan UBK meningkat $6,2$–$9,2$ kali ketika ukuran populasi dinaikkan enam belas kali.
 
-Keempat, terkait efisiensi pembaruan berkala (Hipotesis H3 dan H4).
-Dua hipotesis dijawab sekaligus pada sisi ini.
-Pemisahan frekuensi pembaruan yang dipicu \textit{drift} menghemat total waktu komputasi ketika data relatif stabil, dengan kualitas non-inferior (Hipotesis H3), dan strategi \textit{warm-start} menyelesaikan re-optimasi 2,0 hingga 2,6 kali lebih cepat dibanding \textit{re-mining} penuh dengan kualitas sekurang-kurangnya setara (Hipotesis H4).
-H4 terdukung konsisten, sedangkan H3 bersifat bersyarat pada tingkat \textit{drift} dan lantai derau sehingga tidak dapat ditunjukkan pada \textit{e-document}.
+Keempat, H3 dan H4 menunjukkan manfaat pada pembaruan kebijakan. 
+Pembaruan struktur berbasis \textit{drift} mengurangi waktu komputasi ketika distribusi relatif stabil, meskipun manfaat H3 bergantung pada tingkat \textit{drift} dan lantai derau dataset. 
+Sementara itu, \textit{warm-start} mempercepat re-optimasi sekitar $2,0$–$2,6$ kali dibandingkan \textit{re-mining} penuh dengan kualitas yang sekurang-kurangnya sebanding.
 
-Kelima, validasi lintas-generator (konsistensi Hipotesis H1-H4).
-Pengujian pada dataset \textit{Smart Building IoT} menunjukkan pola yang konsisten dengan empat hipotesis: kebijakan melampaui garis sepele (mendukung H1), jejak memori berperilaku datar sesuai H2, serta mekanisme H3-H4 terlihat, dengan H3 yang tidak tampak pada \textit{e-document} karena lantai deraunya lebih tinggi.
-Temuan ini bertahan lintas-generator sintetis, meskipun belum digeneralisasi ke data operasional \textit{edge-IoT}.
+Kelima, validasi pada \textit{Smart Building IoT} menunjukkan pola hasil yang konsisten dengan pengujian utama, sehingga mendukung ketahanan temuan pada \textit{generator} sintetis yang berbeda, meskipun belum membuktikan generalisasi terhadap data operasional \textit{edge-IoT}.
 
-Dengan demikian, kontribusi utama penelitian ini bukan terletak pada dominasi kualitas penambangan statis, melainkan pada pertukaran rancangan yang koheren dan menguntungkan bagi konteks target.
-CoDA-EDA menukar sebagian \textit{recall} penambangan statis demi jejak memori yang tidak tumbuh dengan ukuran populasi dan pembaruan berkala yang jauh lebih efisien.
-Untuk \textit{gateway edge} bersumber daya terbatas yang menuntut pembaruan kebijakan berulang, pertukaran ini menjadikan CoDA-EDA pilihan yang sesuai.
+Secara keseluruhan, kontribusi utama CoDA-EDA terletak pada efisiensi memori dan pembaruan kebijakan secara inkremental, bukan pada dominasi kualitas penambangan statis. 
+Karakteristik tersebut menjadikannya sesuai untuk perangkat \textit{edge} dengan sumber daya terbatas yang memerlukan pembaruan kebijakan secara berkala.

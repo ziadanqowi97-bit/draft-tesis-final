@@ -1,16 +1,19 @@
 \section{Penelitian Terdahulu}
 
-Pendekatan berbasis pencarian evolusioner untuk \textit{ABAC policy mining} diperkenalkan oleh \textcite{gaspar-cunha_evolutionary_2015}, jauh sebelum ACO \parencite{shang_abac_2024} dan UBK \parencite{li_attribute_2026} yang menjadi \textit{baseline} penelitian ini.
-\textcite{gaspar-cunha_evolutionary_2015} mengusulkan pendekatan evolusioner multi-objektif dengan representasi fenotipik dan operator genetik khusus untuk aturan ABAC, strategi \textit{separate-and-conquer}, inisialisasi populasi kustom, skema promosi diversitas, dan kriteria penghentian dini yang dioptimasi terhadap tiga objektif sekaligus, yakni konsistensi terhadap data permintaan akses, kompleksitas kebijakan yang rendah, dan penghindaran atribut yang secara unik merepresentasikan identitas subjek/objek.
-\textcite{gaspar-cunha_evolutionary_2015} sendiri mencatat bahwa penerapan teknik evolusioner pada kebijakan keamanan telah dieksplorasi sebelumnya secara terbatas.
-Misalnya, \textcite{li_policy_2008} menggunakan \textit{genetic programming} untuk kebijakan keamanan multi-level berskala sangat kecil sebagai bukti konsep, dan \textcite{lim_dynamic_2009} menggunakan algoritma evolusioner multi-objektif SPEA2\label{first:spea2} untuk pembelajaran kebijakan keamanan dinamis.
+Pendekatan evolusioner untuk ABAC \textit{policy mining} telah diperkenalkan sejak \textcite{gaspar-cunha_evolutionary_2015}.
+Mereka mengusulkan optimasi multi-objektif dengan representasi dan operator genetik khusus ABAC, strategi \textit{separate-and-conquer}, inisialisasi populasi kustom, promosi diversitas, dan penghentian dini.
+Tiga objektif yang dioptimalkan adalah konsistensi terhadap data akses, kompleksitas kebijakan yang rendah, dan penghindaran atribut yang secara unik mengidentifikasi subjek atau objek. 
+Sebelumnya, penerapan teknik evolusioner pada kebijakan keamanan juga telah dieksplorasi secara terbatas, antara lain melalui \textit{genetic programming} untuk kebijakan multi-level \parencite{li_policy_2008} dan SPEA2\label{first:spea2} untuk pembelajaran kebijakan keamanan dinamis \parencite{lim_dynamic_2009,gaspar-cunha_evolutionary_2015}.
 
-Perkembangan berikutnya bergeser ke metaheuristik \textit{population-based} berbasis kecerdasan kawanan.
-\textcite{shang_abac_2024} menggunakan \textit{Ant Colony Optimization} (ACO) dan \textcite{li_attribute_2026} menggunakan \textit{Upgraded Black-winged Kite} (UBK), keduanya dievaluasi dengan metrik akurasi dan \textit{Weighted Structural Complexity} (WSC).
-Di sisi lain, penelitian non-evolusioner pada \textit{policy mining} juga terus berkembang.
-\textcite{guo_--fly_2025} mengusulkan kerangka \textit{on-the-fly} yang memformulasikan \textit{policy mining} sebagai persoalan optimasi aproksimasi submodular, dipandu oleh teknik pemangkasan ruang pencarian, dengan fokus pada usabilitas kebijakan bagi manusia maupun LLM.
-Kerangka tersebut dievaluasi pada kontrol akses secara umum, bukan ABAC secara spesifik, dan mencapai penurunan redundansi 93,2\% dibanding metode pembanding.
-Pendekatan ini bersifat deterministik/\textit{greedy}, bukan \textit{population-based} maupun EDA, dan sebagaimana \textcite{gaspar-cunha_evolutionary_2015}, \textcite{shang_abac_2024}, serta \textcite{li_attribute_2026}, tidak membahas keterbatasan memori perangkat \textit{edge-IoT} sebagai pertimbangan desain.
+Perkembangan berikutnya mengarah pada metaheuristik \textit{population-based} berbasis kecerdasan kawanan. 
+\textcite{shang_abac_2024} menggunakan \textit{Ant Colony Optimization} (ACO), sedangkan \textcite{li_attribute_2026} mengusulkan \textit{Upgraded Black-winged Kite} (UBK), dengan evaluasi yang mencakup akurasi dan \textit{Weighted Structural Complexity} (WSC).
+
+Di luar pendekatan evolusioner, \textcite{guo_--fly_2025} mengusulkan kerangka \textit{on-the-fly} yang memformulasikan \textit{policy mining} sebagai optimasi aproksimasi submodular dengan pemangkasan ruang pencarian. 
+Pendekatan ini berfokus pada usabilitas kebijakan bagi manusia maupun LLM\label{first:llm} dan dilaporkan mampu menurunkan redundansi sebesar 93,2\% dibandingkan metode pembanding. 
+Namun, kerangka tersebut bersifat deterministik/\textit{greedy} dan ditujukan untuk kontrol akses secara umum, bukan ABAC secara spesifik.
+
+Meskipun berbeda dalam mekanisme pencarian, \textcite{gaspar-cunha_evolutionary_2015}, \textcite{shang_abac_2024}, \textcite{li_attribute_2026}, dan \textcite{guo_--fly_2025} tidak menjadikan keterbatasan memori perangkat \textit{edge-IoT} sebagai pertimbangan utama dalam desain algoritmanya. 
+Kesenjangan ini menjadi salah satu dasar pengembangan pendekatan \textit{policy mining} yang lebih hemat sumber daya pada penelitian ini.
 
 \begin{longtable}{|c|p{2.5cm}|p{3cm}|p{3cm}|p{3cm}|}
 \caption{Ringkasan Posisi Penelitian Terdahulu}
@@ -47,6 +50,6 @@ Pendekatan ini bersifat deterministik/\textit{greedy}, bukan \textit{population-
 
 \end{longtable}
 
-Berdasarkan ringkasan pada Tabel \ref{tab:posisi-penelitian}, tampak bahwa seluruh penelitian terdahulu pada \textit{ABAC policy mining} belum mempertimbangkan keterbatasan memori perangkat \textit{edge-IoT} sebagai bagian dari rancangan algoritmanya.
-Selain itu, sepanjang penelusuran literatur yang dilakukan, belum ditemukan penelitian yang menerapkan kelas algoritma EDA pada persoalan ini.
-Kekosongan inilah yang menjadi dasar argumentasi kebaruan penelitian yang akan diuraikan lebih rinci pada Subbab selanjutnya.
+Berdasarkan Tabel \ref{tab:posisi-penelitian}, penelitian terdahulu pada \textit{ABAC policy mining} belum menjadikan keterbatasan memori perangkat \textit{edge-IoT} sebagai pertimbangan desain algoritma. 
+Selain itu, berdasarkan penelusuran literatur yang dilakukan, belum ditemukan penerapan \textit{Estimation of Distribution Algorithm} (EDA) pada persoalan tersebut. 
+Kesenjangan ini menjadi dasar kebaruan penelitian yang diuraikan lebih lanjut pada subbab berikutnya.

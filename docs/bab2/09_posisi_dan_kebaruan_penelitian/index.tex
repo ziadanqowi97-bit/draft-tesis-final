@@ -1,26 +1,25 @@
 \section{Posisi dan Kebaruan Penelitian}
 
-Tabel \ref{tab:posisi-penelitian} memperlihatkan bahwa dua jalur penelitian telah berkembang secara paralel tanpa pernah saling bersinggungan.
-Jalur pertama adalah penelitian \textit{ABAC policy mining} berbasis pencarian evolusioner atau metaheuristik \parencite{gaspar-cunha_evolutionary_2015,shang_abac_2024,li_attribute_2026} maupun non-evolusioner \parencite{guo_--fly_2025}, yang secara konsisten dievaluasi pada lingkungan komputasi tanpa batasan sumber daya dan tidak menjadikan keterbatasan memori perangkat sebagai pertimbangan rancangan.
-Jalur kedua adalah penelitian algoritma EDA yang secara eksplisit dirancang untuk efisiensi memori, mulai dari EDA kanonik, algoritma \textit{compact} seperti \textit{compact-GA} dan \textit{compact-PSO} \parencite{khalfi_metaheuristics_2023}, hingga algoritma pemodelan dependensi seperti BOA, iBOA, dan pohon Chow-Liu \parencite{pelikan_iboa_2008,chow_approximating_1968}.
-Namun, berdasarkan penelusuran literatur yang dilakukan, belum ditemukan satu pun di antaranya yang diterapkan atau dievaluasi pada persoalan \textit{ABAC policy mining}.
-Penelitian ini, melalui algoritma yang diusulkan bernama \textit{Compact Dependency-Aware EDA} (CoDA-EDA), diposisikan pada titik temu kedua jalur penelitian tersebut.
+Tabel \ref{tab:posisi-penelitian} menunjukkan dua jalur penelitian yang berkembang secara terpisah. 
+Jalur pertama mencakup \textit{ABAC policy mining} berbasis evolusioner atau metaheuristik \parencite{gaspar-cunha_evolutionary_2015,shang_abac_2024,li_attribute_2026} serta non-evolusioner \parencite{guo_--fly_2025}, yang belum menjadikan keterbatasan memori perangkat \textit{edge-IoT} sebagai pertimbangan utama desain. 
+Jalur kedua mencakup perkembangan EDA dan varian hemat memori, seperti \textit{compact-GA} dan \textit{compact-PSO} \parencite{khalfi_metaheuristics_2023}, serta pemodelan dependensi melalui BOA, iBOA, dan pohon Chow-Liu \parencite{pelikan_iboa_2008,chow_approximating_1968}. 
+Berdasarkan penelusuran literatur, pendekatan tersebut belum diterapkan pada \textit{ABAC policy mining}. 
+CoDA-EDA diposisikan pada titik temu kedua jalur tersebut.
 
-Nama CoDA-EDA sendiri merefleksikan tiga prinsip rancangan yang secara langsung merespons kebutuhan-kebutuhan dasar yang telah diidentifikasi dari sintesis literatur.
-Prinsip pertama, \textit{compact}, mengadopsi mekanisme pembaruan hemat memori ala \textit{compact-GA}, yaitu kompetisi pemenang dan pecundang yang memperbarui sebuah PV tanpa menyimpan populasi eksplisit \parencite{khalfi_metaheuristics_2023}.
-Hal ini merupakan jawaban langsung atas keterbatasan memori, daya komputasi, dan energi pada perangkat \textit{edge-IoT} \parencite{canavese_security_2024}.
-Prinsip kedua, \textit{dependency-aware}, mempertahankan pemodelan dependensi antar-atribut yang dibatasi pada orde tertentu, alih-alih mengasumsikan independensi penuh sebagaimana \textit{compact} standar atau mempelajari jaringan Bayes tak terbatas sebagaimana BOA maupun iBOA \parencite{pelikan_iboa_2008}.
-Dengan demikian, pemodelan dependensi tetap meningkatkan kualitas kebijakan namun tidak harus dilakukan tanpa batasan orde agar tetap hemat memori.
-Prinsip ketiga, EDA, menempatkan kedua mekanisme tersebut dalam kerangka \textit{Estimation of Distribution Algorithm} sehingga CoDA-EDA tetap dapat diperlakukan dan dibandingkan secara setara dengan EDA lain dalam hal skema seleksi, estimasi, dan pencuplikan.
+CoDA-EDA dibangun berdasarkan tiga prinsip. 
+Pertama, \textit{compact}, yaitu menggunakan pembaruan pemenang-pecundang pada \textit{Probability Vector} (PV) tanpa menyimpan populasi eksplisit \parencite{khalfi_metaheuristics_2023}, sehingga sesuai dengan keterbatasan sumber daya perangkat \textit{edge-IoT} \parencite{canavese_security_2024}. 
+Kedua, \textit{dependency-aware}, yaitu mempertahankan pemodelan dependensi antaratribut dengan struktur yang dibatasi, sebagai kompromi antara asumsi independensi pada algoritma \textit{compact} dan pemodelan multivariat yang lebih kompleks pada BOA/iBOA \parencite{pelikan_iboa_2008}. 
+Ketiga, EDA, yaitu menempatkan kedua mekanisme tersebut dalam kerangka seleksi, estimasi, dan \textit{sampling} berbasis distribusi probabilistik.
 
-Lingkungan IoT yang dinamis \parencite{ragothaman_access_2023} menuntut pembaruan kebijakan secara berskala, sementara pembaruan struktur dependensi secara menyeluruh pada setiap perubahan data, sebagaimana dilakukan iBOA, mahal secara komputasi. 
-Kebutuhan ini dijawab melalui rancangan yang memisahkan frekuensi pembaruan struktur dari pembaruan parameter, sebagaimana telah ditetapkan dalam aktivitas rancang bangun metodologi penelitian ini.
-Pembaruan parameter dilakukan setiap siklus sebagaimana lazimnya EDA, sedangkan pembaruan struktur dependensi hanya dipicu ketika terdeteksi pergeseran \textit{drift} data yang signifikan.
-Pemisahan ini berbeda dari iBOA yang memperbarui struktur maupun parameter secara inkremental dalam skema yang sama \parencite{pelikan_iboa_2008}, dan menjadi dasar bagi pengujian efisiensi waktu komputasi serta kualitas \textit{warm-start} pada skenario pergeseran data.
+Dinamika lingkungan IoT \parencite{ragothaman_access_2023} juga menuntut kebijakan tetap adaptif terhadap perubahan data. 
+Untuk menghindari biaya pembelajaran ulang struktur pada setiap siklus, CoDA-EDA memisahkan pembaruan parameter dan struktur dependensi. 
+Parameter probabilistik diperbarui setiap siklus, sedangkan struktur hanya dipelajari ulang ketika terdeteksi pergeseran distribusi yang signifikan. 
+Mekanisme ini berbeda dari iBOA yang memperbarui struktur dan parameter secara inkremental dalam satu kerangka pembaruan \parencite{pelikan_iboa_2008}, serta menjadi dasar evaluasi efisiensi komputasi dan kemampuan \textit{warm-start} ketika terjadi perubahan data.
 
-Pemicu pembaruan struktur pada CoDA-EDA memerlukan ukuran yang dapat membedakan perubahan distribusi antar-jendela secara stabil. 
-Penelitian ini menggunakan \textit{Jensen--Shannon divergence} (JSD) sebagai ukuran pergeseran distribusi. 
-Secara umum, untuk dua distribusi probabilitas $P$ dan $Q$ dengan bobot yang sama, JSD dapat dinyatakan sebagai
+Deteksi perubahan tersebut memerlukan ukuran perbedaan distribusi antarjendela. 
+Penelitian ini menggunakan \textit{Jensen–Shannon divergence} (JSD)\label{first:jsd} untuk mengukur besarnya pergeseran distribusi. 
+Untuk dua distribusi probabilitas $P$ dan $Q$ dengan bobot yang sama, JSD dirumuskan sebagai:
+
 \begin{equation}
     \operatorname{JSD}(P \parallel Q)
     =
@@ -33,41 +32,32 @@ Secara umum, untuk dua distribusi probabilitas $P$ dan $Q$ dengan bobot yang sam
     M = \frac{1}{2}(P+Q),
     \label{eq:jsd-drift}
 \end{equation}
-dengan $\operatorname{KL}$ menyatakan \textit{Kullback--Leibler divergence}. 
-Pemilihan JSD didasarkan pada sifat teoretisnya sebagai ukuran perbedaan distribusi. 
-\textcite{lin1991divergence} menunjukkan bahwa kelas divergensi berbasis entropi Shannon yang mencakup JSD tidak memerlukan syarat kontinuitas absolut sebagaimana divergensi Kullback. 
-Sifat ini relevan untuk distribusi diskret karena suatu nilai atribut dapat memiliki probabilitas nol pada satu distribusi tetapi muncul pada distribusi lain.
-Pada divergensi Kullback, keadaan tersebut dapat menyebabkan nilai divergensi tidak terdefinisi ketika distribusi pembanding bernilai nol, sedangkan konstruksi JSD melalui distribusi campuran $M$ tetap menghasilkan nilai yang terdefinisi dan berhingga.
 
-Selain itu, JSD bersifat non-negatif dan, untuk dua distribusi dengan bobot sama serta logaritma berbasis dua, memiliki rentang nilai yang terbatas antara 0 dan 1 \parencite{lin1991divergence}. 
-Nilai 0 menunjukkan bahwa kedua distribusi sama, sedangkan nilai yang semakin besar menunjukkan ketidakmiripan distribusi yang semakin tinggi. 
-Sifat berbatas tersebut memberikan skala numerik yang lebih mudah digunakan sebagai dasar penetapan ambang perubahan distribusi dibandingkan divergensi yang tidak berbatas. 
-JSD dengan bobot yang sama juga bersifat simetris, sehingga perbandingan antara distribusi jendela sebelumnya dan jendela berjalan tidak bergantung pada arah perbandingan. 
-\textcite{lin1991divergence} juga menunjukkan hubungan formal JSD dengan batas atas dan bawah probabilitas kesalahan klasifikasi Bayes. 
-Hubungan tersebut memberikan interpretasi bahwa JSD tidak hanya mengukur perbedaan numerik antar-distribusi, tetapi juga berkaitan dengan tingkat keterbedaan informasi yang dikandung distribusi tersebut.
+dengan $KL$ menyatakan \textit{Kullback–Leibler divergence}. 
+JSD dipilih karena memiliki sifat yang sesuai untuk membandingkan distribusi diskret. 
+Berbeda dari \textit{KL divergence}, kelas divergensi berbasis entropi Shannon yang mencakup JSD tidak mensyaratkan kontinuitas absolut, sehingga tetap terdefinisi ketika suatu nilai atribut memiliki probabilitas nol pada salah satu distribusi \parencite{lin1991divergence}. 
+Dengan logaritma berbasis dua dan bobot yang sama, JSD juga bersifat non-negatif, simetris, dan terbatas pada rentang 0–1; nilai 0 menunjukkan distribusi identik, sedangkan nilai yang lebih besar menunjukkan perbedaan distribusi yang lebih tinggi \parencite{lin1991divergence}. 
+Sifat berbatas dan simetris tersebut memudahkan penggunaan JSD sebagai dasar penetapan ambang perubahan distribusi. 
+\textcite{lin1991divergence} juga menunjukkan hubungan JSD dengan batas probabilitas kesalahan klasifikasi Bayes, yang memperkuat interpretasinya sebagai ukuran keterbedaan informasi antar-distribusi.
 
-Penggunaan JSD sebagai dasar deteksi perubahan distribusi juga telah diterapkan secara langsung pada permasalahan \textit{concept drift}.
-\textcite{yang2022concept} mengusulkan CDJD (\textit{Concept Drift Detection based on Jensen--Shannon Divergence}) untuk klasifikasi trafik jaringan. 
-Pendekatan tersebut mempertahankan dua jendela yang mewakili distribusi lama dan distribusi berjalan, kemudian menghitung JSD antara distribusi fitur pada kedua jendela. 
-Perubahan dinyatakan sebagai \textit{concept drift} ketika nilai JSD melampaui ambang yang ditetapkan. 
-Mekanisme yang sama juga digunakan untuk membandingkan konsep yang baru terdeteksi dengan konsep terdahulu sehingga model yang telah tersedia dapat digunakan kembali ketika distribusinya serupa. 
-Hasil eksperimen \textcite{yang2022concept} menunjukkan bahwa pendekatan berbasis JSD tersebut mampu mendeteksi perubahan distribusi dan mempertahankan kinerja klasifikasi pada aliran data yang mengalami \textit{concept drift}.
+Penggunaan JSD untuk mendeteksi perubahan distribusi telah diterapkan pada concept \textit{drift}. 
+\textcite{yang2022concept} mengusulkan CDJD (\textit{Concept Drift Detection based on Jensen–Shannon Divergence}) dengan membandingkan distribusi fitur antara jendela lama dan jendela berjalan. 
+\textit{Concept drift} dinyatakan ketika JSD melampaui ambang tertentu, sedangkan kemiripan dengan konsep terdahulu dapat digunakan untuk memanfaatkan kembali model yang tersedia. 
+Hasil eksperimen menunjukkan bahwa pendekatan tersebut mampu mendeteksi perubahan distribusi dan mempertahankan kinerja klasifikasi pada aliran data yang mengalami \textit{concept drift} \parencite{yang2022concept}.
 
-Prinsip tersebut sejalan dengan kebutuhan CoDA-EDA, meskipun objek yang dipantau berbeda. 
-CoDA-EDA tidak menggunakan JSD untuk menentukan perubahan model klasifikasi, tetapi untuk mengukur pergeseran distribusi pasangan atribut--nilai antar-jendela log akses. 
-Struktur dependensi Chow--Liu hanya perlu dipelajari ulang apabila pergeseran tersebut melampaui ambang $\tau$, sedangkan parameter probabilistik tetap dapat diperbarui pada setiap siklus. 
-Dengan demikian, JSD berperan sebagai mekanisme pemicu yang memisahkan perubahan distribusi yang cukup besar untuk memerlukan pembaruan struktur dari variasi antar-jendela yang masih dapat ditangani melalui pembaruan parameter. 
-Pemilihan ini sekaligus mendukung tujuan rancangan CoDA-EDA untuk menghindari pembelajaran ulang struktur yang tidak diperlukan pada perangkat \textit{edge} dengan sumber daya terbatas.
+CoDA-EDA mengadopsi prinsip tersebut untuk tujuan yang berbeda. 
+JSD digunakan untuk mengukur pergeseran distribusi pasangan atribut–nilai antarjendela log akses. 
+Struktur dependensi Chow–Liu dipelajari ulang hanya ketika JSD melampaui ambang $\tau$\label{first:symbol-tau}, sedangkan parameter probabilistik tetap diperbarui pada setiap siklus. 
+Dengan demikian, JSD berfungsi sebagai pemicu yang membedakan perubahan distribusi yang memerlukan pembaruan struktur dari variasi yang masih dapat ditangani melalui pembaruan parameter. 
+Mekanisme ini mengurangi pembelajaran ulang struktur yang tidak diperlukan pada perangkat \textit{edge} dengan sumber daya terbatas.
 
-Diposisikan terhadap Tabel \ref{tab:posisi-penelitian} secara baris per baris, CoDA-EDA berbeda dari \textcite{gaspar-cunha_evolutionary_2015,shang_abac_2024,li_attribute_2026} karena meninggalkan paradigma berbasis populasi secara keseluruhan demi kerangka EDA yang kompak.
-Perbedaan ini mendasari perbandingan jejak memori terhadap BOA, iBOA, ACO, dan UBK.
-CoDA-EDA juga berbeda dari \textcite{guo_--fly_2025}.
-Meskipun sama-sama termotivasi oleh efisiensi, \textcite{guo_--fly_2025} mengandalkan pencarian deterministik atau \textit{greedy} berbasis optimasi submodular untuk meningkatkan kemudahan penggunaan kebijakan bagi manusia dan LLM, sedangkan CoDA-EDAA mengandalkan pencarian probabilistik berbasis model yang secara eksplisit dirancang untuk keterbatasan sumber daya perangkat, bukan untuk kemudahan penggunaan bagi manusia.
-Kedua pendekatan ini bersifat komplementer, bukan saling menggantikan.
+Dibandingkan penelitian pada Tabel \ref{tab:posisi-penelitian}, CoDA-EDA berbeda dari pendekatan berbasis populasi \textcite{gaspar-cunha_evolutionary_2015}, \textcite{shang_abac_2024}, dan \textcite{li_attribute_2026} karena menggunakan pencarian probabilistik tanpa menyimpan populasi eksplisit. 
+Perbedaan ini menjadi dasar evaluasi jejak memori terhadap BOA, iBOA, ACO, dan UBK. 
+CoDA-EDA juga berbeda dari \textcite{guo_--fly_2025}, yang menggunakan optimasi submodular deterministik/\textit{greedy} dengan fokus pada usabilitas kebijakan bagi manusia dan LLM. 
+Sebaliknya, CoDA-EDA dirancang sebagai pencarian probabilistik berbasis model dengan fokus pada efisiensi sumber daya perangkat \textit{edge}.
 
-Pertanyaan yang lebih tajam adalah di bagian mana persisnya CoDA-EDA berbeda dari algoritma EDA yang sudah ada.
-Perbedaan itu tidak terletak pada satu komponen tunggal, melainkan pada kombinasi spesifik empat sumbu rancangan yang tidak ditempati oleh EDA mana pun sebelumnya.
-Tabel \ref{tab:perbedaan-coda-eda-long} memetakan CoDA-EDA terhadap empat keluarga EDA terdekat menurut empat sumbu tersebut: (1) model dependensi antar-atribut, (2) penyimpanan populasi dan perilaku memori terhadap ukuran populasi NP, (3) mekanisme pembaruan struktur model, dan (4) domain penerapan asal.
+Diferensiasi CoDA-EDA terhadap EDA terdahulu tidak terletak pada satu komponen, tetapi pada kombinasi beberapa keputusan rancangan. 
+Tabel \ref{tab:perbedaan-coda-eda-long} membandingkan CoDA-EDA dengan keluarga EDA terdekat berdasarkan empat dimensi, yaitu: (1) model dependensi antaratribut, (2) penyimpanan populasi dan kebutuhan memori terhadap ukuran populasi virtual (NP), (3) mekanisme pembaruan struktur model, dan (4) domain penerapan.
 
 \begin{longtable}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{2cm}|}
 \caption{Perbedaan CoDA-EDA terhadap Algoritma EDA yang Sudah Ada}
@@ -102,22 +92,18 @@ CoDA-EDA (diusulkan) & Pohon dependensi Chow-Liu dibatasi order-1 (terbatas, buk
 
 \end{longtable}
 
-Membaca Tabel \ref{tab:perbedaan-coda-eda-long} secara kolom menjelaskan letak perbedaannya.
-Pada sumbu model dependensi, CoDA-EDA berada di antara dua ekstrem.
-Ia tidak mengasumsikan independensi penuh sebagaimana \textit{compact}, namun juga tidak memodelkan dependensi tanpa batasan orde sebagaimana BOA.
-Melainkan membatasi diri pada pohon Chow-Liu order 1, mengambil sebagian besar manfaat pemodelan dependensi dengan ongkos yang jauh lebih kecil.
-Pada sumbu memori, hanya CoDA-EDA dan keluarga \textit{compact} yang datar terhadap NP, tetapi keluarga \textit{compact} membayar kedataran itu dengan membuang pemodelan dependensi sepenuhnya, sedangkan CoDA-EDA mempertahankannya.
-Pada sumbu pembaruan struktur, inilah pembeda paling tajam terhadap kerabat terdekatnya, iBOA.
-iBOA memperbarui struktur dan parameter pada satu skema inkremental yang sama pada setiap langkah, sementara CoDA-EDAA sengaja memisahkan keduanya.
-Struktur hanya disegarkan ketika \textit{drift} terdeteksi, parameter diperbarui tiap siklus.
-Sel yang ditempati baris terakhir Tabel \ref{tab:perbedaan-coda-eda-long} tidak ditempati oleh satupun baris di atasnya, di sanalah kontribusi metodologis penelitian ini berada.
+Tabel \ref{tab:perbedaan-coda-eda-long} memperjelas posisi CoDA-EDA pada setiap dimensi pembanding. 
+Dari sisi dependensi, CoDA-EDA berada di antara pendekatan \textit{compact} yang mengasumsikan independensi penuh dan BOA yang memodelkan dependensi multivariat tanpa batasan orde, dengan menggunakan pohon Chow–Liu berorde satu. 
+Dari sisi memori, CoDA-EDA mempertahankan kebutuhan yang tidak bergantung pada ukuran populasi virtual (NP) sebagaimana keluarga \textit{compact}, tetapi tetap memodelkan dependensi antarvariabel. 
+Perbedaan utama terhadap iBOA terletak pada mekanisme pembaruan model: parameter probabilistik diperbarui setiap siklus, sedangkan struktur dependensi hanya dipelajari ulang ketika terdeteksi \textit{drift}. 
+Kombinasi karakteristik tersebut menjadi dasar kontribusi metodologis CoDA-EDA.
 
-Kontribusi tersebut karenanya bukan sekadar penerapan algoritma yang sudah ada pada domain baru, melainkan penggabungan tiga mekanisme yang selama ini terpisah pada literatur EDA menjadi satu rancangan yang koheren: pembaruan tanpa populasi ala \textit{compact} yang selama ini hanya univariat, pemodelan dependensi berorde terbatas ala \textit{dependency-tree} yang selama ini menyertai populasi eksplisit atau skema inkremental penuh, dan pemisahan frekuensi pembaruan struktur-parameter yang tidak ada pada EDA mana pun.
-Ketiga penggabungan inilah yang diterjemahkan ke dalam tiga pilar kebaruan penelitian ini.
-Kebaruan pertama terletak pada penerapan kelas algoritma EDA, termasuk varian ringannya dan varian yang peka terhadap dependensi pada permasalahan \textit{ABAC policy mining}.
-Berdasarkan penelusuran literatur yang dilakukan, kelas algoritma ini belum pernah diterapkan pada domain tersebut.
-Kebaruan kedua adalah kombinasi antara pemodelan dependensi terbatas orde pertama menggunakan pendekatan pohon Chow-Liu dengan mekanisme pembaruan tanpa populasi eksplisit ala \textit{compact}.
-Kombinasi ini belum ditemukan pada varian EDA maupun \textit{compact} yang ada saat ini.
-Kebaruan ketiga adalah pemisahan yang jelas antara frekuensi pembaruan struktur dependensi yang dilakukan secara jarang dan hanya saat terjadi pergeseran data dengan pembaruan parameter yang dilakukan setiap siklus.
-Pengujian dilakukan langsung pada perangkat \textit{edge-IoT} nyata, yaitu Raspberry Pi 5.
-Hal ini berbeda dari seluruh studi yang tercantum pada Tabel \ref{tab:posisi-penelitian} yang umumnya dievaluasi pada lingkungan komputasi tanpa pembatasan sumber daya yang dinyatakan secara eksplisit.
+Kontribusi tersebut terletak pada penggabungan tiga mekanisme yang sebelumnya digunakan secara terpisah dalam literatur EDA, yaitu pembaruan tanpa populasi eksplisit ala \textit{compact}, pemodelan dependensi berorde terbatas melalui pohon Chow–Liu, dan pemisahan frekuensi pembaruan struktur serta parameter. 
+Berdasarkan sintesis tersebut, penelitian ini mengusulkan tiga pilar kebaruan.
+
+Kebaruan pertama adalah penerapan EDA yang ringan dan peka terhadap dependensi pada \textit{ABAC policy mining}, yang berdasarkan penelusuran literatur belum ditemukan pada domain tersebut. 
+Kebaruan kedua adalah penggabungan pemodelan dependensi orde pertama menggunakan pohon Chow–Liu dengan mekanisme pembaruan tanpa populasi eksplisit. 
+Kebaruan ketiga adalah pemisahan pembaruan parameter yang dilakukan setiap siklus dari pembelajaran ulang struktur yang hanya dipicu ketika terjadi pergeseran distribusi.
+
+Rancangan tersebut selanjutnya dievaluasi pada perangkat \textit{edge-IoT} nyata, yaitu Raspberry Pi 5, untuk menguji apakah efisiensi memori dan komputasi dapat dicapai tanpa mengorbankan kualitas kebijakan secara signifikan dibandingkan metode pembanding. 
+Evaluasi ini melengkapi studi pada Tabel \ref{tab:posisi-penelitian} yang tidak menempatkan keterbatasan sumber daya perangkat \textit{edge} sebagai fokus utama rancangan algoritma.
